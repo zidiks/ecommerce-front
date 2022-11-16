@@ -18,7 +18,8 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-    'ant-design-vue/dist/antd.css'
+    'ant-design-vue/dist/antd.css',
+    '~/assets/styles/global.scss'
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
@@ -40,6 +41,10 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
   ],
+
+  styleResources: {
+    scss: ['./assets/scss/*.scss']
+  },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {

@@ -1,0 +1,20 @@
+$main-font: url('/assets/fonts/ShadowsIntoLight-Regular.ttf');
+$rights-font: url('/assets/fonts/NEXT\ ART_Regular.otf');
+
+$breakpoints: (
+  xxxl: 2000px,
+  xxl: 1600px,
+  xl: 1440px,
+  l: 992px,
+  m: 768px,
+  s: 576px,
+  xs: 480px,
+);
+
+@mixin breakpoint($screen-size) {
+  @if map-has-key($breakpoints, $screen-size) {
+    @media (max-width: map-get($breakpoints, $screen-size)) {
+      @content;
+    }
+  }
+}

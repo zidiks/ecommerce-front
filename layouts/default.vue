@@ -6,21 +6,18 @@
   </div>
 </template>
 
-<style>
-  :root {
-    --main-font: url('https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap');
-  }
-
-  body {
-    scroll-behavior: smooth;
+<style lang="scss">
+  #__nuxt, #__layout {
+    height: 100%;
   }
 
   .container {
-    padding: 2vh 2vw 0% 2vw;
-    min-height: 98vh;
+    height: 100%;
+    padding: 1rem 0;
+    width: 75rem;
+    margin: auto;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    align-items: center;
   }
 </style>

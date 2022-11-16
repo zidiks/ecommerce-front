@@ -1,0 +1,13 @@
+@import '/assets/styles/variables.scss';
+
+body {
+  scroll-behavior: smooth;
+  color: #0B0B0B;
+}
+
+.nav-link {
+  font-size: 20px;
+  list-style: none;
+  cursor: pointer;
+  user-select: none;
+}
