@@ -2,7 +2,10 @@
 
 body {
   scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   color: #0B0B0B;
+  font-family: $main-font;
 }
 
 .nav-link {
@@ -10,4 +13,10 @@ body {
   list-style: none;
   cursor: pointer;
   user-select: none;
+  width: fit-content;
 }
+
+.content-width {
+  width: 75rem;
+}
+

@@ -14,14 +14,26 @@
       <div class="footer__contacts">
         <li class="nav-link"><a href="tel: +375336490154">+375 (33) 649 01 54</a></li>
         <li class="nav-link"><a id="email" href="mailto:pro.perfumer@gmail.com">PRO.PERFUMER@GMAIL.COM</a></li>
-        <li class="nav-link"><a href="https://www.instagram.com/pro.perfumer/">INST: @PRO.PERFUMER</a></li>
+        <li class="nav-link"><a href="https://www.instagram.com/pro.perfumer/" target="_blank" rel="noreferrer noopener">
+          INST: <u>@PRO.PERFUMER</u></a>
+        </li>
       </div>
     </div>
     <div class="footer__rights">
-      <p>© 2022 | PRO.PERFUMER. УНП 192621309. Все права защищены.</p>
+      <p v-html="rightsText"></p>
     </div>
   </footer>
 </template>
+
+<script scoped>
+  export default {
+    computed: {
+      rightsText: function() {
+        return `© ${new Date().getFullYear()} | PRO.PERFUMER. Все права защищены.`
+      }
+    }
+  }
+</script>
 
 <style lang="scss">
   .footer {
@@ -43,13 +55,14 @@
     &__contacts {
       display: flex;
       flex-direction: column;
+      align-items: flex-end;
       justify-content: flex-end;
-      text-align: right;
 
       & a {
         font-style: --main-font;
         font-size: 16px;
         color: #0B0B0B;
+        user-select: text;
       }
     }
 

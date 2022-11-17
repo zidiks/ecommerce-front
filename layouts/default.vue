@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container content-width">
     <Header />
     <Nuxt />
     <Footer />
@@ -13,8 +13,7 @@
 
   .container {
     height: 100%;
-    padding: 1rem 0;
-    width: 75rem;
+    padding: 2rem 0 1rem;
     margin: auto;
     display: flex;
     flex-direction: column;

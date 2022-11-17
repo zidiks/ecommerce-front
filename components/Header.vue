@@ -35,14 +35,12 @@
 
     &__navbar {
       width: 100%;
-      margin-top: 1rem;
+      margin-top: 2rem;
       padding: 0.5rem 5rem;
       display: flex;
       justify-content: space-evenly;
       border-top: solid 0.5px #0B0B0B;
       border-bottom: solid 0.5px #0B0B0B;
-      font-family: --main-font;
-      font-weight: 400;
     }
 
     &__logo {

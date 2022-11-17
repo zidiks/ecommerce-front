@@ -1,5 +1,4 @@
-$main-font: url('/assets/fonts/ShadowsIntoLight-Regular.ttf');
-$rights-font: url('/assets/fonts/NEXT\ ART_Regular.otf');
+$main-font: 'Golos';
 
 $breakpoints: (
   xxxl: 2000px,
@@ -17,4 +16,11 @@ $breakpoints: (
       @content;
     }
   }
+}
+
+@font-face {
+  font-family: 'Golos';
+  src: url('~/assets/fonts/golos-text_regular.ttf') format('truetype');
+  font-style: normal;
+  font-weight: normal;
 }
