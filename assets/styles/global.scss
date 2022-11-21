@@ -4,16 +4,24 @@ body {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #0B0B0B;
+  color: $BLACK;
   font-family: $main-font;
+  background-color: $WHITE;
+}
+
+.link-li {
+  font-size: 20px;
+  list-style: none;
+  user-select: none;
+  width: fit-content;
 }
 
 .nav-link {
-  font-size: 20px;
-  list-style: none;
-  cursor: pointer;
-  user-select: none;
-  width: fit-content;
+  text-decoration: none;
+  color: $BLACK;
+  &:hover {
+    color: $BLACK;
+  }
 }
 
 .content-width {

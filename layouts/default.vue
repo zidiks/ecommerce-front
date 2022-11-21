@@ -1,7 +1,10 @@
 <template>
   <div class="container content-width">
     <Header />
-    <Nuxt />
+    <div class="page-wrap">
+      <Search />
+      <Nuxt />
+    </div>
     <Footer />
   </div>
 </template>
@@ -18,5 +21,12 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+  }
+
+  .page-wrap {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 </style>

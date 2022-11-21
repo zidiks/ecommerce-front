@@ -2,48 +2,58 @@
   <footer class="footer">
     <div class="footer__content">
       <div class="footer__nav">
-        <li class="nav-link">ГЛАВНАЯ</li>
-        <li class="nav-link">КАТАЛОГ</li>
-        <li class="nav-link">О НАС</li>
-        <li class="nav-link">КОРЗИНА</li>
-        <li class="nav-link">ТРЕКЕР ЗАКАЗА</li>
+        <li class="link-li" v-for="item of footerNavLinks" :key="item">
+          <nuxt-link :to="item.link" class="nav-link">{{ item.text }}</nuxt-link>
+        </li>
       </div>
       <div class="footer__logo">
         <img src="~/static/Logo.svg">
       </div>
       <div class="footer__contacts">
-        <li class="nav-link"><a href="tel: +375336490154">+375 (33) 649 01 54</a></li>
-        <li class="nav-link"><a id="email" href="mailto:pro.perfumer@gmail.com">PRO.PERFUMER@GMAIL.COM</a></li>
-        <li class="nav-link"><a href="https://www.instagram.com/pro.perfumer/" target="_blank" rel="noreferrer noopener">
+        <li class="link-li"><a class="nav-link" href="tel: +375336490154">+375 (33) 649 01 54</a></li>
+        <li class="link-li"><a class="nav-link" id="email" href="mailto:pro.perfumer@gmail.com">PRO.PERFUMER@GMAIL.COM</a></li>
+        <li class="link-li"><a class="nav-link" href="https://www.instagram.com/pro.perfumer/" target="_blank" rel="noreferrer noopener">
           INST: <u>@PRO.PERFUMER</u></a>
         </li>
       </div>
     </div>
     <div class="footer__rights">
-      <p v-html="rightsText"></p>
+      <p>© {{currentYear}} | PRO.PERFUMER. Все права защищены.</p>
     </div>
   </footer>
 </template>
 
 <script scoped>
   export default {
+    data: () => {
+      return {
+        footerNavLinks: [
+        { text: 'ГЛАВНАЯ', link: '/' },
+        { text: 'КАТАЛОГ', link: '/catalogue'},
+        { text: 'О НАС', link: '/about'},
+        { text: 'КОРЗИНА', link: '/cart'},
+        { text: 'ТРЕКЕР ЗАКАЗА', link: '/tracker'},
+        ],
+      }
+    },
     computed: {
-      rightsText: function() {
-        return `© ${new Date().getFullYear()} | PRO.PERFUMER. Все права защищены.`
+      currentYear: function() {
+        return new Date().getFullYear();
       }
     }
   }
 </script>
 
-<style lang="scss">
-  .footer {
+<style lang="scss" scoped>
+  @import '~/assets/styles/global';
 
+  .footer {
     &__content {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       padding: 2.5rem 0;
-      border-top: solid 0.5px #0B0B0B;
-      border-bottom: solid 0.5px #0B0B0B;
+      border-top: solid 0.5px $BLACK;
+      border-bottom: solid 0.5px $BLACK;
     }
 
     &__logo {

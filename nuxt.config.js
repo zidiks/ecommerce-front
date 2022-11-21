@@ -1,7 +1,7 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'ecommerce-front',
+    title: 'ProPerfumer',
     htmlAttrs: {
       lang: 'en'
     },
@@ -13,13 +13,13 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
+    ],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
     'ant-design-vue/dist/antd.css',
-    '~/assets/styles/global.scss'
+    '~/assets/styles/global.scss',
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins

@@ -12,16 +12,34 @@
       </div>
     </div>
     <nav class="header__navbar">
-      <li class="nav-link">КАТАЛОГ</li>
-      <li class="nav-link">О НАС</li>
-      <li class="nav-link">АКЦИИ</li>
-      <li class="nav-link">ТРЕКЕР ЗАКАЗА</li>
-      <li class="nav-link">КОРЗИНА</li>
+      <li class="link-li" v-for="item of headerNavLinks" :key="item">
+        <nuxt-link :to="item.link" class="nav-link">{{ item.text }}</nuxt-link>
+      </li>
     </nav>
   </header>
 </template>
 
+<script scoped>
+export default {
+  data: () => {
+      return {
+        headerNavLinks: [
+        { text: 'ГЛАВНАЯ', link: '/'},
+        { text: 'КАТАЛОГ', link: '/catalogue'},
+        { text: 'О НАС', link: '/about'},
+        { text: 'АКЦИИ', link: '/offers' },
+        { text: 'ТРЕКЕР ЗАКАЗА', link: '/tracker'},
+        { text: 'КОРЗИНА', link: '/cart'},
+        ],
+      }
+  },
+}
+</script>
+
+
 <style lang="scss" scoped>
+  @import '~/assets/styles/global';
+
   .header {
     display: flex;
     flex-direction: column;
@@ -39,8 +57,8 @@
       padding: 0.5rem 5rem;
       display: flex;
       justify-content: space-evenly;
-      border-top: solid 0.5px #0B0B0B;
-      border-bottom: solid 0.5px #0B0B0B;
+      border-top: solid 0.5px $BLACK;
+      border-bottom: solid 0.5px $BLACK;
     }
 
     &__logo {
