@@ -7,6 +7,8 @@ $LGRAY: #F8F8F8;
 $DGRAY: #C7C7C7;
 $BLACK: #0B0B0B;
 
+$main-border: solid 0.5px $BLACK;
+
 $breakpoints: (
   xxxl: 2000px,
   xxl: 1600px,
@@ -27,7 +29,7 @@ $breakpoints: (
 
 @font-face {
   font-family: 'Golos';
-  src: url('~/assets/fonts/golos-text_regular.ttf') format('truetype');
+  src: url('~/assets/fonts/golos-text_regular.ttf');
   font-style: normal;
   font-weight: normal;
 }

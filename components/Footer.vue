@@ -48,12 +48,14 @@
   @import '~/assets/styles/global';
 
   .footer {
+    margin-top: 6rem;
+
     &__content {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       padding: 2.5rem 0;
-      border-top: solid 0.5px $BLACK;
-      border-bottom: solid 0.5px $BLACK;
+      border-top: $main-border;
+      border-bottom: $main-border;
     }
 
     &__logo {

@@ -25,7 +25,7 @@
     margin: 2rem 0;
     display: flex;
     width: 36rem;
-    border-bottom: solid 0.5px $BLACK;
+    border-bottom: $main-border;
 
     & img {
       min-width: 1.5rem;

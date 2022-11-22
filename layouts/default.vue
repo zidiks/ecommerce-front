@@ -9,7 +9,7 @@
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
   #__nuxt, #__layout {
     height: 100%;
   }

@@ -28,3 +28,67 @@ body {
   width: 75rem;
 }
 
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 23rem;
+  height: 4rem;
+  color: $WHITE;
+  background-color: $BLACK;
+  font-size: 1.25rem;
+  line-height: 2rem;
+  cursor: pointer;
+  border: $main-border;
+  transition: 0.3s;
+
+  &:hover {
+    color: $BLACK;
+    background-color: $WHITE;
+  }
+
+  &-inversed {
+    @extend .button;
+    color: $BLACK;
+    background-color: $WHITE;
+
+    &:hover {
+      color: $WHITE;
+      background-color: $BLACK;
+    }
+  }
+}
+
+.card {
+  display: grid;
+  grid-template-areas:
+                  'i i'
+                  'n n'
+                  'v p';
+
+  &__image {
+    grid-area: i;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: $main-border;
+  }
+
+  &__name {
+    padding: 0.5rem 0;
+    font-weight: 500;
+    grid-area: n;
+    border-bottom: $main-border;
+  }
+
+  &__volume {
+    padding: 0.5rem 0;
+    grid-area: v;
+  }
+
+  &__price {
+    padding: 0.5rem 0;
+    grid-area: p;
+    text-align: right;
+  }
+}

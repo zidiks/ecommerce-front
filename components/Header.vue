@@ -57,8 +57,8 @@ export default {
       padding: 0.5rem 5rem;
       display: flex;
       justify-content: space-evenly;
-      border-top: solid 0.5px $BLACK;
-      border-bottom: solid 0.5px $BLACK;
+      border-top: $main-border;
+      border-bottom: $main-border;
     }
 
     &__logo {
