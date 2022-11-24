@@ -12,8 +12,8 @@
       </div>
     </div>
     <nav class="header__navbar">
-      <li class="link-li" v-for="item of headerNavLinks" :key="item">
-        <nuxt-link :to="item.link" class="nav-link">{{ item.text }}</nuxt-link>
+      <li class="link-li" v-for="item of headerNavLinks" :key="item.text">
+        <nuxt-link :to="item.link" class="link">{{ item.text }}</nuxt-link>
       </li>
     </nav>
   </header>

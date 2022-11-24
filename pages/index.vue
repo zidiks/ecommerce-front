@@ -1,7 +1,7 @@
 <template>
   <main>
     <section class="slider">
-      <h2>Slider division</h2>
+      <h2>Slider division plug</h2>
     </section>
     <div class="divider">
       <span>АКТУАЛЬНЫЕ ПРЕДЛОЖЕНИЯ ЖДУТ ВАС</span>
@@ -10,7 +10,7 @@
       <div class="bestsellers__head">
         <h2>ЛИДЕРЫ ПРОДАЖ</h2>
         <div class="bestsellers__controls">
-          <svg class="arrow__inactive" width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg class="arrow-inactive" width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect x="49.75" y="49.75" width="49.5" height="49.5" rx="24.75" transform="rotate(-180 49.75 49.75)" stroke="#0B0B0B" stroke-width="0.5"/>
             <rect class="arrow__back" x="45.9287" y="45.9285" width="41.8571" height="41.8571" rx="20.9286" transform="rotate(-180 45.9287 45.9285)" fill="#FEFEFE" stroke="#0B0B0B"/>
             <path d="M6.78934 24.6464C6.59407 24.8417 6.59407 25.1583 6.78934 25.3535L9.97132 28.5355C10.1666 28.7308 10.4832 28.7308 10.6784 28.5355C10.8737 28.3403 10.8737 28.0237 10.6784 27.8284L7.85 25L10.6784 22.1716C10.8737 21.9763 10.8737 21.6597 10.6784 21.4645C10.4832 21.2692 10.1666 21.2692 9.97132 21.4645L6.78934 24.6464ZM42.8572 24.5L7.14289 24.5L7.14289 25.5L42.8572 25.5L42.8572 24.5Z" fill="#0B0B0B"/>
@@ -23,7 +23,7 @@
         </div>
       </div>
       <div class="bestsellers__content">
-        <div class="card bestsellers__card" v-for="item of bestsellersContent" :key="item">
+        <div class="card bestsellers__card" v-for="item of bestsellersContent" :key="item.text">
           <div class="card__image bestsellers__image">
             <img :src="item.img" :alt="item.name">
           </div>
@@ -73,12 +73,12 @@
         </div>
         <nuxt-link to="/catalogue">
           <div class="button">
-            СМОТРЕТЬ ВСЕ
+            <span>СМОТРЕТЬ ВСЕ</span>
           </div>
         </nuxt-link>
       </div>
       <div class="latest__content">
-        <div class="card latest__card" v-for="item of latestContent" :key="item">
+        <div class="card latest__card" v-for="item of latestContent" :key="item.text">
           <div class="card__image latest__image">
             <img :src="item.img" :alt="item.name">
           </div>
@@ -125,7 +125,7 @@
       </div>
       <div class="discounts__lower">
         <div class="discounts__inst">
-          <a class="nav-link" href="https://www.instagram.com/pro.perfumer/" target="_blank" rel="noreferrer noopener">@PRO.PERFUMER</a>
+          <a class="link" href="https://www.instagram.com/pro.perfumer/" target="_blank" rel="noreferrer noopener">@PRO.PERFUMER</a>
           <div>
             ПРИСОЕДИНЯЙТЕСЬ К НАМ<br>
             В <b>INSTAGRAM!</b> ВДОХНОВЛЯЙТЕСЬ<br>
@@ -220,27 +220,6 @@
     text-align: center;
     font-size: 1.5rem;
     line-height: 2rem;
-  }
-
-  .arrow {
-
-    &__back{
-      transition: 0.3s;
-    }
-
-    &:hover {
-      cursor: pointer;
-
-      .arrow__back {
-        fill: $LGRAY;
-      }
-    }
-
-    &__inactive {
-      .arrow__back{
-        display: none;
-      }
-    }
   }
 
   .bestsellers {

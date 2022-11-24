@@ -16,11 +16,25 @@ body {
   width: fit-content;
 }
 
-.nav-link {
+.link {
   text-decoration: none;
   color: $BLACK;
   &:hover {
     color: $BLACK;
+  }
+
+  &-inactive {
+    @extend .link;
+    color: $DGRAY;
+    &:hover {
+      cursor: pointer;
+      color: $BLACK;
+    }
+  }
+
+  &-disabled {
+    @extend .link;
+    color: $DGRAY;
   }
 }
 
@@ -41,6 +55,7 @@ body {
   cursor: pointer;
   border: $main-border;
   transition: 0.3s;
+  user-select: none;
 
   &:hover {
     color: $BLACK;
@@ -55,6 +70,27 @@ body {
     &:hover {
       color: $WHITE;
       background-color: $BLACK;
+    }
+  }
+}
+
+.arrow {
+
+  &__back{
+    transition: 0.3s;
+  }
+
+  &:hover {
+    cursor: pointer;
+
+    .arrow__back {
+      fill: $LGRAY;
+    }
+  }
+
+  &-inactive {
+    .arrow__back {
+      display: none;
     }
   }
 }

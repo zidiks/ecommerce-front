@@ -2,17 +2,17 @@
   <footer class="footer">
     <div class="footer__content">
       <div class="footer__nav">
-        <li class="link-li" v-for="item of footerNavLinks" :key="item">
-          <nuxt-link :to="item.link" class="nav-link">{{ item.text }}</nuxt-link>
+        <li class="link-li" v-for="item of footerNavLinks" :key="item.text">
+          <nuxt-link :to="item.link" class="link">{{ item.text }}</nuxt-link>
         </li>
       </div>
       <div class="footer__logo">
         <img src="~/static/Logo.svg">
       </div>
       <div class="footer__contacts">
-        <li class="link-li"><a class="nav-link" href="tel: +375336490154">+375 (33) 649 01 54</a></li>
-        <li class="link-li"><a class="nav-link" id="email" href="mailto:pro.perfumer@gmail.com">PRO.PERFUMER@GMAIL.COM</a></li>
-        <li class="link-li"><a class="nav-link" href="https://www.instagram.com/pro.perfumer/" target="_blank" rel="noreferrer noopener">
+        <li class="link-li"><a class="link" href="tel: +375336490154">+375 (33) 649 01 54</a></li>
+        <li class="link-li"><a class="link" id="email" href="mailto:pro.perfumer@gmail.com">PRO.PERFUMER@GMAIL.COM</a></li>
+        <li class="link-li"><a class="link" href="https://www.instagram.com/pro.perfumer/" target="_blank" rel="noreferrer noopener">
           INST: <u>@PRO.PERFUMER</u></a>
         </li>
       </div>

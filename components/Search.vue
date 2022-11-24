@@ -38,6 +38,9 @@
       font-size: 1rem;
       width: 100%;
       outline: none;
+      &::placeholder {
+        color: $DGRAY;
+      }
     }
   }
 </style>
