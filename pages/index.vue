@@ -198,10 +198,6 @@
 <style lang="scss" scoped>
   @import '~/assets/styles/global';
 
-  main {
-    width: 100%;
-  }
-
   h2 {
     font-size: 2rem;
   }

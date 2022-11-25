@@ -3,7 +3,7 @@
     <a-breadcrumb class="breadcrumbs">
       <a-breadcrumb-item><nuxt-link to="/">ГЛАВНАЯ</nuxt-link></a-breadcrumb-item>
       <a-breadcrumb-item><nuxt-link to="/catalogue">КАТАЛОГ</nuxt-link></a-breadcrumb-item>
-      <a-breadcrumb-item>ВСЕ</a-breadcrumb-item>
+      <a-breadcrumb-item>ВСЕ<span class="breadcrumbs-separator">/</span></a-breadcrumb-item>
     </a-breadcrumb>
     <section class="filters">
       <div class="filters__left">
@@ -168,14 +168,6 @@
 
 <style lang="scss" scoped>
   @import '~/assets/styles/global';
-
-  main {
-    width: 100%;
-  }
-
-  .breadcrumbs {
-    font-size: 1rem;
-  }
 
   .filters {
     font-size: 18px;

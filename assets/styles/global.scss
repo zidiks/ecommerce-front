@@ -9,6 +9,10 @@ body {
   background-color: $WHITE;
 }
 
+main {
+  width: 100%;
+}
+
 .link-li {
   font-size: 20px;
   list-style: none;
@@ -126,5 +130,14 @@ body {
     padding: 0.5rem 0;
     grid-area: p;
     text-align: right;
+  }
+}
+
+.breadcrumbs {
+  font-size: 1rem;
+
+  &-separator {
+    margin: 0 8px;
+    color: rgba(0, 0, 0, 0.45);
   }
 }

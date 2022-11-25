@@ -48,7 +48,7 @@
   @import '~/assets/styles/global';
 
   .footer {
-    margin-top: 6rem;
+    margin-top: 6.25rem;
 
     &__content {
       display: grid;
