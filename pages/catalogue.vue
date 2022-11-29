@@ -15,20 +15,7 @@
     </section>
     <section class="products">
       <div class="products__content">
-        <div class="card products__card" v-for="item of productsContent" :key="item.text">
-          <div class="card__image products__image">
-            <img :src="item.img" :alt="item.name">
-          </div>
-          <div class="card__name products__name">
-            {{ item.name.toUpperCase() }}
-          </div>
-          <div class="card__volume">
-            {{ item.vol }}
-          </div>
-          <div class="card__price">
-            {{ item.price }}
-          </div>
-        </div>
+        <Cards class="card products__card" v-for="item of productsContent" :item="item" :addClass="addClass" :key="item.text" />
       </div>
       <div class="products__button">
         <div class="button-inversed">
@@ -58,11 +45,11 @@
 
 <script scoped>
   export default {
-    data: () => {
-      return {
+    data: () => ({
         pageNumbers: [
           1, 2, 3, 4, 5, 6, 7, 8,
         ],
+        addClass: 'products',
         productsContent: [
           {
             name: 'Montale Oud Tobacco',
@@ -162,11 +149,11 @@
           },
         ]
       }
-    }
+    ),
   }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   @import '~/assets/styles/global';
 
   .filters {

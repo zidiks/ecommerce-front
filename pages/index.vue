@@ -23,20 +23,7 @@
         </div>
       </div>
       <div class="bestsellers__content">
-        <div class="card bestsellers__card" v-for="item of bestsellersContent" :key="item.text">
-          <div class="card__image bestsellers__image">
-            <img :src="item.img" :alt="item.name">
-          </div>
-          <div class="card__name bestsellers__name">
-            {{ item.name.toUpperCase() }}
-          </div>
-          <div class="card__volume">
-            {{ item.vol }}
-          </div>
-          <div class="card__price">
-            {{ item.price }}
-          </div>
-        </div>
+        <Cards class="card bestsellers__card" v-for="item of bestsellersContent" :addClass="addBestClass" :item="item" :key="item.text" />
       </div>
       <div class="bestsellers__button">
         <nuxt-link to="/catalogue">
@@ -78,20 +65,7 @@
         </nuxt-link>
       </div>
       <div class="latest__content">
-        <div class="card latest__card" v-for="item of latestContent" :key="item.text">
-          <div class="card__image latest__image">
-            <img :src="item.img" :alt="item.name">
-          </div>
-          <div class="card__name latest__name">
-            {{ item.name.toUpperCase() }}
-          </div>
-          <div class="card__volume">
-            {{ item.vol }}
-          </div>
-          <div class="card__price">
-            {{ item.price }}
-          </div>
-        </div>
+        <Cards class="card latest__card" v-for="item of latestContent" :item="item" :addClass="addLatestClass" :key="item.text" />
       </div>
     </section>
     <section class="discounts">
@@ -144,6 +118,7 @@
   export default {
     data: () => {
       return {
+        addBestClass: 'bestsellers',
         bestsellersContent: [
           {
             name: 'Dolce&Gabbana The One For Men',
@@ -170,6 +145,7 @@
             price: '1148.50 BYN',
           },
         ],
+        addLatestClass: 'latest',
         latestContent: [
           {
             name: 'Lalique Encre Noire Sport',
@@ -195,7 +171,7 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   @import '~/assets/styles/global';
 
   h2 {
