@@ -23,7 +23,7 @@
         </div>
       </div>
       <div class="bestsellers__content">
-        <Cards class="card bestsellers__card" v-for="item of bestsellersContent" :addClass="addBestClass" :item="item" :key="item.text" />
+        <Cards class="bestsellers__card" v-for="item of bestsellersContent" :addClass="addBestClass" :item="item" :key="item.text" />
       </div>
       <div class="bestsellers__button">
         <nuxt-link to="/catalogue">
@@ -65,7 +65,7 @@
         </nuxt-link>
       </div>
       <div class="latest__content">
-        <Cards class="card latest__card" v-for="item of latestContent" :item="item" :addClass="addLatestClass" :key="item.text" />
+        <Cards class="latest__card" v-for="item of latestContent" :item="item" :addClass="addLatestClass" :key="item.text" />
       </div>
     </section>
     <section class="discounts">
@@ -115,57 +115,15 @@
 </template>
 
 <script scoped>
+  import { bestsellersContent, latestContent } from '~/assets/shared/shared'
+
   export default {
     data: () => {
       return {
         addBestClass: 'bestsellers',
-        bestsellersContent: [
-          {
-            name: 'Dolce&Gabbana The One For Men',
-            img: require('~/assets/img/dg-the-one.png'),
-            vol: '50 МЛ.',
-            price: '153.10 BYN',
-          },
-          {
-            name: 'Versace Versense',
-            img: require('~/assets/img/versace-versense.png'),
-            vol: '50 МЛ.',
-            price: '179.60 BYN',
-          },
-          {
-            name: 'Byredo Bal d\'Afriqu',
-            img: require('~/assets/img/byredo-bal.png'),
-            vol: '50 МЛ.',
-            price: '451.60 BYN',
-          },
-          {
-            name: 'Maison Francis Kurkdjian Bacc ...',
-            img: require('~/assets/img/maison-francis.png'),
-            vol: '70 МЛ.',
-            price: '1148.50 BYN',
-          },
-        ],
+        bestsellersContent,
         addLatestClass: 'latest',
-        latestContent: [
-          {
-            name: 'Lalique Encre Noire Sport',
-            img: require('~/assets/img/lalique-encre.png'),
-            vol: '100 МЛ.',
-            price: '120.50 BYN',
-          },
-          {
-            name: 'Gucci Flora Emerald Gardenia',
-            img: require('~/assets/img/gucci-flora.png'),
-            vol: '50 МЛ.',
-            price: '274.50 BYN',
-          },
-          {
-            name: 'Nishane Hacivat',
-            img: require('~/assets/img/nishane-hacivat.png'),
-            vol: '50 МЛ.',
-            price: '350.80 BYN',
-          },
-        ]
+        latestContent,
       }
     }
   }

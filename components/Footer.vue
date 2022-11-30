@@ -18,7 +18,7 @@
       </div>
     </div>
     <div class="footer__rights">
-      <p>© {{currentYear}} | PRO.PERFUMER. Все права защищены.</p>
+      <p>© {{ currentYear }} | PRO.PERFUMER. Все права защищены.</p>
     </div>
   </footer>
 </template>

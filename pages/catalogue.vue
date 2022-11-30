@@ -15,7 +15,7 @@
     </section>
     <section class="products">
       <div class="products__content">
-        <Cards class="card products__card" v-for="item of productsContent" :item="item" :addClass="addClass" :key="item.text" />
+          <Cards class="products__card" v-for="item of productsContent" :item="item" :addClass="addClass" :key="item.text" />
       </div>
       <div class="products__button">
         <div class="button-inversed">
@@ -44,110 +44,12 @@
 </template>
 
 <script scoped>
+  import { productsContent, pageNumbers } from '~/assets/shared/shared'
   export default {
     data: () => ({
-        pageNumbers: [
-          1, 2, 3, 4, 5, 6, 7, 8,
-        ],
+        pageNumbers,
         addClass: 'products',
-        productsContent: [
-          {
-            name: 'Montale Oud Tobacco',
-            img: require('~/assets/img/montale-tobacco.png'),
-            vol: '50 МЛ.',
-            price: '166.90 BYN',
-          },
-          {
-            name: 'Versace Versense',
-            img: require('~/assets/img/versace-versense.png'),
-            vol: '50 МЛ.',
-            price: '179.60 BYN',
-          },
-          {
-            name: 'Bvlgari Rose Goldea',
-            img: require('~/assets/img/bulgari-rose.png'),
-            vol: '20 МЛ.',
-            price: '212.60 BYN',
-          },
-          {
-            name: 'Oscar de la Renta Bella Blanca',
-            img: require('~/assets/img/oscar-delarenta.png'),
-            vol: '100 МЛ.',
-            price: '239.10 BYN',
-          },
-          {
-            name: 'Benetton United Dreams Men Aim...',
-            img: require('~/assets/img/benetton-united.png'),
-            vol: '60 МЛ.',
-            price: '58.00 BYN',
-          },
-          {
-            name: 'Antonio Banderas Her Secret Te...',
-            img: require('~/assets/img/antonio-banderas.png'),
-            vol: '50 МЛ.',
-            price: '61.60 BYN',
-          },
-          {
-            name: 'Christian Dior Homme Intense',
-            img: require('~/assets/img/dior-homme.png'),
-            vol: '50 МЛ.',
-            price: '412.10 BYN',
-          },
-          {
-            name: 'Montale Roses Elixir',
-            img: require('~/assets/img/montale-roses.png'),
-            vol: '50 МЛ.',
-            price: '120.50 BYN',
-          },
-          {
-            name: 'Zarkoperfume PINK MOLeCULE 09...',
-            img: require('~/assets/img/zarkoperfume-pink.png'),
-            vol: '30 МЛ.',
-            price: '144.60 BYN',
-          },
-          {
-            name: 'Hugo Boss Alive',
-            img: require('~/assets/img/hugo-alive.png'),
-            vol: '80 МЛ.',
-            price: '308.40 BYN',
-          },
-          {
-            name: 'Gucci Flora Emerald Gardenia',
-            img: require('~/assets/img/gucci-flora.png'),
-            vol: '20 МЛ.',
-            price: '212.60 BYN',
-          },
-          {
-            name: 'Nishane Hacivat',
-            img: require('~/assets/img/nishane-hacivat.png'),
-            vol: '50 МЛ.',
-            price: '350.80 BYN',
-          },
-          {
-            name: 'Lalique Encre Noire Sport',
-            img: require('~/assets/img/lalique-encre.png'),
-            vol: '100 МЛ.',
-            price: '120.50 BYN',
-          },
-          {
-            name: 'Byredo Bal d\'Afrique',
-            img: require('~/assets/img/byredo-bal.png'),
-            vol: '50 МЛ.',
-            price: '451.60 BYN',
-          },
-          {
-            name: 'Yves Saint Laurent Jumpsuit',
-            img: require('~/assets/img/yves-jumpsuit.png'),
-            vol: '125 МЛ.',
-            price: '1057.60 BYN',
-          },
-          {
-            name: 'Jo Malone London Scarlet Popp...',
-            img: require('~/assets/img/malone-london.png'),
-            vol: '100 МЛ.',
-            price: '677.40 BYN',
-          },
-        ]
+        productsContent,
       }
     ),
   }
