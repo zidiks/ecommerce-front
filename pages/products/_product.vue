@@ -43,7 +43,8 @@
             <div class="controls__button">
               <div :class="isInCart ? 'controls__message' : 'controls__hidden'">
                 <img src="~/static/Alert.svg" alt="alert">
-                <div>ТОВАР УСПЕШНО<br>
+                <div>
+                  ТОВАР УСПЕШНО<br>
                   ДОБАВЛЕН В КОРЗИНУ
                 </div>
               </div>
