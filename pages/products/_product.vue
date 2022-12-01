@@ -47,7 +47,7 @@
                   ДОБАВЛЕН В КОРЗИНУ
                 </div>
               </div>
-              <div class="button" @click="addToCart()">ДОБАВИТЬ В КОРЗИНУ</div>
+              <div :class="isInCart ? 'button-inversed' : 'button'" @click="addToCart()">{{ isInCart ? 'оформить заказ' : 'добавить в корзину' }}</div>
             </div>
           </div>
         </div>
@@ -100,9 +100,11 @@
     },
     methods: {
       increment: function() {
+        this.isInCart = false;
         return this.amount++;
       },
       decrement: function() {
+        this.isInCart = false;
         if(this.amount > 1) return this.amount--;
       },
       addToCart: function() {
