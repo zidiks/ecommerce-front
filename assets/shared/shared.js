@@ -49,13 +49,13 @@ export let productsContent = [
     country: 'Франция',
     made: 'Европейский Союз',
     perfumer: 'Pierre Montale',
-    aromas: 'Цветочные, фруктовые',
-    baseNotes: 'Мускус, амбра, ваниль',
-    startNotes: 'Клубника, листок клубники, цитрусы',
-    midNotes: 'Цветок апельсина, роза, жасмин',
+    aromas: ['Цветочные', 'фруктовые'],
+    baseNotes: ['Мускус', 'амбра', 'ваниль'],
+    startNotes: ['Клубника', 'листок клубники', 'цитрусы'],
+    midNotes: ['Цветок апельсина', 'роза', 'жасмин'],
     season: 'Весна',
     daytime: 'День',
-    strength: '75% (стойкий), 71% (заметный)',
+    strength: ['75% (стойкий)', '71% (заметный)'],
     vol: '50 МЛ.',
     priceOld: '201.37',
     price: '120.50',
@@ -179,5 +179,14 @@ export let latestContent = [
     img: require('~/assets/img/nishane-hacivat.png'),
     vol: '50 МЛ.',
     price: '350.80',
+  },
+]
+
+export let alsoContent = [
+  {
+    name: 'Montale Oud Tobacco',
+    img: require('~/assets/img/montale-tobacco.png'),
+    vol: '50 МЛ.',
+    price: '166.90',
   },
 ]
