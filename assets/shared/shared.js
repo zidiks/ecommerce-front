@@ -9,6 +9,7 @@ export let productsContent = [
     name: 'Versace Versense',
     img: require('~/assets/img/versace-versense.png'),
     vol: '50 МЛ.',
+    priceOld: '204.60',
     price: '179.60',
   },
   {
@@ -90,6 +91,7 @@ export let productsContent = [
     name: 'Lalique Encre Noire Sport',
     img: require('~/assets/img/lalique-encre.png'),
     vol: '100 МЛ.',
+    priceOld: '259.62',
     price: '120.50',
   },
   {
@@ -188,5 +190,46 @@ export let alsoContent = [
     img: require('~/assets/img/montale-tobacco.png'),
     vol: '50 МЛ.',
     price: '166.90',
+  },
+]
+
+export let cartContent = [
+  {
+    amount: 1,
+    brand: 'Montale',
+    name: 'Montale Roses Elixir',
+    type: 'Парфюмерная вода',
+    year: '2010',
+    country: 'Франция',
+    made: 'Европейский Союз',
+    perfumer: 'Pierre Montale',
+    aromas: ['Цветочные', 'фруктовые'],
+    baseNotes: ['Мускус', 'амбра', 'ваниль'],
+    startNotes: ['Клубника', 'листок клубники', 'цитрусы'],
+    midNotes: ['Цветок апельсина', 'роза', 'жасмин'],
+    season: 'Весна',
+    daytime: 'День',
+    strength: ['75% (стойкий)', '71% (заметный)'],
+    vol: '50 МЛ.',
+    priceOld: '201.37',
+    price: '120.50',
+    sex: 'Для женщин',
+    img: require('~/assets/img/montale-roses.png'),
+  },
+  {
+    amount: 1,
+    name: 'Versace Versense',
+    img: require('~/assets/img/versace-versense.png'),
+    vol: '50 МЛ.',
+    priceOld: '204.60',
+    price: '179.60',
+  },
+  {
+    amount: 1,
+    name: 'Lalique Encre Noire Sport',
+    img: require('~/assets/img/lalique-encre.png'),
+    vol: '100 МЛ.',
+    priceOld: '259.62',
+    price: '120.50',
   },
 ]

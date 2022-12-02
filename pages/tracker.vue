@@ -43,7 +43,7 @@
 
     &__head {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: 0.8fr 1fr 0.8fr;
       border-bottom: $main-border;
 
       & h1 {
@@ -78,13 +78,8 @@
       width: 100%;
 
       & input {
-        width: 100%;
-        height: 3.75rem;
-        padding: 0 1rem;
+        @extend .input-field;
 
-        &::placeholder {
-          color: $DGRAY;
-        }
       }
     }
   }
