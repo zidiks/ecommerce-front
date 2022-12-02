@@ -155,8 +155,8 @@
   .checkmark {
     position: absolute;
     margin-left: 0.5rem;
-    width: 20px;
-    height: 20px;
+    width: 21px;
+    height: 21px;
     border: $main-border;
     border-radius: 50%;
     background-color: $WHITE;
@@ -205,8 +205,8 @@
       align-items: center;
       justify-content: center;
       &:after {
-        width: 10px;
-        height: 10px;
+        width: 11px;
+        height: 11px;
         background: $BLACK;
       }
     }
