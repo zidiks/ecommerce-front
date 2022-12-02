@@ -6,8 +6,9 @@ $WHITE: #FEFEFE;
 $LGRAY: #F8F8F8;
 $DGRAY: #C7C7C7;
 $BLACK: #0B0B0B;
+$border-black: rgba(0, 0, 0, 0.5);
 
-$main-border: solid 0.5px $BLACK;
+$main-border: solid 0.5px $border-black;
 
 $breakpoints: (
   xxxl: 2000px,

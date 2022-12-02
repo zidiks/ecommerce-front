@@ -233,3 +233,54 @@ export let cartContent = [
     price: '120.50',
   },
 ]
+
+let deliveryFields = {
+  adress: {
+    code: '',
+    name: 'АДРЕС',
+  },
+  commentary: {
+    code: '',
+    name: 'КОММЕНТАРИИ К ЗАКАЗУ',
+  },
+  postalIndex: {
+    code: '',
+    name: 'ИНДЕКС',
+  },
+  europostAdress: {
+    code: '',
+    name: 'НОМЕР ИЛИ АДРЕС ВАШЕГО ОТДЕЛЕНИЯ ЕВРОПОЧТЫ',
+  },
+}
+
+export let deliveryMethods = [
+  {
+    id: '1',
+    name: 'Курьером по Минску',
+    description: '– Бесплатная доставка КУРЬЕРОМ по МИНСКУ. <br>\
+    – В КОММЕНТАРИЯХ К ЗАКАЗУ УКАЖИТЕ ЖЕЛАЕМУЮ ДАТУ<br>\
+     И ВРЕМЯ ДОСТАВКИ ЗАКАЗА КУРЬЕРОМ.',
+    media: '',
+    fields: [deliveryFields.adress, deliveryFields.commentary],
+  },
+  {
+    id: '2',
+    name: 'ПОЧТА',
+    description: '– Бесплатная доставка по Беларуси.<br>\
+    – Срок 2-3 рабочих дня с момента отправки.<br>\
+    – В доставку почтой входит: упаковка, страховка и отправка заказа.<br>\
+    – Стоимость наложенного платежа мы берем на себя!<br>\
+    – На телефон вы получите SMS сообщение с указанием штрих-кода посылки.',
+    media: '',
+    fields: [deliveryFields.adress, deliveryFields.postalIndex, deliveryFields.commentary],
+  },
+  {
+    id: '3',
+    name: 'ЕВРОПОЧТА',
+    description: '– Бесплатная доставка по Беларуси европочтой.<br>\
+    – Стоимость наложенного платежа мы берем на себя!<br>\
+    – На телефон вы получите SMS сообщение с указанием штрих-кода посылки.',
+    media: '',
+    fields: [deliveryFields.europostAdress, deliveryFields.commentary],
+  },
+]

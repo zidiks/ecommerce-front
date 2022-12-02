@@ -19,22 +19,49 @@
         <div class="delivery__type">
           <h3>варианты доставки</h3>
           <div class="delivery__radios">
-            <label class="radio-button">
-              <input type="radio" name="delivery-radio" id="1" checked>
+            <label class="radio-button" v-for="(item, index) of deliveryMethods" :key="index">
+              <input type="radio" name="delivery-radio" @click="setCurrentDeliveryID(index)" :id="index" :checked="index === 0 ? true : false">
               <div class="checkmark"></div>
-              <span>курьером по МИНСКУ</span>
-            </label>
-            <label class="radio-button">
-              <input type="radio" name="delivery-radio" id="2">
-              <div class="checkmark"></div>
-              <span>ПОЧТА</span>
-            </label>
-            <label class="radio-button">
-              <input type="radio" name="delivery-radio" id="3">
-              <div class="checkmark"></div>
-              <span>ЕВРОПОЧТА</span>
+              <span>{{ item.name }}</span>
             </label>
           </div>
+          <div :class="currentDeliveryID == index ? 'delivery__dynamic' : 'cart__hidden'" v-for="(item, index) of deliveryMethods" :key="item.name">
+            <div class="delivery__text" v-html="item.description"></div>
+            <div class="delivery__fields" v-for="field of item.fields" :key="field.name">
+              <input type="text" class="delivery__input" :placeholder="field.name">
+            </div>
+          </div>
+        </div>
+        <div class="payment">
+          <h2>варианты оплаты</h2>
+          <div class="payment__option">
+            <label class="radio-button">
+              <input type="radio" name="payment-radio" :disabled="currentDeliveryID === 0 ? false : true">
+              <div class="checkmark"></div>
+              <span>наличными КУРЬЕРУ ПРИ ПОЛУЧЕНИИ</span>
+            </label>
+            <label class="radio-button">
+              <input type="radio" name="payment-radio" :disabled="currentDeliveryID !== 0 ? false : true">
+              <div class="checkmark"></div>
+              <span>наложенным платежем</span>
+            </label>
+          </div>
+          <div class="permission">
+            <label class="checkbox">
+              <input type="checkbox" name="payment-checkbox">
+              <span>даю согласие на обработку персональных данных</span>
+            </label>
+          </div>
+          <div class="payment__button">
+            <div class="button">ПОДТВЕРДИТЬ ЗАКАЗ</div>
+          </div>
+        </div>
+        <div class="cart__tracking">
+          <h2>статус заказа</h2>
+          <p>
+            Отследить статус заказа вы сможете у нас
+            на сайте, перейдя по ссылке <u><nuxt-link class="link" to="/tracker">трекер заказа</nuxt-link></u>
+          </p>
         </div>
       </section>
       <section class="cart">
@@ -85,13 +112,15 @@
 </template>
 
 <script>
-  import { cartContent } from '~/assets/shared/shared'
+  import { cartContent, deliveryMethods } from '~/assets/shared/shared'
 
   export default {
     data: () => ({
       cartContent,
+      deliveryMethods,
       finalPrice: 0,
       discount: 5,
+      currentDeliveryID: 0,
     }),
     methods: {
       setFinalPrice: function() {
@@ -99,6 +128,13 @@
           this.finalPrice += item.price * item.amount;
         });
         this.finalPrice = this.finalPrice.toFixed(2);
+      },
+      setCurrentDeliveryID: function(index) {
+        this.currentDeliveryID = index;
+        console.log(this.currentDeliveryID);
+      },
+      consoleLogger: function(any) {
+        console.log(any);
       }
     },
     beforeMount() {
@@ -150,14 +186,24 @@
       flex-direction: column;
       margin-top: 2.5rem;
     }
+
+    &__dynamic {
+      margin-top: 2rem;
+    }
+
+    &__text {
+      font-size: 1rem;
+      margin-bottom: 2rem;
+    }
   }
 
   .checkmark {
-    position: absolute;
-    margin-left: 0.5rem;
-    width: 21px;
-    height: 21px;
-    border: $main-border;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 23px;
+    height: 23px;
+    border: 2px solid black;
     border-radius: 50%;
     background-color: $WHITE;
 
@@ -171,6 +217,7 @@
 
   .radio-button {
     display: flex;
+    gap: 1rem;
     align-items: center;
     position: relative;
     cursor: pointer;
@@ -180,7 +227,7 @@
     transition: 0.3s;
     padding: 1rem 0;
 
-    &:nth-child(3) {
+    &:last-child {
       border: none;
     }
 
@@ -188,15 +235,23 @@
       background-color: $LGRAY;
     }
 
-    & span {
-      margin-left: 2.5rem;
-    }
-
     & input {
       display: none;
 
       &:checked ~ .checkmark:after  {
         display: block;
+      }
+
+      &:disabled ~ .checkmark {
+        border: 2px solid $DGRAY;
+
+        &:after {
+          background: $WHITE;
+        }
+      }
+
+      &:disabled ~ span {
+        color: $DGRAY;
       }
     }
 
@@ -209,6 +264,35 @@
         height: 11px;
         background: $BLACK;
       }
+    }
+  }
+
+  .payment {
+    margin-top: 2rem;
+
+    &__button {
+      margin-top: 3rem;
+
+      & div {
+        width: 100%;
+      }
+    }
+  }
+
+  .permission {
+    margin-top: 3rem;
+  }
+
+  .checkbox {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    cursor: pointer;
+    width: fit-content;
+
+    & input {
+      width: 22px;
+      height: 22px;
     }
   }
 
@@ -281,6 +365,15 @@
         & p {
           margin-bottom: 1rem;
         }
+      }
+    }
+
+    &__tracking {
+      margin-top: 5.5rem;
+
+      & p {
+        width: 80%;
+        font-size: 18px;
       }
     }
 
