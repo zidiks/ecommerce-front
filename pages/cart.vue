@@ -200,13 +200,15 @@
       }
     }
 
-    & .checkmark:after {
-      position: absolute;
-      top: 4px;
-      left: 4px;
-      width: 10px;
-      height: 10px;
-      background: $BLACK;
+    & .checkmark {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      &:after {
+        width: 10px;
+        height: 10px;
+        background: $BLACK;
+      }
     }
   }
 
