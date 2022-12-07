@@ -11,7 +11,7 @@
 
       </div>
     </div>
-    <nav class="header__navbar">
+    <nav :class="`header__navbar${burgerShown ? '' : '-hidden'}`">
       <li class="link-li" v-for="item of headerNavLinks" :key="item.text">
         <nuxt-link :to="item.link" class="link">{{ item.text }}</nuxt-link>
       </li>
@@ -22,16 +22,27 @@
 <script scoped>
 export default {
   data: () => {
-      return {
-        headerNavLinks: [
-        { text: 'ГЛАВНАЯ', link: '/'},
-        { text: 'КАТАЛОГ', link: '/catalogue'},
-        { text: 'О НАС', link: '/about'},
-        { text: 'АКЦИИ', link: '/offers' },
-        { text: 'ТРЕКЕР ЗАКАЗА', link: '/tracker'},
-        { text: 'КОРЗИНА', link: '/cart'},
-        ],
-      }
+    return {
+      headerNavLinks: [
+      { text: 'ГЛАВНАЯ', link: '/'},
+      { text: 'КАТАЛОГ', link: '/catalogue'},
+      { text: 'О НАС', link: '/about'},
+      { text: 'АКЦИИ', link: '/offers' },
+      { text: 'ТРЕКЕР ЗАКАЗА', link: '/tracker'},
+      { text: 'КОРЗИНА', link: '/cart'},
+      ],
+      burgerShown: false,
+    }
+  },
+  methods: {
+    burgerButton: function() {
+      return this.burgerShown = !this.burgerShown;
+    }
+  },
+  mounted() {
+    this.$root.$on('burgerButton', () => {
+      this.burgerButton();
+    })
   },
 }
 </script>
@@ -49,6 +60,11 @@ export default {
       width: 100%;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
+
+      @include breakpoint(l) {
+        padding: 1.25rem 0;
+        border-bottom: $main-border;
+      }
     }
 
     &__navbar {
@@ -59,6 +75,28 @@ export default {
       justify-content: space-evenly;
       border-top: $main-border;
       border-bottom: $main-border;
+      transition: 0.3s ease;
+      overflow: hidden;
+
+      @include breakpoint(l) {
+        flex-direction: column;
+        align-items: center;
+        width: fit-content;
+        padding: 0.5rem;
+        height: calc(16rem);
+      }
+
+      &-hidden {
+        @extend .header__navbar;
+
+        @include breakpoint(l) {
+          padding: 0;
+          margin-top: 0;
+          border: none;
+          height: 0px;
+          transition: 0.3s ease;
+        }
+      }
     }
 
     &__logo {

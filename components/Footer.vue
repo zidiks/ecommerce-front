@@ -56,12 +56,40 @@
       padding: 2.5rem 0;
       border-top: $main-border;
       border-bottom: $main-border;
+
+      @include breakpoint(l) {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+                          'l'
+                          'n'
+                          'c';
+        justify-items: center;
+      }
+    }
+
+    &__nav {
+
+      @include breakpoint(l) {
+        grid-area: n;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 0.75rem 0;
+        margin: 1.5rem 0;
+        border-top: $main-border;
+        border-bottom: $main-border;
+        width: fit-content;
+      }
     }
 
     &__logo {
       display: flex;
       justify-content: center;
       align-items: center;
+
+      @include breakpoint(l) {
+        grid-area: l;
+      }
     }
 
     &__contacts {
@@ -69,6 +97,11 @@
       flex-direction: column;
       align-items: flex-end;
       justify-content: flex-end;
+
+      @include breakpoint(l) {
+        grid-area: c;
+        align-items: center;
+      }
 
       & a {
         font-style: --main-font;

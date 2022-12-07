@@ -1,8 +1,9 @@
 <template>
-  <div class="container content-width">
+  <div class="content-width">
+    <Search class="search-mobile"/>
     <Header />
     <div class="page-wrap">
-      <Search />
+      <Search class="search" />
       <Nuxt />
     </div>
     <Footer />
@@ -10,17 +11,10 @@
 </template>
 
 <style lang="scss" scoped>
+  @import '~/assets/styles/global';
+
   #__nuxt, #__layout {
     height: 100%;
-  }
-
-  .container {
-    height: 100%;
-    padding: 2rem 0 1rem;
-    margin: auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
   }
 
   .page-wrap {
@@ -28,5 +22,21 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+
+  .search {
+    display: block;
+
+    @include breakpoint(l) {
+      display: none;
+    }
+
+    &-mobile {
+      display: none;
+
+      @include breakpoint(l) {
+        display: block;
+      }
+    }
   }
 </style>

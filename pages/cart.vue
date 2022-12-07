@@ -201,7 +201,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 23px;
+    min-width: 23px;
     height: 23px;
     border: 2px solid black;
     border-radius: 50%;

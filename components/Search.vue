@@ -1,31 +1,47 @@
 <template>
-  <div class="searchbox">
-    <img src="~/static/Search.svg">
-    <input class="searchbox__input" placeholder="поиск">
+  <div>
+    <div class="searchbox">
+      <img src="~/static/Search.svg">
+      <input class="searchbox__input" placeholder="поиск">
+      <div class="burger">
+        <div @click="burgerButton(); burgerShown = !burgerShown" :style="burgerShown ? rotateIcon(-90) : rotateIcon(0)">
+          <div class="burger__line"></div>
+          <div class="burger__line"></div>
+          <div class="burger__line"></div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
-<script lang="ts" scoped>
-  import { defineComponent, ref} from 'vue'
-
-  export default defineComponent({
-    setup() {
-      const value = ref<string>('');
-      return {
-        value,
-      };
-    },
-  })
+<script scoped>
+  export default {
+    data: () => ({
+      burgerShown: false,
+    }),
+    methods: {
+      burgerButton: function() {
+        this.$root.$emit('burgerButton');
+      },
+      rotateIcon: function(n) {
+        return `transition: 0.3s; transform: rotate(${n}deg)`
+      }
+    }
+  }
 </script>
 
 <style lang="scss" scoped>
   @import '~/assets/styles/global';
 
   .searchbox {
-    margin: 2rem 0;
+    margin-top: 2rem;
     display: flex;
     width: 36rem;
     border-bottom: $main-border;
+
+    @include breakpoint(l) {
+      width: 100%;
+    }
 
     & img {
       min-width: 1.5rem;
@@ -41,6 +57,27 @@
       &::placeholder {
         color: $DGRAY;
       }
+    }
+  }
+
+  .burger {
+    display: none;
+
+    @include breakpoint(l) {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    & div {
+      cursor: pointer;
+    }
+
+    &__line {
+      margin: 5px 0;
+      width: 22px;
+      height: 1px;
+      background-color: $BLACK;
     }
   }
 </style>
