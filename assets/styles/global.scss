@@ -158,6 +158,10 @@ main {
     margin: 0 8px;
     color: rgba(0, 0, 0, 0.45);
   }
+
+  @include breakpoint(l) {
+    display: none;
+  }
 }
 
 .input-field {
@@ -168,4 +172,13 @@ main {
     &::placeholder {
       color: $DGRAY;
     }
+}
+
+.mobile-separator {
+
+  @include breakpoint(l) {
+    height: 1px;
+    width: 100%;
+    border-bottom: $main-border;
+  }
 }

@@ -13,6 +13,7 @@
           ОТ ИЗВЕСТНЫХ БРЕНДОВ.<br>
         </div>
       </div>
+      <div class="mobile-separator"></div>
       <div class="about__upper">
         <img src="~/assets/img/about-1.png" alt="perfume">
         <div class="about__text">
@@ -28,7 +29,7 @@
           <div>
             МЫ ОСУЩЕСТВЛЯЕМ БЕСПЛАТНУЮ<br>
             ДОСТАВКУ И ДАРИМ СКИДКИ<br>
-            ПОСТОЯННЫМ КЛИЕНТАМЮ
+            ПОСТОЯННЫМ КЛИЕНТАМ.
           </div>
         </div>
         <img src="~/assets/img/about-2.png" alt="perfume">
@@ -49,6 +50,7 @@
     <section class="delivery">
       <div class="delivery__text">
         <h2>ОПЛАТА И ДОСТАВКА</h2>
+        <div class="mobile-separator"></div>
         <h3>ОПЛАТА</h3>
         <p>
           НАЛИЧНЫМИ КУРЬЕРУ, НАЛОЖЕННЫМ ПЛАТЕЖОМ<br>
@@ -83,17 +85,30 @@
   }
 
   .about {
+    display: flex;
+    flex-direction: column;
     width: 100%;
     margin-top: 2.5rem;
     padding-bottom: 2.5rem;
     font-size: 18px;
     border-bottom: $main-border;
 
+    @include breakpoint(l) {
+      align-items: center;
+      border: none;
+    }
+
     &__head {
       display: flex;
       gap: 18rem;
       padding-bottom: 2rem;
       border-bottom: $main-border;
+
+      @include breakpoint(l) {
+        flex-direction: column;
+        gap: 0;
+        border: none;
+      }
     }
 
     &__upper {
@@ -102,8 +117,25 @@
       justify-content: space-between;
       align-items: flex-end;
 
+      @include breakpoint(l) {
+        flex-direction: column;
+        align-items: flex-start;
+        width: 24rem;
+      }
+
       & img {
         height: 100%;
+
+        &:last-of-type {
+
+          @include breakpoint(l) {
+            align-self: flex-end;
+            margin-top: 1.25rem;
+          }
+        }
+        @include breakpoint(l) {
+          height: 13rem;
+        }
       }
     }
 
@@ -112,6 +144,12 @@
       flex-direction: column;
       align-self: center;
       padding: 4rem 5.5rem 0 0;
+
+      @include breakpoint(l) {
+        padding: 0;
+        font-size: 14px;
+        align-self: flex-start;
+      }
 
       & div {
         padding-top: 1.25rem;
@@ -131,11 +169,20 @@
       padding-right: 6.25rem;
       font-size: 18px;
 
+      @include breakpoint(l) {
+        font-size: 14px;
+        width: 24rem;
+      }
+
       & a {
         font-size: 30px;
         margin-bottom: 2rem;
         border-bottom: $main-border;
         width: fit-content;
+
+        @include breakpoint(l) {
+          font-size: 18px;
+        }
       }
     }
   }
@@ -147,15 +194,35 @@
     padding-bottom: 2.5rem;
     border-bottom: $main-border;
 
+    @include breakpoint(l) {
+      flex-direction: column;
+      border: none;
+    }
+
     &__text {
+
+      @include breakpoint(l) {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+      }
 
       & h2 {
         margin-bottom: 1.25rem;
+
+        @include breakpoint(l) {
+          width: 24rem;
+        }
       }
 
       & h3 {
         margin-top: 1.25rem;
         font-size: 25px;
+
+        @include breakpoint(l) {
+          width: 24rem;
+        }
       }
 
       & p {
@@ -163,6 +230,22 @@
         padding-bottom: 1.25rem;
         font-size: 18px;
         border-bottom: $main-border;
+
+        @include breakpoint(l) {
+          width: 24rem;
+          font-size: 14px;
+          padding: 0;
+          border: none;
+        }
+      }
+    }
+
+    & img {
+
+      @include breakpoint(l) {
+        align-self: center;
+        margin-left: 14rem;
+        height: 13rem;
       }
     }
   }
@@ -173,5 +256,19 @@
     gap: 16.5rem;
     font-size: 18px;
     line-height: 2rem;
+
+    @include breakpoint(l) {
+      flex-direction: column;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    & h2, div {
+      width: 24rem;
+    }
+
+    & div, div > a {
+      font-size: 16px;
+    }
   }
 </style>

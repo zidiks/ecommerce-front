@@ -108,6 +108,10 @@
         font-size: 16px;
         color: #0B0B0B;
         user-select: text;
+
+        @include breakpoint(l) {
+          font-size: 18px;
+        }
       }
     }
 
@@ -122,5 +126,9 @@
 
   #email {
     font-size: 14px;
+
+    @include breakpoint(l) {
+      font-size: 18px;
+    }
   }
 </style>

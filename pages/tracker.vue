@@ -41,10 +41,21 @@
     align-items: center;
     margin-top: 2.5rem;
 
+    @include breakpoint(l) {
+      margin-top: 4rem;
+    }
+
     &__head {
       display: grid;
       grid-template-columns: 0.8fr 1fr 0.8fr;
       border-bottom: $main-border;
+
+      @include breakpoint(l) {
+        display: flex;
+        flex-direction: column;
+        width: 23rem;
+        border: none;
+      }
 
       & h1 {
         font-size: 2.25rem;
@@ -63,6 +74,10 @@
       align-items: center;
       margin-top: 2rem;
       width: 29.5rem;
+
+      @include breakpoint(l) {
+        width: 23rem;
+      }
     }
 
     &__button {
