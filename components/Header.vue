@@ -36,7 +36,8 @@ export default {
   },
   methods: {
     burgerButton: function() {
-      return this.burgerShown = !this.burgerShown;
+      this.burgerShown = !this.burgerShown;
+      document.body.style.overflow = this.burgerShown ? 'hidden' : 'visible';
     }
   },
   mounted() {

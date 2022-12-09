@@ -23,7 +23,7 @@
         </div>
       </div>
       <div class="bestsellers__content">
-        <Cards class="bestsellers__card" v-for="item of bestsellersContent" :addClass="addBestClass" :item="item" :key="item.text" />
+        <Cards class="bestsellers__card" v-for="item of bestsellersContent.slice(0, cardRenderAmount)" :addClass="addBestClass" :item="item" :key="item.text" />
       </div>
       <div class="bestsellers__button">
         <nuxt-link to="/catalogue">
@@ -37,14 +37,17 @@
       <div class="strengths__item">
         <h3 class="strengths__header">КАЧЕСТВЕННЫЙ СЕРВИС</h3>
         <span>БЫСТРАЯ ОБРАБОТКА ЗАКАЗА</span>
+        <div class="mobile-separator"></div>
       </div>
       <div class="strengths__item">
         <h3 class="strengths__header">ОРИГИНАЛЬНАЯ ПРОДУКЦИЯ</h3>
         <span>БОЛЕЕ 1000 ЕДИНИЦ</span>
+        <div class="mobile-separator"></div>
       </div>
       <div class="strengths__item">
         <h3 class="strengths__header">ГИБКАЯ СИСТЕМА СКИДОК</h3>
         <span>ДЛЯ ПОСТОЯННЫХ ПОКУПАТЕЛЕЙ</span>
+        <div class="mobile-separator"></div>
       </div>
       <div class="strengths__item">
         <h3 class="strengths__header">БЫСТРАЯ ДОСТАВКА</h3>
@@ -58,14 +61,13 @@
           ПОДБОРКА СМЕЛЫХ АРОМАТОВ ДЛЯ ВАС.
           ПОЗНАКОМТЕСЬ С НОВЫМИ АРОМАТАМИ ПЕРВЫМИ.
         </div>
-        <nuxt-link to="/catalogue">
-          <div class="button">
-            <span>СМОТРЕТЬ ВСЕ</span>
-          </div>
-        </nuxt-link>
+        <nuxt-link to="/catalogue" :class="cardRenderAmount > 2 ? 'button' : 'latest__hidden'">СМОТРЕТЬ ВСЕ</nuxt-link>
       </div>
       <div class="latest__content">
-        <Cards class="latest__card" v-for="item of latestContent" :item="item" :addClass="addLatestClass" :key="item.text" />
+        <Cards class="latest__card" v-for="item of latestContent.slice(0, cardRenderAmount)" :item="item" :addClass="addLatestClass" :key="item.text" />
+      </div>
+      <div class="latest__button">
+        <nuxt-link to="/catalogue" :class="cardRenderAmount > 2 ? 'latest__hidden' : 'button'">СМОТРЕТЬ ВСЕ</nuxt-link>
       </div>
     </section>
     <section class="discounts">
@@ -83,14 +85,13 @@
         <img src="~/assets/img/discounts-1.png" alt="perfume">
         <div class="discounts__info">
           <div>
-            СКИДКА ЗА КОЛИЧЕСТВО<br>
-            ПАРФЮМЕРИИ. БОЛЬШЕ ФЛАКОНОВ — <br>
-            БОЛЬШЕ СКИДКА! НА ВТОРУЮ<br>
-            И КАЖДУЮ ПОСЛЕДУЮЩУЮ ПОЗИЦИЮ<br>
-            В ЗАКАЗЕ ВЫ ПОЛУЧАЕТЕ СКИДКУ<br>
+            СКИДКА ЗА КОЛИЧЕСТВО ПАРФЮМЕРИИ. <br>
+            БОЛЬШЕ ФЛАКОНОВ — БОЛЬШЕ СКИДКА!
+            НА ВТОРУЮ И КАЖДУЮ ПОСЛЕДУЮЩУЮ ПОЗИЦИЮ
+            В ЗАКАЗЕ ВЫ ПОЛУЧАЕТЕ СКИДКУ
             5 РУБЛЕЙ.
           </div>
-          <div>
+          <div :class="cardRenderAmount > 2 ? '' : 'latest__hidden'">
             - СКИДКИ НЕ СУММИРУЮТСЯ. ПОКУПАТЕЛЬ САМ ВЫБИРАЕТ НАИБОЛЕЕ
             ВЫГОДНЫЙ ДЛЯ СЕБЯ ВАРИАНТ СКИДКИ.
           </div>
@@ -121,10 +122,37 @@
     data: () => {
       return {
         addBestClass: 'bestsellers',
-        bestsellersContent,
         addLatestClass: 'latest',
+        bestsellersContent,
         latestContent,
+        currentWidth: 0,
+        cardRenderAmount: 0,
       }
+    },
+
+    methods: {
+      setCurrentWidth: function() {
+        this.currentWidth = window.innerWidth;
+      },
+      setCardsAmount: function(width) {
+        if(width > 960) {
+          this.cardRenderAmount = 4;
+        } else if(width > 480) {
+          this.cardRenderAmount = 2;
+        }
+      },
+    },
+
+    beforeMount() {
+      this.setCurrentWidth();
+      this.setCardsAmount(this.currentWidth);
+    },
+
+    mounted() {
+      window.addEventListener('resize', () => {
+        this.setCurrentWidth();
+        this.setCardsAmount(this.currentWidth);
+      })
     }
   }
 </script>
@@ -159,11 +187,28 @@
     &__head {
       display: flex;
       justify-content: space-between;
+
+      @include breakpoint(l) {
+        flex-direction: column;
+      }
     }
 
     &__controls {
       display: flex;
       column-gap: 1rem;
+
+      @include breakpoint(l) {
+        position: relative;
+        justify-content: center;
+        top: 6.5rem;
+        gap: 21rem;
+        height: 0px;
+
+        & svg {
+          min-width: 2.25rem;
+          width: 2.25rem;
+        }
+      }
     }
 
     &__content {
@@ -171,15 +216,33 @@
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       column-gap: 2rem;
+
+      @include breakpoint(l) {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+      }
     }
 
     &__card {
       font-size: 1rem;
+
+      @include breakpoint(l) {
+        width: 12rem;
+      }
     }
 
     &__image {
-      width: 17rem;
       height: 19rem;
+
+      @include breakpoint(l) {
+        height: 14rem;
+        width: 12rem;
+
+        & img {
+          max-width: 60%;
+        }
+      }
     }
 
     &__name {
@@ -201,6 +264,12 @@
     display: flex;
     align-items: center;
 
+    @include breakpoint(l) {
+      flex-direction: column;
+      height: 27.5rem;
+      padding-top: 2rem;
+    }
+
     &__item {
       height: 6rem;
       width: 25%;
@@ -210,6 +279,16 @@
       align-items: center;
       border-right: $main-border;
       font-size: 14px;
+
+      @include breakpoint(l) {
+        border: none;
+        width: 17rem;
+
+        & div {
+          margin-top: 1.25rem;
+          width: 45%;
+        }
+      }
 
       &:last-child {
         border: none;
@@ -229,10 +308,19 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       column-gap: 3rem;
+
+      @include breakpoint(l) {
+        display: flex;
+        flex-direction: column;
+      }
     }
 
     &__descr {
       font-size: 1rem;
+
+      @include breakpoint(l) {
+        max-width: 25rem;
+      }
     }
 
     &__content {
@@ -240,11 +328,45 @@
       display: flex;
       justify-content: space-between;
       font-size: 1rem;
+
+      @include breakpoint(l) {
+        justify-content: center;
+        gap: 2rem;
+      }
+    }
+
+    &__card {
+
+      @include breakpoint(l) {
+        width: 12rem;
+      }
     }
 
     &__image {
       width: 23rem;
       height: 29rem;
+
+      @include breakpoint(l) {
+        height: 14rem;
+        width: 12rem;
+
+        & img {
+          max-width: 60%;
+        }
+      }
+    }
+
+    &__button {
+
+      @include breakpoint(l) {
+        display: flex;
+        justify-content: center;
+        margin-top: 2.5rem;
+      }
+    }
+
+    &__hidden {
+      display: none;
     }
   }
 
@@ -257,10 +379,19 @@
       column-gap: 3rem;
       padding-bottom: 2rem;
       border-bottom: $main-border;
+
+      @include breakpoint(l) {
+        display: flex;
+        flex-direction: column;
+      }
     }
 
     &__descr {
       font-size: 18px;
+
+      @include breakpoint(l) {
+        max-width: 23rem;
+      }
     }
 
     &__upper {
@@ -269,16 +400,41 @@
       justify-content: space-between;
       align-items: flex-end;
 
+      @include breakpoint(l) {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
       & img {
         height: 100%;
+
+        @include breakpoint(l) {
+          height: 13.5rem;
+
+          &:last-child {
+            align-self: flex-end;
+          }
+        }
       }
     }
 
     &__info {
       font-size: 18px;
 
+      @include breakpoint(l) {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        font-size: 1rem;
+      }
+
       & div {
         padding: 5rem 10rem 0 2rem;
+
+        @include breakpoint(l) {
+          padding: 2rem 0;
+          width: 24rem;
+        }
       }
 
       & div:last-child {
@@ -292,8 +448,19 @@
       grid-template-columns: repeat(2, 1fr);
       justify-items: stretch;
 
+      @include breakpoint(l) {
+        display: flex;
+        flex-direction: column;
+      }
+
       & img {
         height: 100%;
+
+        @include breakpoint(l) {
+          align-self: center;
+          margin-top: 2rem;
+          max-width: 23rem;
+        }
       }
     }
 
@@ -303,11 +470,19 @@
       justify-content: flex-end;
       font-size: 18px;
 
+      @include breakpoint(l) {
+        font-size: 1rem;
+      }
+
       & a {
         font-size: 30px;
         margin-bottom: 2rem;
         border-bottom: $main-border;
         width: fit-content;
+
+        @include breakpoint(l) {
+          font-size: 1.25rem;
+        }
       }
     }
   }

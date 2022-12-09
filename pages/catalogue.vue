@@ -51,7 +51,7 @@
         addClass: 'products',
         productsContent,
         currentWidth: 0,
-        cardRenderAmount: productsContent.length,
+        cardRenderAmount: 0,
       }
     ),
 
@@ -70,21 +70,14 @@
 
     beforeMount() {
       this.setCurrentWidth();
-      this.setCardsAmount();
+      this.setCardsAmount(this.currentWidth);
     },
 
     mounted() {
-      window.addEventListener('scroll', () => {
-        this.setCurrentWidth();
-        this.setCardsAmount(this.currentWidth);
-      })
       window.addEventListener('resize', () => {
         this.setCurrentWidth();
         this.setCardsAmount(this.currentWidth);
       })
-      window.onload = () => {
-        this.setCardsAmount(this.currentWidth);
-      }
     }
   }
 </script>

@@ -58,7 +58,7 @@
         <div class="payment__button">
             <div class="button" @click="confirmOrder()">{{ isConfirmed ? 'оформить' : 'подтвердить' }} заказ</div>
         </div>
-        <div :class="`cart__tracking ${isConfirmed ? '' : 'cart-page__hidden'}`">
+        <div :class="`${isConfirmed ? 'cart__tracking ' : 'cart-page__hidden'}`">
           <h2>статус заказа</h2>
           <p>
             Отследить статус заказа вы сможете у нас
@@ -134,7 +134,6 @@
       },
       setCurrentDeliveryID: function(index) {
         this.currentDeliveryID = index;
-        console.log(this.currentDeliveryID);
       },
       confirmOrder: function() {
         this.isConfirmed = true;

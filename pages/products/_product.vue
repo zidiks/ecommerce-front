@@ -101,7 +101,7 @@
       isOverlay: false,
       activeKey: ['0'],
       currentWidth: 0,
-      cardRenderAmount: productsContent.length,
+      cardRenderAmount: 0,
     }),
 
     computed: {
@@ -126,7 +126,7 @@
       addToCart: function() {
         this.isInCart = true;
         this.isOverlay = this.isInCart;
-        document.querySelector('body').style.overflow = 'hidden';
+        if(this.currentWidth <= 960)document.querySelector('body').style.overflow = 'hidden';
       },
       closeOverlay: function() {
         this.isOverlay = false;
@@ -149,21 +149,14 @@
 
     beforeMount() {
       this.setCurrentWidth();
-      this.setCardsAmount();
+      this.setCardsAmount(this.currentWidth);
     },
 
     mounted() {
-      window.addEventListener('scroll', () => {
-        this.setCurrentWidth();
-        this.setCardsAmount(this.currentWidth);
-      })
       window.addEventListener('resize', () => {
         this.setCurrentWidth();
         this.setCardsAmount(this.currentWidth);
       })
-      window.onload = () => {
-        this.setCardsAmount(this.currentWidth);
-      }
     }
   }
 </script>
