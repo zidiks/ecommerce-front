@@ -8,7 +8,7 @@
           </div>
         </div>
     </template>
-    <a-collapse-panel class="collapse__panel" key="1" header="Характеристики товара">
+    <a-collapse-panel class="collapse__panel" key="1" header="Описание товара">
         <div class="collapse__item">
           <h3>Бренд, аромат</h3>
           <p>{{ item.brand }}</p>
@@ -109,6 +109,10 @@ export default defineComponent({
     border: 0;
     font-size: 35px;
 
+    @include breakpoint(l) {
+      font-size: 1.75rem;
+    }
+
     &:nth-child(2) {
       margin-top: 3.75rem;
     }
@@ -135,7 +139,7 @@ export default defineComponent({
 }
 
 .line {
-  width: 22px;
+  width: 23px;
   height: 1px;
   background-color: $BLACK;
 }

@@ -112,24 +112,6 @@ export let productsContent = [
     vol: '100 МЛ.',
     price: '677.40',
   },
-  {
-    name: 'Dolce&Gabbana The One For Men',
-    img: require('~/assets/img/dg-the-one.png'),
-    vol: '50 МЛ.',
-    price: '153.10',
-  },
-  {
-    name: 'Byredo Bal d\'Afriqu',
-    img: require('~/assets/img/byredo-bal.png'),
-    vol: '50 МЛ.',
-    price: '451.60',
-  },
-  {
-    name: 'Maison Francis Kurkdjian Bacc ...',
-    img: require('~/assets/img/maison-francis.png'),
-    vol: '70 МЛ.',
-    price: '1148.50',
-  },
 ]
 
 export let pageNumbers = [
@@ -258,7 +240,7 @@ export let deliveryMethods = [
     id: '1',
     name: 'Курьером по Минску',
     description: '– Бесплатная доставка КУРЬЕРОМ по МИНСКУ. <br>\
-    – В КОММЕНТАРИЯХ К ЗАКАЗУ УКАЖИТЕ ЖЕЛАЕМУЮ ДАТУ<br>\
+    – В КОММЕНТАРИЯХ К ЗАКАЗУ УКАЖИТЕ ЖЕЛАЕМУЮ ДАТУ\
      И ВРЕМЯ ДОСТАВКИ ЗАКАЗА КУРЬЕРОМ.',
     media: '',
     fields: [deliveryFields.adress, deliveryFields.commentary],

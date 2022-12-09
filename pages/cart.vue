@@ -5,11 +5,12 @@
       <a-breadcrumb-item>Корзина<span class="breadcrumbs-separator">/</span></a-breadcrumb-item>
     </a-breadcrumb>
     <div class="cart-page__head">
-          <h2>оформление заказа</h2>
-          <h2>корзина ({{ cartContent.length }})</h2>
+          <h2 :class="`${isConfirmed ? '' : 'cart-page__hidden'}`">оформление заказа</h2>
+          <h2 :class="`${isConfirmed ? 'cart-page__hidden' : ''}`">корзина ({{ cartContent.length }})</h2>
       </div>
     <section class="cart-page__wrapper">
       <section class="delivery">
+        <div :class="`delivery__wrapper ${isConfirmed ? '' : 'cart-page__hidden'}`">
         <div class="delivery__contacts">
           <h3>контактная информация</h3>
           <input type="text" class="delivery__input" placeholder="ФИО">
@@ -52,11 +53,12 @@
               <span>даю согласие на обработку персональных данных</span>
             </label>
           </div>
-          <div class="payment__button">
-            <div class="button">ПОДТВЕРДИТЬ ЗАКАЗ</div>
-          </div>
         </div>
-        <div class="cart__tracking">
+        </div>
+        <div class="payment__button">
+            <div class="button" @click="confirmOrder()">{{ isConfirmed ? 'оформить' : 'подтвердить' }} заказ</div>
+        </div>
+        <div :class="`cart__tracking ${isConfirmed ? '' : 'cart-page__hidden'}`">
           <h2>статус заказа</h2>
           <p>
             Отследить статус заказа вы сможете у нас
@@ -64,7 +66,7 @@
           </p>
         </div>
       </section>
-      <section class="cart">
+      <section :class="`cart ${isConfirmed ? 'cart-page__hidden' : ''}`">
         <div class="cart__content">
           <div class="cart__item" v-for="item of cartContent" :key="item.name">
             <div class="cart__image">
@@ -121,6 +123,7 @@
       finalPrice: 0,
       discount: 5,
       currentDeliveryID: 0,
+      isConfirmed: false,
     }),
     methods: {
       setFinalPrice: function() {
@@ -133,8 +136,8 @@
         this.currentDeliveryID = index;
         console.log(this.currentDeliveryID);
       },
-      consoleLogger: function(any) {
-        console.log(any);
+      confirmOrder: function() {
+        this.isConfirmed = true;
       }
     },
     beforeMount() {
@@ -150,6 +153,10 @@
     &__head {
       @extend .cart-page__wrapper;
       margin-top: 2.5rem;
+
+      & h2 {
+        font-size: 2rem;
+      }
     }
 
     &__wrapper {
@@ -157,8 +164,25 @@
       grid-template-columns: repeat(2, 1fr);
       column-gap: 2.25rem;
 
+      @include breakpoint(l) {
+        display: flex;
+        flex-direction: column-reverse;
+        column-gap: 0;
+      }
+
       & h3 {
         font-size: 26px;
+
+        @include breakpoint(l) {
+          font-size: 22px;
+        }
+      }
+    }
+
+    &__hidden {
+
+      @include breakpoint(l) {
+        display: none;
       }
     }
   }
@@ -166,29 +190,67 @@
   .delivery {
     margin-top: 3.75rem;
 
+    @include breakpoint(l) {
+      margin: 0;
+    }
+
     &__contacts {
       & h3 {
         margin-bottom: 2.5rem;
+        align-self: flex-start;
+      }
+
+      @include breakpoint(l) {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
       }
     }
 
     &__input {
       @extend .input-field;
       margin-bottom: 0.5rem;
+
+      @include breakpoint(l) {
+        justify-content: center;
+        width: 24rem;
+      }
     }
 
     &__type {
       margin-top: 3.75rem;
+
+      & h3 {
+        align-self: flex-start;
+      }
+
+      @include breakpoint(l) {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
     }
 
     &__radios {
       display: flex;
       flex-direction: column;
       margin-top: 2.5rem;
+
+      @include breakpoint(l) {
+        width: 24rem;
+        margin-top: 0.5rem;
+      }
     }
 
     &__dynamic {
       margin-top: 2rem;
+
+      @include breakpoint(l) {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 24rem;
+      }
     }
 
     &__text {
@@ -206,6 +268,7 @@
     border: 2px solid black;
     border-radius: 50%;
     background-color: $WHITE;
+    margin-left: 0.25rem;
 
     &:after {
       content: '';
@@ -270,11 +333,38 @@
   .payment {
     margin-top: 2rem;
 
+    @include breakpoint(l) {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    & h2 {
+        align-self: flex-start;
+      }
+
+    &__option {
+
+      @include breakpoint(l) {
+        width: 24rem;
+      }
+    }
+
     &__button {
+      display: flex;
+      justify-content: center;
       margin-top: 3rem;
+
+      @include breakpoint(l) {
+        margin-top: 2rem;
+      }
 
       & div {
         width: 100%;
+
+        @include breakpoint(l) {
+          width: 23rem;
+        }
       }
     }
   }
@@ -299,11 +389,32 @@
   .cart {
     margin-top: 8.7rem;
 
+    @include breakpoint(l) {
+      margin-top: 2rem;
+    }
+
+    &__content {
+
+      @include breakpoint(l) {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+
     &__item {
       display: flex;
-      //gap: 3.5rem;
       border-top: $main-border;
+      width: 100%;
       padding: 2rem 0;
+
+      @include breakpoint(l) {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        justify-content: center;
+        width: 24rem;
+        padding-inline: 50%;
+      }
 
       & h4 {
         font-size: 18px;
@@ -371,9 +482,28 @@
     &__tracking {
       margin-top: 5.5rem;
 
+      @include breakpoint(l) {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+    & h2 {
+        align-self: flex-start;
+      }
+
       & p {
         width: 80%;
         font-size: 18px;
+
+        @include breakpoint(l) {
+          margin-top: 1rem;
+          width: 24rem;
+        }
+
+        & a {
+            font-size: 18px;
+        }
       }
     }
 

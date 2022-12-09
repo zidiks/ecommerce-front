@@ -15,7 +15,7 @@ main {
 }
 
 .link-li {
-  font-size: 20px;
+  font-size: 1.25rem;
   list-style: none;
   user-select: none;
   width: fit-content;
@@ -26,10 +26,6 @@ main {
   color: $BLACK;
   &:hover {
     color: $BLACK;
-  }
-
-  @include breakpoint(l) {
-    font-size: 1.5rem
   }
 
   &-inactive {
@@ -133,10 +129,14 @@ main {
   }
 
   &__name {
+    width: 100%;
     padding: 0.5rem 0;
     font-weight: 500;
     grid-area: n;
     border-bottom: $main-border;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   &__volume {
@@ -152,6 +152,7 @@ main {
 }
 
 .breadcrumbs {
+  margin-top: 2.5rem;
   font-size: 1rem;
 
   &-separator {

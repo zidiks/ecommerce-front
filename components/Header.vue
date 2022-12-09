@@ -84,6 +84,10 @@ export default {
         width: fit-content;
         padding: 0.5rem;
         height: calc(16rem);
+
+        & li {
+          font-size: 1.5rem
+        }
       }
 
       &-hidden {

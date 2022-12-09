@@ -15,7 +15,7 @@
     </section>
     <section class="products">
       <div class="products__content">
-          <Cards class="products__card" v-for="item of productsContent" :item="item" :addClass="addClass" :key="item.text" />
+          <Cards class="products__card" v-for="item of productsContent.slice(0, cardRenderAmount)" :item="item" :addClass="addClass" :key="item.text" />
       </div>
       <div class="products__button">
         <div class="button-inversed">
@@ -50,8 +50,42 @@
         pageNumbers,
         addClass: 'products',
         productsContent,
+        currentWidth: 0,
+        cardRenderAmount: productsContent.length,
       }
     ),
+
+    methods: {
+      setCurrentWidth: function() {
+        this.currentWidth = window.innerWidth;
+      },
+      setCardsAmount: function(width) {
+        if(width > 960) {
+          this.cardRenderAmount = 16;
+        } else if(width > 480) {
+          this.cardRenderAmount = 10;
+        }
+      },
+    },
+
+    beforeMount() {
+      this.setCurrentWidth();
+      this.setCardsAmount();
+    },
+
+    mounted() {
+      window.addEventListener('scroll', () => {
+        this.setCurrentWidth();
+        this.setCardsAmount(this.currentWidth);
+      })
+      window.addEventListener('resize', () => {
+        this.setCurrentWidth();
+        this.setCardsAmount(this.currentWidth);
+      })
+      window.onload = () => {
+        this.setCardsAmount(this.currentWidth);
+      }
+    }
   }
 </script>
 
@@ -64,6 +98,11 @@
     justify-content: space-between;
     padding: 2rem 0;
     border-bottom: $main-border;
+
+    @include breakpoint(l) {
+      margin-top: 1rem;
+      border-bottom: none;
+    }
 
     &__left, &__right {
       font-size: 2rem;
@@ -79,18 +118,31 @@
     align-items: center;
 
     &__content {
-    display: grid;
-    grid-template: repeat(4, 1fr) / repeat(4, 1fr);
-    gap: 4rem 2rem;
+      display: grid;
+      grid-template: repeat(4, 1fr) / repeat(4, 1fr);
+      gap: 4rem 2rem;
+
+      @include breakpoint(l) {
+        grid-template: repeat(5, 1fr) / repeat(2, 1fr)
+      }
     }
 
     &__card {
       font-size: 1rem;
+
+      @include breakpoint(l) {
+        width: 11.5rem;
+        height: 16.5rem;
+      }
     }
 
     &__image {
       width: 100%;
       height: 19rem;
+
+      @include breakpoint(l) {
+        height: 14rem;
+      }
 
       & img {
         max-height: 70%;

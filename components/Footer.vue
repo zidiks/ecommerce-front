@@ -50,6 +50,10 @@
   .footer {
     margin-top: 6.25rem;
 
+    @include breakpoint(l) {
+      margin-top: 3.75rem;
+    }
+
     &__content {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -79,6 +83,10 @@
         border-top: $main-border;
         border-bottom: $main-border;
         width: fit-content;
+
+        & li {
+          font-size: 1.5rem;
+        }
       }
     }
 
