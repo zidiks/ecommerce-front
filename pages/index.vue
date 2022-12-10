@@ -116,7 +116,8 @@
 </template>
 
 <script scoped>
-  import { bestsellersContent, latestContent } from '~/assets/shared/shared'
+  import { bestsellersContent, latestContent } from '~/assets/shared/shared';
+  import { ComparisonOperator } from "@/shared/enums/mongoose-query.enum";
 
   export default {
     data () {
@@ -136,6 +137,11 @@
           pagination: {
             page: 1,
             limit: 10,
+          },
+          customProperties: {
+            "6394e6ce341b125e2fb1b8c0": {
+              [ComparisonOperator.eq]: true
+            }
           }
         });
         console.log(res);
