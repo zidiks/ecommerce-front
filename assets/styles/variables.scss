@@ -18,6 +18,7 @@ $breakpoints: (
   m: 768px,
   s: 576px,
   xs: 480px, // would be nice for next breakpoint
+  xxs: 320px,
 );
 
 @mixin breakpoint($screen-size) {

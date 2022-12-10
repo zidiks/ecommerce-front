@@ -111,34 +111,38 @@
     align-items: center;
 
     &__content {
+      width: 100%;
       display: grid;
-      grid-template: repeat(4, 1fr) / repeat(4, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       gap: 4rem 2rem;
 
       @include breakpoint(l) {
-        grid-template: repeat(5, 1fr) / repeat(2, 1fr)
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem 2rem;
+      }
+
+      @include breakpoint(m) {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem 2rem;
+      }
+
+      @include breakpoint(xxs) {
+        grid-template-columns: 1fr;
       }
     }
 
     &__card {
       font-size: 1rem;
-
-      @include breakpoint(l) {
-        width: 11.5rem;
-        height: 16.5rem;
-      }
     }
 
     &__image {
       width: 100%;
-      height: 19rem;
-
-      @include breakpoint(l) {
-        height: 14rem;
-      }
-
+      aspect-ratio : 1 / 1.25;
+      padding: 20%;
       & img {
-        max-height: 70%;
+        object-fit: contain;
+        width:  100%;
+        height: 100%;
       }
     }
 
