@@ -131,6 +131,10 @@
     },
 
     methods: {
+      async getProducts() {
+        const res = await this.$api.products.getProducts();
+        console.log(res);
+      },
       setCurrentWidth: function() {
         this.currentWidth = window.innerWidth;
       },
@@ -153,6 +157,7 @@
         this.setCurrentWidth();
         this.setCardsAmount(this.currentWidth);
       })
+      this.getProducts();
     }
   }
 </script>
@@ -202,7 +207,7 @@
         justify-content: center;
         top: 6.5rem;
         gap: 21rem;
-        height: 0px;
+        height: 0;
 
         & svg {
           min-width: 2.25rem;
