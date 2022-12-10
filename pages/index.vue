@@ -119,7 +119,7 @@
   import { bestsellersContent, latestContent } from '~/assets/shared/shared'
 
   export default {
-    data: () => {
+    data () {
       return {
         addBestClass: 'bestsellers',
         addLatestClass: 'latest',
@@ -132,7 +132,12 @@
 
     methods: {
       async getProducts() {
-        const res = await this.$api.products.getProducts();
+        const res = await this.$api.products.getProducts({
+          pagination: {
+            page: 1,
+            limit: 10,
+          }
+        });
         console.log(res);
       },
       setCurrentWidth: function() {
