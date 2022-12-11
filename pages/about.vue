@@ -266,7 +266,7 @@
     &__image {
       display: flex;
       width: 100%;
-      justify-content: end;
+      justify-content: flex-end;
 
       & img {
         width: 100%;
