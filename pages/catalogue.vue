@@ -62,8 +62,12 @@
       setCardsAmount: function(width) {
         if(width > 960) {
           this.cardRenderAmount = 16;
-        } else if(width > 480) {
+        } else if(width > 768) {
+          this.cardRenderAmount = 12;
+        } else if(width > 320) {
           this.cardRenderAmount = 10;
+        } else if(width > 240) {
+          this.cardRenderAmount = 5;
         }
       },
     },
@@ -159,11 +163,19 @@
       align-items: center;
       margin-top: 1.25rem;
       gap: 3.5rem;
+
+      @include breakpoint(xs) {
+        gap: 1rem;
+      }
     }
 
     &__pages {
       display: flex;
       gap: 1rem;
+
+      @include breakpoint(xs) {
+        gap: 0.5rem;
+      }
     }
   }
 </style>

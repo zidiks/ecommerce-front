@@ -65,6 +65,8 @@ main {
   align-items: center;
   width: 23rem;
   height: 4rem;
+  white-space: nowrap;
+  overflow: hidden;
   color: $WHITE;
   background-color: $BLACK;
   font-size: 1.25rem;
@@ -73,6 +75,12 @@ main {
   border: $main-border;
   transition: 0.3s;
   user-select: none;
+
+  @include breakpoint(xs) {
+    width: 15rem;
+    font-size: 1rem;
+    height: 3rem;
+  }
 
   &:hover {
     color: $BLACK;

@@ -61,13 +61,13 @@
           ПОДБОРКА СМЕЛЫХ АРОМАТОВ ДЛЯ ВАС.
           ПОЗНАКОМТЕСЬ С НОВЫМИ АРОМАТАМИ ПЕРВЫМИ.
         </div>
-        <nuxt-link to="/catalogue" :class="cardRenderAmount > 2 ? 'button' : 'latest__hidden'">СМОТРЕТЬ ВСЕ</nuxt-link>
+        <nuxt-link to="/catalogue" :class="currentWidth > 960 ? 'button' : 'latest__hidden'">СМОТРЕТЬ ВСЕ</nuxt-link>
       </div>
       <div class="latest__content">
         <Cards class="latest__card" v-for="item of latestContent.slice(0, cardRenderAmount)" :item="item" :addClass="addLatestClass" :key="item.text" />
       </div>
       <div class="latest__button">
-        <nuxt-link to="/catalogue" :class="cardRenderAmount > 2 ? 'latest__hidden' : 'button'">СМОТРЕТЬ ВСЕ</nuxt-link>
+        <nuxt-link to="/catalogue" :class="currentWidth > 960 ? 'latest__hidden' : 'button'">СМОТРЕТЬ ВСЕ</nuxt-link>
       </div>
     </section>
     <section class="discounts">
@@ -91,7 +91,7 @@
             В ЗАКАЗЕ ВЫ ПОЛУЧАЕТЕ СКИДКУ
             5 РУБЛЕЙ.
           </div>
-          <div :class="cardRenderAmount > 2 ? '' : 'latest__hidden'">
+          <div :class="currentWidth > 960 ? '' : 'latest__hidden'">
             - СКИДКИ НЕ СУММИРУЮТСЯ. ПОКУПАТЕЛЬ САМ ВЫБИРАЕТ НАИБОЛЕЕ
             ВЫГОДНЫЙ ДЛЯ СЕБЯ ВАРИАНТ СКИДКИ.
           </div>
@@ -137,8 +137,12 @@
       setCardsAmount: function(width) {
         if(width > 960) {
           this.cardRenderAmount = 4;
-        } else if(width > 480) {
+        } else if(width > 768) {
+          this.cardRenderAmount = 3;
+        } else if(width > 320) {
           this.cardRenderAmount = 2;
+        } else if(width > 240) {
+          this.cardRenderAmount = 1;
         }
       },
     },
@@ -233,15 +237,13 @@
     }
 
     &__image {
-      height: 19rem;
-
-      @include breakpoint(l) {
-        height: 14rem;
-        width: 12rem;
-
-        & img {
-          max-width: 60%;
-        }
+      width: 100%;
+      aspect-ratio : 1 / 1.25;
+      padding: 20%;
+      & img {
+        object-fit: contain;
+        width:  100%;
+        height: 100%;
       }
     }
 
@@ -264,7 +266,15 @@
     display: flex;
     align-items: center;
 
+    @include breakpoint(xl) {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      justify-items: center;
+      height: 22rem;
+    }
+
     @include breakpoint(l) {
+      display: flex;
       flex-direction: column;
       height: 27.5rem;
       padding-top: 2rem;
@@ -280,6 +290,11 @@
       border-right: $main-border;
       font-size: 14px;
 
+      @include breakpoint(xl) {
+        border: none;
+        width: 18rem;
+      }
+
       @include breakpoint(l) {
         border: none;
         width: 17rem;
@@ -290,6 +305,10 @@
         }
       }
 
+      @include breakpoint(xxs) {
+        font-size: 13px;
+      }
+
       &:last-child {
         border: none;
       }
@@ -297,6 +316,10 @@
       & h3 {
         font-weight: 600;
         font-size: 17px;
+
+        @include breakpoint(xxs) {
+        font-size: 14px;
+        }
       }
     }
   }
@@ -326,33 +349,24 @@
     &__content {
       margin-top: 2rem;
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       font-size: 1rem;
-
-      @include breakpoint(l) {
-        justify-content: center;
-        gap: 2rem;
-      }
+      gap: 2rem;
     }
 
     &__card {
-
-      @include breakpoint(l) {
-        width: 12rem;
-      }
+      width: 100%;
     }
 
     &__image {
-      width: 23rem;
-      height: 29rem;
+      width: 100%;
+      aspect-ratio : 1 / 1.25;
+      padding: 20%;
 
-      @include breakpoint(l) {
-        height: 14rem;
-        width: 12rem;
-
-        & img {
-          max-width: 60%;
-        }
+      & img {
+        object-fit: contain;
+        width:  100%;
+        height: 100%;
       }
     }
 
@@ -460,6 +474,7 @@
           align-self: center;
           margin-top: 2rem;
           max-width: 23rem;
+          width: 100%;
         }
       }
     }
