@@ -113,12 +113,16 @@
 
       & a {
         font-style: --main-font;
-        font-size: 16px;
+        font-size: 1rem;
         color: #0B0B0B;
         user-select: text;
 
         @include breakpoint(l) {
           font-size: 18px;
+        }
+
+        @include breakpoint(xxs) {
+          font-size: 1rem;
         }
       }
     }
@@ -137,6 +141,10 @@
 
     @include breakpoint(l) {
       font-size: 18px;
+    }
+
+    @include breakpoint(xxs) {
+      font-size: 14px;
     }
   }
 </style>

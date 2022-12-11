@@ -11,13 +11,14 @@ $border-black: rgba(0, 0, 0, 0.5);
 $main-border: solid 0.5px $border-black;
 
 $breakpoints: (
-  xxxl: 2000px,
-  xxl: 1600px,
-  xl: 1440px,
+  xxxl: 1920px,
+  xxl: 1440px,
+  xl: 1200px,
   l: 960px, // mobile
   m: 768px,
   s: 576px,
   xs: 480px, // would be nice for next breakpoint
+  xxs: 320px,
 );
 
 @mixin breakpoint($screen-size) {

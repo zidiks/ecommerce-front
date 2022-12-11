@@ -61,13 +61,13 @@
           ПОДБОРКА СМЕЛЫХ АРОМАТОВ ДЛЯ ВАС.
           ПОЗНАКОМТЕСЬ С НОВЫМИ АРОМАТАМИ ПЕРВЫМИ.
         </div>
-        <nuxt-link to="/catalogue" :class="cardRenderAmount > 2 ? 'button' : 'latest__hidden'">СМОТРЕТЬ ВСЕ</nuxt-link>
+        <nuxt-link to="/catalogue" :class="currentWidth > 960 ? 'button' : 'latest__hidden'">СМОТРЕТЬ ВСЕ</nuxt-link>
       </div>
       <div class="latest__content">
         <Cards class="latest__card" v-for="item of latestContent.slice(0, cardRenderAmount)" :item="item" :addClass="addLatestClass" :key="item.text" />
       </div>
       <div class="latest__button">
-        <nuxt-link to="/catalogue" :class="cardRenderAmount > 2 ? 'latest__hidden' : 'button'">СМОТРЕТЬ ВСЕ</nuxt-link>
+        <nuxt-link to="/catalogue" :class="currentWidth > 960 ? 'latest__hidden' : 'button'">СМОТРЕТЬ ВСЕ</nuxt-link>
       </div>
     </section>
     <section class="discounts">
@@ -91,7 +91,7 @@
             В ЗАКАЗЕ ВЫ ПОЛУЧАЕТЕ СКИДКУ
             5 РУБЛЕЙ.
           </div>
-          <div :class="cardRenderAmount > 2 ? '' : 'latest__hidden'">
+          <div :style="currentWidth > 960 ? 'display: block' : 'display: none'">
             - СКИДКИ НЕ СУММИРУЮТСЯ. ПОКУПАТЕЛЬ САМ ВЫБИРАЕТ НАИБОЛЕЕ
             ВЫГОДНЫЙ ДЛЯ СЕБЯ ВАРИАНТ СКИДКИ.
           </div>
@@ -116,31 +116,44 @@
 </template>
 
 <script scoped>
-  import { bestsellersContent } from 'assets/shared/constants/shared';
-  import { ComparisonOperator } from "@/assets/shared/enums/mongoose-query.enum";
+  import { bestsellersContent, latestContent } from '~/assets/shared/shared'
 
   export default {
-    data () {
+    data: () => {
       return {
         addBestClass: 'bestsellers',
         addLatestClass: 'latest',
         bestsellersContent,
-        newProducts: [],
+        latestContent,
+        currentWidth: 0,
+        cardRenderAmount: 0,
       }
     },
-    async fetch() {
-      this.newProducts = await this.$api.products.getProducts({
-        pagination: {
-          page: 1,
-          limit: 3,
-        },
-        customProperties: {
-          "6394e6ce341b125e2fb1b8c0": {
-            [ComparisonOperator.eq]: true
-          }
+
+    methods: {
+      setCurrentWidth: function() {
+        this.currentWidth = window.innerWidth;
+      },
+      setCardsAmount: function(width) {
+        if(width > 960) {
+          this.cardRenderAmount = 4;
+        } else if(width > 480) {
+          this.cardRenderAmount = 2;
         }
-      });
+      },
     },
+
+    beforeMount() {
+      this.setCurrentWidth();
+      this.setCardsAmount(this.currentWidth);
+    },
+
+    mounted() {
+      window.addEventListener('resize', () => {
+        this.setCurrentWidth();
+        this.setCardsAmount(this.currentWidth);
+      })
+    }
   }
 </script>
 
@@ -149,6 +162,10 @@
 
   h2 {
     font-size: 2rem;
+
+    @include breakpoint(l) {
+      font-size: 1.5rem;
+    }
   }
 
   .slider {
@@ -166,6 +183,10 @@
     text-align: center;
     font-size: 1.5rem;
     line-height: 2rem;
+
+    @include breakpoint(l) {
+      font-size: 1.25rem;
+    }
   }
 
   .bestsellers {
@@ -189,12 +210,20 @@
         justify-content: center;
         top: 6.5rem;
         gap: 21rem;
-        height: 0;
+        height: 0px;
 
         & svg {
           min-width: 2.25rem;
           width: 2.25rem;
         }
+      }
+
+      @include breakpoint(xs) {
+        top: 9.5rem;
+      }
+
+      @include breakpoint(xxs) {
+        top: 6.5rem;
       }
     }
 
@@ -203,32 +232,34 @@
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       column-gap: 2rem;
+      width: 100%;
 
       @include breakpoint(l) {
-        display: flex;
-        justify-content: center;
-        gap: 2rem;
+        grid-template-columns: repeat(3, 1fr);
+        padding: 0 3rem;
+      }
+
+      @include breakpoint(m) {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      @include breakpoint(xs) {
+        grid-template-columns: 1fr;
       }
     }
 
     &__card {
       font-size: 1rem;
-
-      @include breakpoint(l) {
-        width: 12rem;
-      }
     }
 
     &__image {
-      height: 19rem;
-
-      @include breakpoint(l) {
-        height: 14rem;
-        width: 12rem;
-
-        & img {
-          max-width: 60%;
-        }
+      width: 100%;
+      aspect-ratio : 1 / 1.25;
+      padding: 20%;
+      & img {
+        object-fit: contain;
+        width:  100%;
+        height: 100%;
       }
     }
 
@@ -251,7 +282,15 @@
     display: flex;
     align-items: center;
 
+    @include breakpoint(xl) {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      justify-items: center;
+      height: 22rem;
+    }
+
     @include breakpoint(l) {
+      display: flex;
       flex-direction: column;
       height: 27.5rem;
       padding-top: 2rem;
@@ -267,6 +306,11 @@
       border-right: $main-border;
       font-size: 14px;
 
+      @include breakpoint(xl) {
+        border: none;
+        width: 18rem;
+      }
+
       @include breakpoint(l) {
         border: none;
         width: 17rem;
@@ -277,6 +321,10 @@
         }
       }
 
+      @include breakpoint(xxs) {
+        font-size: 13px;
+      }
+
       &:last-child {
         border: none;
       }
@@ -284,6 +332,10 @@
       & h3 {
         font-weight: 600;
         font-size: 17px;
+
+        @include breakpoint(xxs) {
+        font-size: 14px;
+        }
       }
     }
   }
@@ -313,41 +365,27 @@
     &__content {
       margin-top: 2rem;
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       font-size: 1rem;
-
-      @include breakpoint(l) {
-        justify-content: center;
-        gap: 2rem;
-      }
+      gap: 2rem;
     }
 
     &__card {
 
-      &:nth-child(4) {
-        display: none;
-      }
-
       @include breakpoint(l) {
         width: 12rem;
-
-        &:nth-child(3) {
-          display: none;
-        }
       }
     }
 
     &__image {
-      width: 23rem;
-      height: 29rem;
+      width: 100%;
+      aspect-ratio : 1 / 1.25;
+      padding: 20%;
 
-      @include breakpoint(l) {
-        height: 14rem;
-        width: 12rem;
-
-        & img {
-          max-width: 60%;
-        }
+      & img {
+        object-fit: contain;
+        width:  100%;
+        height: 100%;
       }
     }
 
@@ -390,10 +428,9 @@
     }
 
     &__upper {
-      margin-top: 2rem;
       display: flex;
-      justify-content: space-between;
       align-items: flex-end;
+      margin-top: 2rem;
 
       @include breakpoint(l) {
         flex-direction: column;
@@ -415,6 +452,7 @@
 
     &__info {
       font-size: 18px;
+      width: 100%;
 
       @include breakpoint(l) {
         display: flex;
@@ -424,7 +462,8 @@
       }
 
       & div {
-        padding: 5rem 10rem 0 2rem;
+        padding: 0 2rem;
+        max-width: 25rem;
 
         @include breakpoint(l) {
           padding: 2rem 0;
@@ -433,6 +472,7 @@
       }
 
       & div:last-child {
+        padding-top: 2.5rem;
         font-size: 1rem;
       }
     }
@@ -455,6 +495,7 @@
           align-self: center;
           margin-top: 2rem;
           max-width: 23rem;
+          width: 100%;
         }
       }
     }

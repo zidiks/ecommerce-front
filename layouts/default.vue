@@ -1,6 +1,6 @@
 <template>
   <div class="content-width">
-    <Search class="search-mobile"/>
+
     <Header />
     <div class="page-wrap">
       <Search class="search" />
@@ -29,14 +29,6 @@
 
     @include breakpoint(l) {
       display: none;
-    }
-
-    &-mobile {
-      display: none;
-
-      @include breakpoint(l) {
-        display: block;
-      }
     }
   }
 </style>

@@ -62,8 +62,12 @@
       setCardsAmount: function(width) {
         if(width > 960) {
           this.cardRenderAmount = 16;
-        } else if(width > 480) {
+        } else if(width > 768) {
+          this.cardRenderAmount = 12;
+        } else if(width > 320) {
           this.cardRenderAmount = 10;
+        } else if(width > 240) {
+          this.cardRenderAmount = 5;
         }
       },
     },
@@ -86,7 +90,6 @@
   @import '~/assets/styles/global';
 
   .filters {
-    font-size: 18px;
     display: flex;
     justify-content: space-between;
     padding: 2rem 0;
@@ -100,6 +103,10 @@
     &__left, &__right {
       font-size: 2rem;
       background-color: $DGRAY;
+
+      @include breakpoint(xs) {
+        font-size: 1.5rem;
+      }
     }
   }
 
@@ -111,34 +118,37 @@
     align-items: center;
 
     &__content {
+      width: 100%;
       display: grid;
-      grid-template: repeat(4, 1fr) / repeat(4, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       gap: 4rem 2rem;
 
       @include breakpoint(l) {
-        grid-template: repeat(5, 1fr) / repeat(2, 1fr)
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem 2rem;
+      }
+
+      @include breakpoint(m) {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      @include breakpoint(xxs) {
+        grid-template-columns: 1fr;
       }
     }
 
     &__card {
       font-size: 1rem;
-
-      @include breakpoint(l) {
-        width: 11.5rem;
-        height: 16.5rem;
-      }
     }
 
     &__image {
       width: 100%;
-      height: 19rem;
-
-      @include breakpoint(l) {
-        height: 14rem;
-      }
-
+      aspect-ratio : 1 / 1.25;
+      padding: 20%;
       & img {
-        max-height: 70%;
+        object-fit: contain;
+        width:  100%;
+        height: 100%;
       }
     }
 
@@ -155,11 +165,23 @@
       align-items: center;
       margin-top: 1.25rem;
       gap: 3.5rem;
+
+      @include breakpoint(xs) {
+        gap: 1rem;
+      }
     }
 
     &__pages {
       display: flex;
       gap: 1rem;
+
+      @include breakpoint(xs) {
+        gap: 0.5rem;
+      }
+
+      @include breakpoint(xxs) {
+        gap: 0.25rem;
+      }
     }
   }
 </style>

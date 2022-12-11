@@ -4,7 +4,7 @@
       <img src="~/static/Search.svg">
       <input class="searchbox__input" placeholder="поиск">
       <div class="burger">
-        <div @click="burgerButton(); burgerShown = !burgerShown" :style="burgerShown ? rotateIcon(-90) : rotateIcon(0)">
+        <div @click="burgerButton(); burgerShownLocal = !burgerShownLocal" :style="burgerShown ? rotateIcon(-90) : rotateIcon(0)">
           <div class="burger__line"></div>
           <div class="burger__line"></div>
           <div class="burger__line"></div>
@@ -16,9 +16,10 @@
 
 <script scoped>
   export default {
-    data: () => ({
-      burgerShown: false,
-    }),
+    data() {
+      return {burgerShownLocal: this.burgerShown}
+    },
+
     methods: {
       burgerButton: function() {
         this.$root.$emit('burgerButton');
@@ -26,7 +27,11 @@
       rotateIcon: function(n) {
         return `transition: 0.3s; transform: rotate(${n}deg)`
       }
-    }
+    },
+
+    props: [
+      'burgerShown'
+    ],
   }
 </script>
 
