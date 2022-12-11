@@ -1,4 +1,4 @@
-import { ApiId } from "~/shared/models/api.model";
+import { ApiId } from "~/assets/shared/models/api.model";
 
 export interface BrandModel extends ApiId {
   name: string;

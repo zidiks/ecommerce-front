@@ -1,4 +1,4 @@
-import Products from "~/api/products";
+import Products from "~/assets/api/products";
 
 export default (context: any, inject: any) => {
   const factories = {

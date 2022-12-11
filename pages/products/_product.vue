@@ -91,7 +91,7 @@
 </template>
 
 <script>
-  import { productsContent } from '~/assets/shared/shared';
+  import { productsContent } from 'assets/shared/constants/shared';
 
   export default {
     data: () => ({

@@ -1,7 +1,7 @@
-import { BaseProductProperty } from "~/shared/enums/base-product-property.enum";
-import { ComparisonOperator } from "~/shared/enums/mongoose-query.enum";
-import { BrandModel } from "~/api/dto/brand.dto";
-import { ApiId, ApiTimestamp } from "~/shared/models/api.model";
+import { BaseProductProperty } from "~/assets/shared/enums/base-product-property.enum";
+import { ComparisonOperator } from "~/assets/shared/enums/mongoose-query.enum";
+import { BrandModel } from "~/assets/shared/dto/brand.dto";
+import { ApiId, ApiTimestamp } from "~/assets/shared/models/api.model";
 
 export interface ProductModel extends ApiId, ApiTimestamp {
   name: string;

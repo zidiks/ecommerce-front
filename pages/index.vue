@@ -116,8 +116,8 @@
 </template>
 
 <script scoped>
-  import { bestsellersContent, latestContent } from '~/assets/shared/shared';
-  import { ComparisonOperator } from "@/shared/enums/mongoose-query.enum";
+  import { bestsellersContent, latestContent } from 'assets/shared/constants/shared';
+  import { ComparisonOperator } from "@/assets/shared/enums/mongoose-query.enum";
 
   export default {
     data () {
@@ -128,24 +128,24 @@
         latestContent,
         currentWidth: 0,
         cardRenderAmount: 0,
+
+        newProducts: [],
       }
     },
-
-    methods: {
-      async getProducts() {
-        const res = await this.$api.products.getProducts({
-          pagination: {
-            page: 1,
-            limit: 10,
-          },
-          customProperties: {
-            "6394e6ce341b125e2fb1b8c0": {
-              [ComparisonOperator.eq]: true
-            }
+    async fetch() {
+      this.newProducts = await this.$api.products.getProducts({
+        pagination: {
+          page: 1,
+          limit: 3,
+        },
+        customProperties: {
+          "6394e6ce341b125e2fb1b8c0": {
+            [ComparisonOperator.eq]: true
           }
-        });
-        console.log(res);
-      },
+        }
+      });
+    },
+    methods: {
       setCurrentWidth: function() {
         this.currentWidth = window.innerWidth;
       },
@@ -168,7 +168,6 @@
         this.setCurrentWidth();
         this.setCardsAmount(this.currentWidth);
       })
-      this.getProducts();
     }
   }
 </script>

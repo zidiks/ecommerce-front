@@ -114,7 +114,7 @@
 </template>
 
 <script>
-  import { cartContent, deliveryMethods } from '~/assets/shared/shared'
+  import { cartContent, deliveryMethods } from 'assets/shared/constants/shared'
 
   export default {
     data: () => ({
