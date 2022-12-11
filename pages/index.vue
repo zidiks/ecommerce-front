@@ -116,412 +116,412 @@
 </template>
 
 <script scoped>
-  import { bestsellersContent, latestContent } from '~/assets/shared/shared'
+import { bestsellersContent, latestContent } from '~/assets/shared/constants/shared'
 
-  export default {
-    data: () => {
-      return {
-        addBestClass: 'bestsellers',
-        addLatestClass: 'latest',
-        bestsellersContent,
-        latestContent,
-        currentWidth: 0,
-        cardRenderAmount: 0,
+export default {
+  data: () => {
+    return {
+      addBestClass: 'bestsellers',
+      addLatestClass: 'latest',
+      bestsellersContent,
+      latestContent,
+      currentWidth: 0,
+      cardRenderAmount: 0,
+    }
+  },
+
+  methods: {
+    setCurrentWidth: function() {
+      this.currentWidth = window.innerWidth;
+      console.log('current width is set')
+    },
+    setCardsAmount: function(width) {
+      if(width > 960) {
+        this.cardRenderAmount = 4;
+      } else if(width > 768) {
+        this.cardRenderAmount = 3;
+      } else if(width > 480) {
+        this.cardRenderAmount = 2;
+      } else if(width > 320) {
+        this.cardRenderAmount = 1;
       }
     },
+  },
 
-    methods: {
-      setCurrentWidth: function() {
-        this.currentWidth = window.innerWidth;
-        console.log('current width is set')
-      },
-      setCardsAmount: function(width) {
-        if(width > 960) {
-          this.cardRenderAmount = 4;
-        } else if(width > 768) {
-          this.cardRenderAmount = 3;
-        } else if(width > 480) {
-          this.cardRenderAmount = 2;
-        } else if(width > 320) {
-          this.cardRenderAmount = 1;
-        }
-      },
-    },
+  beforeMount() {
+    this.setCurrentWidth();
+    this.setCardsAmount(this.currentWidth);
+  },
 
-    beforeMount() {
+  mounted() {
+    window.addEventListener('resize', () => {
       this.setCurrentWidth();
       this.setCardsAmount(this.currentWidth);
-    },
-
-    mounted() {
-      window.addEventListener('resize', () => {
-        this.setCurrentWidth();
-        this.setCardsAmount(this.currentWidth);
-      })
-    },
-  }
+    })
+  },
+}
 </script>
 
 <style lang="scss">
-  @import '~/assets/styles/global';
+@import '~/assets/styles/global';
 
-  h2 {
-    font-size: 2rem;
+h2 {
+  font-size: 2rem;
 
-    @include breakpoint(l) {
-      font-size: 1.5rem;
-    }
-  }
-
-  .slider {
-    margin-top: 1.5rem;
-    text-align: center;
-    width: 100%;
-    height: 10rem;
-    background-color: $DGRAY;
-  }
-
-  .divider {
-    margin-top: 3rem;
-    padding-bottom: 1rem;
-    border-bottom: $main-border;
-    text-align: center;
+  @include breakpoint(l) {
     font-size: 1.5rem;
-    line-height: 2rem;
+  }
+}
+
+.slider {
+  margin-top: 1.5rem;
+  text-align: center;
+  width: 100%;
+  height: 10rem;
+  background-color: $DGRAY;
+}
+
+.divider {
+  margin-top: 3rem;
+  padding-bottom: 1rem;
+  border-bottom: $main-border;
+  text-align: center;
+  font-size: 1.5rem;
+  line-height: 2rem;
+
+  @include breakpoint(l) {
+    font-size: 1.25rem;
+  }
+}
+
+.bestsellers {
+  margin-top: 4rem;
+
+  &__head {
+    display: flex;
+    justify-content: space-between;
 
     @include breakpoint(l) {
-      font-size: 1.25rem;
+      flex-direction: column;
     }
   }
 
-  .bestsellers {
-    margin-top: 4rem;
-
-    &__head {
-      display: flex;
-      justify-content: space-between;
-
-      @include breakpoint(l) {
-        flex-direction: column;
-      }
-    }
-
-    &__controls {
-      display: flex;
-      column-gap: 1rem;
-
-      @include breakpoint(l) {
-        position: relative;
-        justify-content: space-between;
-        top: 7rem;
-        width: 100%;
-        height: 0px;
-
-        & svg {
-          min-width: 2.25rem;
-          width: 2.25rem;
-        }
-      }
-
-      @include breakpoint(xs) {
-        top: 9.5rem;
-      }
-
-      @include breakpoint(xxs) {
-        top: 6.5rem;
-      }
-    }
-
-    &__content {
-      margin-top: 1rem;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      column-gap: 2rem;
-      width: 100%;
-
-      @include breakpoint(l) {
-        grid-template-columns: repeat(3, 1fr);
-        padding: 0 3rem;
-      }
-
-      @include breakpoint(m) {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      @include breakpoint(xs) {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    &__card {
-      font-size: 1rem;
-    }
-
-    &__image {
-      width: 100%;
-      aspect-ratio : 1 / 1.25;
-      padding: 20%;
-      & img {
-        object-fit: contain;
-        width:  100%;
-        height: 100%;
-      }
-    }
-
-    &__name {
-      font-size: 14px;
-    }
-
-    &__button {
-      margin-top: 2.25rem;
-      display: flex;
-      justify-content: center;
-    }
-  }
-
-  .strengths {
-    margin-top: 5.5rem;
-    width: 100%;
-    height: 9.5rem;
-    background-color: $LGRAY;
+  &__controls {
     display: flex;
+    column-gap: 1rem;
+
+    @include breakpoint(l) {
+      position: relative;
+      justify-content: space-between;
+      top: 7rem;
+      width: 100%;
+      height: 0px;
+
+      & svg {
+        min-width: 2.25rem;
+        width: 2.25rem;
+      }
+    }
+
+    @include breakpoint(xs) {
+      top: 9.5rem;
+    }
+
+    @include breakpoint(xxs) {
+      top: 6.5rem;
+    }
+  }
+
+  &__content {
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    column-gap: 2rem;
+    width: 100%;
+
+    @include breakpoint(l) {
+      grid-template-columns: repeat(3, 1fr);
+      padding: 0 3rem;
+    }
+
+    @include breakpoint(m) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include breakpoint(xs) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__card {
+    font-size: 1rem;
+  }
+
+  &__image {
+    width: 100%;
+    aspect-ratio : 1 / 1.25;
+    padding: 20%;
+    & img {
+      object-fit: contain;
+      width:  100%;
+      height: 100%;
+    }
+  }
+
+  &__name {
+    font-size: 14px;
+  }
+
+  &__button {
+    margin-top: 2.25rem;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.strengths {
+  margin-top: 5.5rem;
+  width: 100%;
+  height: 9.5rem;
+  background-color: $LGRAY;
+  display: flex;
+  align-items: center;
+
+  @include breakpoint(xl) {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-items: center;
+    height: 22rem;
+  }
+
+  @include breakpoint(l) {
+    display: flex;
+    flex-direction: column;
+    height: 27.5rem;
+    padding-top: 2rem;
+  }
+
+  &__item {
+    height: 6rem;
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
+    border-right: $main-border;
+    font-size: 14px;
 
     @include breakpoint(xl) {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      justify-items: center;
-      height: 22rem;
+      border: none;
+      width: 18rem;
     }
+
+    @include breakpoint(l) {
+      border: none;
+      width: 17rem;
+
+      & div {
+        margin-top: 1.25rem;
+        width: 45%;
+      }
+    }
+
+    @include breakpoint(xxs) {
+      font-size: 13px;
+    }
+
+    &:last-child {
+      border: none;
+    }
+
+    & h3 {
+      font-weight: 600;
+      font-size: 17px;
+
+      @include breakpoint(xxs) {
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+.latest {
+  margin-top: 6rem;
+
+  &__head {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 3rem;
 
     @include breakpoint(l) {
       display: flex;
       flex-direction: column;
-      height: 27.5rem;
-      padding-top: 2rem;
-    }
-
-    &__item {
-      height: 6rem;
-      width: 25%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      border-right: $main-border;
-      font-size: 14px;
-
-      @include breakpoint(xl) {
-        border: none;
-        width: 18rem;
-      }
-
-      @include breakpoint(l) {
-        border: none;
-        width: 17rem;
-
-        & div {
-          margin-top: 1.25rem;
-          width: 45%;
-        }
-      }
-
-      @include breakpoint(xxs) {
-        font-size: 13px;
-      }
-
-      &:last-child {
-        border: none;
-      }
-
-      & h3 {
-        font-weight: 600;
-        font-size: 17px;
-
-        @include breakpoint(xxs) {
-        font-size: 14px;
-        }
-      }
     }
   }
 
-  .latest {
-    margin-top: 6rem;
+  &__descr {
+    font-size: 1rem;
 
-    &__head {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      column-gap: 3rem;
-
-      @include breakpoint(l) {
-        display: flex;
-        flex-direction: column;
-      }
-    }
-
-    &__descr {
-      font-size: 1rem;
-
-      @include breakpoint(l) {
-        max-width: 25rem;
-      }
-    }
-
-    &__content {
-      margin-top: 2rem;
-      display: flex;
-      justify-content: center;
-      font-size: 1rem;
-      gap: 2rem;
-    }
-
-    &__card {
-      width: 100%;
-    }
-
-    &__image {
-      width: 100%;
-      aspect-ratio : 1 / 1.25;
-      padding: 20%;
-
-      & img {
-        object-fit: contain;
-        width:  100%;
-        height: 100%;
-      }
-    }
-
-    &__button {
-
-      @include breakpoint(l) {
-        display: flex;
-        justify-content: center;
-        margin-top: 2.5rem;
-      }
-    }
-
-    &__hidden {
-      display: none;
+    @include breakpoint(l) {
+      max-width: 25rem;
     }
   }
 
-  .discounts {
-    margin-top: 6rem;
+  &__content {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    font-size: 1rem;
+    gap: 2rem;
+  }
 
-    &__head {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      column-gap: 3rem;
-      padding-bottom: 2rem;
-      border-bottom: $main-border;
+  &__card {
+    width: 100%;
+  }
 
-      @include breakpoint(l) {
-        display: flex;
-        flex-direction: column;
-      }
+  &__image {
+    width: 100%;
+    aspect-ratio : 1 / 1.25;
+    padding: 20%;
+
+    & img {
+      object-fit: contain;
+      width:  100%;
+      height: 100%;
     }
+  }
 
-    &__descr {
-      font-size: 18px;
+  &__button {
 
-      @include breakpoint(l) {
-        max-width: 23rem;
-      }
-    }
-
-    &__upper {
+    @include breakpoint(l) {
       display: flex;
-      align-items: flex-end;
-      margin-top: 2rem;
-
-      @include breakpoint(l) {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      & img {
-        height: 100%;
-
-        @include breakpoint(l) {
-          height: 13.5rem;
-
-          &:last-child {
-            align-self: flex-end;
-          }
-        }
-      }
-    }
-
-    &__info {
-      font-size: 18px;
-      width: 100%;
-
-      @include breakpoint(l) {
-        display: flex;
-        justify-content: center;
-        width: 100%;
-        font-size: 1rem;
-      }
-
-      & div {
-        padding: 0 2rem;
-        max-width: 25rem;
-
-        @include breakpoint(l) {
-          padding: 2rem 0;
-          width: 24rem;
-        }
-      }
-
-      & div:last-child {
-        padding-top: 2.5rem;
-        font-size: 1rem;
-      }
-    }
-
-    &__lower {
+      justify-content: center;
       margin-top: 2.5rem;
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      justify-items: stretch;
-
-      @include breakpoint(l) {
-        display: flex;
-        flex-direction: column;
-      }
-
-      & img {
-        height: 100%;
-
-        @include breakpoint(l) {
-          align-self: center;
-          margin-top: 2rem;
-          max-width: 23rem;
-          width: 100%;
-        }
-      }
     }
+  }
 
-    &__inst {
+  &__hidden {
+    display: none;
+  }
+}
+
+.discounts {
+  margin-top: 6rem;
+
+  &__head {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: $main-border;
+
+    @include breakpoint(l) {
       display: flex;
       flex-direction: column;
-      justify-content: flex-end;
-      font-size: 18px;
+    }
+  }
+
+  &__descr {
+    font-size: 18px;
+
+    @include breakpoint(l) {
+      max-width: 23rem;
+    }
+  }
+
+  &__upper {
+    display: flex;
+    align-items: flex-end;
+    margin-top: 2rem;
+
+    @include breakpoint(l) {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    & img {
+      height: 100%;
 
       @include breakpoint(l) {
-        font-size: 1rem;
-      }
+        height: 13.5rem;
 
-      & a {
-        font-size: 30px;
-        margin-bottom: 2rem;
-        border-bottom: $main-border;
-        width: fit-content;
-
-        @include breakpoint(l) {
-          font-size: 1.25rem;
+        &:last-child {
+          align-self: flex-end;
         }
       }
     }
   }
+
+  &__info {
+    font-size: 18px;
+    width: 100%;
+
+    @include breakpoint(l) {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      font-size: 1rem;
+    }
+
+    & div {
+      padding: 0 2rem;
+      max-width: 25rem;
+
+      @include breakpoint(l) {
+        padding: 2rem 0;
+        width: 24rem;
+      }
+    }
+
+    & div:last-child {
+      padding-top: 2.5rem;
+      font-size: 1rem;
+    }
+  }
+
+  &__lower {
+    margin-top: 2.5rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-items: stretch;
+
+    @include breakpoint(l) {
+      display: flex;
+      flex-direction: column;
+    }
+
+    & img {
+      height: 100%;
+
+      @include breakpoint(l) {
+        align-self: center;
+        margin-top: 2rem;
+        max-width: 23rem;
+        width: 100%;
+      }
+    }
+  }
+
+  &__inst {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    font-size: 18px;
+
+    @include breakpoint(l) {
+      font-size: 1rem;
+    }
+
+    & a {
+      font-size: 30px;
+      margin-bottom: 2rem;
+      border-bottom: $main-border;
+      width: fit-content;
+
+      @include breakpoint(l) {
+        font-size: 1.25rem;
+      }
+    }
+  }
+}
 </style>

@@ -44,11 +44,11 @@
 </template>
 
 <script scoped>
-  import { productsContent, pageNumbers } from '~/assets/shared/shared'
+  import { productsContent, pageNumbers } from 'assets/shared/constants/shared'
   export default {
     data: () => ({
         pageNumbers,
-        addClass: 'products',
+        addClass: 'product.dto.ts',
         productsContent,
         currentWidth: 0,
         cardRenderAmount: 0,
