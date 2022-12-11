@@ -116,7 +116,7 @@
 </template>
 
 <script scoped>
-  import { bestsellersContent, latestContent } from 'assets/shared/constants/shared';
+  import { bestsellersContent } from 'assets/shared/constants/shared';
   import { ComparisonOperator } from "@/assets/shared/enums/mongoose-query.enum";
 
   export default {
@@ -125,10 +125,6 @@
         addBestClass: 'bestsellers',
         addLatestClass: 'latest',
         bestsellersContent,
-        latestContent,
-        currentWidth: 0,
-        cardRenderAmount: 0,
-
         newProducts: [],
       }
     },
@@ -145,30 +141,6 @@
         }
       });
     },
-    methods: {
-      setCurrentWidth: function() {
-        this.currentWidth = window.innerWidth;
-      },
-      setCardsAmount: function(width) {
-        if(width > 960) {
-          this.cardRenderAmount = 4;
-        } else if(width > 480) {
-          this.cardRenderAmount = 2;
-        }
-      },
-    },
-
-    beforeMount() {
-      this.setCurrentWidth();
-      this.setCardsAmount(this.currentWidth);
-    },
-
-    mounted() {
-      window.addEventListener('resize', () => {
-        this.setCurrentWidth();
-        this.setCardsAmount(this.currentWidth);
-      })
-    }
   }
 </script>
 
@@ -352,8 +324,16 @@
 
     &__card {
 
+      &:nth-child(4) {
+        display: none;
+      }
+
       @include breakpoint(l) {
         width: 12rem;
+
+        &:nth-child(3) {
+          display: none;
+        }
       }
     }
 
