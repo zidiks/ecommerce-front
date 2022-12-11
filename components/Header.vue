@@ -18,7 +18,7 @@
           <nuxt-link :to="item.link" class="link">{{ item.text }}</nuxt-link>
         </li>
       </nav>
-      <div :class="`overlay${burgerShown ? '' : '-hidden'}`" @click="burgerButton()">
+      <div :class="`overlay${burgerShown ? '' : '-hidden'}`">
       </div>
     </header>
   </div>
