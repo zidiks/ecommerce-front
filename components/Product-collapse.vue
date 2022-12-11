@@ -105,6 +105,10 @@ export default defineComponent({
   background-color: transparent;
   margin-top: 5.5rem;
 
+  @include breakpoint(xs) {
+    margin-top: 3rem;
+  }
+
   &__panel {
     border: 0;
     font-size: 35px;
@@ -113,8 +117,20 @@ export default defineComponent({
       font-size: 1.75rem;
     }
 
+    @include breakpoint(xs) {
+      font-size: 1.25rem;
+    }
+
+    @include breakpoint(xxs) {
+      font-size: 1rem;
+    }
+
     &:nth-child(2) {
       margin-top: 3.75rem;
+
+      @include breakpoint(xs) {
+        margin-top: 2rem;
+      }
     }
   }
 
@@ -142,5 +158,9 @@ export default defineComponent({
   width: 23px;
   height: 1px;
   background-color: $BLACK;
+
+  @include breakpoint(xs) {
+    width: 17px;
+  }
 }
 </style>

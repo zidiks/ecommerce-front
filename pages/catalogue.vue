@@ -90,7 +90,6 @@
   @import '~/assets/styles/global';
 
   .filters {
-    font-size: 18px;
     display: flex;
     justify-content: space-between;
     padding: 2rem 0;
@@ -104,6 +103,10 @@
     &__left, &__right {
       font-size: 2rem;
       background-color: $DGRAY;
+
+      @include breakpoint(xs) {
+        font-size: 1.5rem;
+      }
     }
   }
 
@@ -127,7 +130,6 @@
 
       @include breakpoint(m) {
         grid-template-columns: repeat(2, 1fr);
-        gap: 2rem 2rem;
       }
 
       @include breakpoint(xxs) {
@@ -175,6 +177,10 @@
 
       @include breakpoint(xs) {
         gap: 0.5rem;
+      }
+
+      @include breakpoint(xxs) {
+        gap: 0.25rem;
       }
     }
   }

@@ -14,11 +14,11 @@
         </div>
       </div>
       <nav :class="`header__navbar${burgerShown ? '' : '-hidden'}`">
-        <li class="link-li" v-for="item of headerNavLinks" :key="item.text" @click="burgerButton()">
+        <li class="link-li" v-for="item of headerNavLinks" :key="item.text" @click="currentWidth <= 960 ? burgerButton() : ''">
           <nuxt-link :to="item.link" class="link">{{ item.text }}</nuxt-link>
         </li>
       </nav>
-      <div :class="`overlay${burgerShown && currentWidth <= 960 ? '' : '-hidden'}`" @click="burgerButton()">
+      <div :class="`overlay${burgerShown ? '' : '-hidden'}`" @click="burgerButton()">
       </div>
     </header>
   </div>
@@ -53,13 +53,18 @@ export default {
   methods: {
     burgerButton: function() {
       this.burgerShown = !this.burgerShown;
-      document.body.style.overflow = this.burgerShown ? 'hidden' : 'visible';
+      document.body.style.overflow = this.burgerShown && this.currentWidth <= 960 ? 'hidden' : 'visible';
     },
     getCurrentScreenSize: function() {
       this.currentHeight = window.innerHeight;
       this.currentWidth = window.innerWidth;
     }
   },
+
+  beforeMount() {
+    window.addEventListener('resize', this.getCurrentScreenSize)
+  },
+
   mounted() {
     this.$root.$on('burgerButton', () => {
       this.burgerButton();
@@ -92,10 +97,10 @@ export default {
       width: 100%;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      position: relative;
-      z-index: 80;
 
       @include breakpoint(l) {
+        position: relative;
+        z-index: 80;
         padding: 1.25rem 0;
         border-bottom: $main-border;
       }
@@ -152,8 +157,7 @@ export default {
   .overlay {
     position: fixed;
     z-index: 50;
-    top: 15rem;
-    width: 100%;
+    width: 100vh;
     height: 110vh;
     transition: 0.5s ease;
 

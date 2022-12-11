@@ -91,7 +91,7 @@
             В ЗАКАЗЕ ВЫ ПОЛУЧАЕТЕ СКИДКУ
             5 РУБЛЕЙ.
           </div>
-          <div :class="currentWidth > 960 ? '' : 'latest__hidden'">
+          <div :style="currentWidth > 960 ? 'display: block' : 'display: none'">
             - СКИДКИ НЕ СУММИРУЮТСЯ. ПОКУПАТЕЛЬ САМ ВЫБИРАЕТ НАИБОЛЕЕ
             ВЫГОДНЫЙ ДЛЯ СЕБЯ ВАРИАНТ СКИДКИ.
           </div>
@@ -133,15 +133,16 @@
     methods: {
       setCurrentWidth: function() {
         this.currentWidth = window.innerWidth;
+        console.log('current width is set')
       },
       setCardsAmount: function(width) {
         if(width > 960) {
           this.cardRenderAmount = 4;
         } else if(width > 768) {
           this.cardRenderAmount = 3;
-        } else if(width > 320) {
+        } else if(width > 480) {
           this.cardRenderAmount = 2;
-        } else if(width > 240) {
+        } else if(width > 320) {
           this.cardRenderAmount = 1;
         }
       },
@@ -157,7 +158,7 @@
         this.setCurrentWidth();
         this.setCardsAmount(this.currentWidth);
       })
-    }
+    },
   }
 </script>
 
@@ -166,6 +167,10 @@
 
   h2 {
     font-size: 2rem;
+
+    @include breakpoint(l) {
+      font-size: 1.5rem;
+    }
   }
 
   .slider {
@@ -183,6 +188,10 @@
     text-align: center;
     font-size: 1.5rem;
     line-height: 2rem;
+
+    @include breakpoint(l) {
+      font-size: 1.25rem;
+    }
   }
 
   .bestsellers {
@@ -203,15 +212,23 @@
 
       @include breakpoint(l) {
         position: relative;
-        justify-content: center;
-        top: 6.5rem;
-        gap: 21rem;
+        justify-content: space-between;
+        top: 7rem;
+        width: 100%;
         height: 0px;
 
         & svg {
           min-width: 2.25rem;
           width: 2.25rem;
         }
+      }
+
+      @include breakpoint(xs) {
+        top: 9.5rem;
+      }
+
+      @include breakpoint(xxs) {
+        top: 6.5rem;
       }
     }
 
@@ -220,20 +237,24 @@
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       column-gap: 2rem;
+      width: 100%;
 
       @include breakpoint(l) {
-        display: flex;
-        justify-content: center;
-        gap: 2rem;
+        grid-template-columns: repeat(3, 1fr);
+        padding: 0 3rem;
+      }
+
+      @include breakpoint(m) {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      @include breakpoint(xs) {
+        grid-template-columns: 1fr;
       }
     }
 
     &__card {
       font-size: 1rem;
-
-      @include breakpoint(l) {
-        width: 12rem;
-      }
     }
 
     &__image {
@@ -409,10 +430,9 @@
     }
 
     &__upper {
-      margin-top: 2rem;
       display: flex;
-      justify-content: space-between;
       align-items: flex-end;
+      margin-top: 2rem;
 
       @include breakpoint(l) {
         flex-direction: column;
@@ -434,6 +454,7 @@
 
     &__info {
       font-size: 18px;
+      width: 100%;
 
       @include breakpoint(l) {
         display: flex;
@@ -443,7 +464,8 @@
       }
 
       & div {
-        padding: 5rem 10rem 0 2rem;
+        padding: 0 2rem;
+        max-width: 25rem;
 
         @include breakpoint(l) {
           padding: 2rem 0;
@@ -452,6 +474,7 @@
       }
 
       & div:last-child {
+        padding-top: 2.5rem;
         font-size: 1rem;
       }
     }

@@ -138,8 +138,12 @@
       setCardsAmount: function(width) {
         if(width > 960) {
           this.cardRenderAmount = 4;
+        } else if(width > 768) {
+          this.cardRenderAmount = 3;
         } else if(width > 480) {
           this.cardRenderAmount = 2;
+        } else if(width > 320) {
+          this.cardRenderAmount = 1;
         }
       },
       debug: function(el) {
@@ -364,6 +368,12 @@
       @include breakpoint(l) {
         justify-content: center;
       }
+
+      @include breakpoint(xs) {
+        display: grid;
+        grid-template-columns: 1fr;
+        justify-items: center;
+      }
     }
 
     &__button {
@@ -373,7 +383,16 @@
         & div, :last-child {
           width: 12.5rem;
           height: 3.5rem;
+
+          @include breakpoint(xs) {
+            width: 100%;
+          }
         }
+      }
+
+      @include breakpoint(xs) {
+        max-width: 16rem;
+        width: 100%;
       }
     }
 
@@ -390,6 +409,12 @@
         min-width: 12rem;
         width: 12rem;
         height: 3.5rem;
+      }
+
+      @include breakpoint(xs) {
+        max-width: 16rem;
+        width: 100%;
+        justify-content: space-evenly;
       }
     }
 
@@ -426,6 +451,17 @@
       @include breakpoint(l) {
         flex-direction: column;
       }
+
+        & h2 {
+
+          @include breakpoint(xs) {
+            font-size: 1.5rem;
+          }
+
+          @include breakpoint(xxs) {
+            font-size: 1.25rem;
+          }
+        }
     }
 
     &__controls {
@@ -433,9 +469,8 @@
       @include breakpoint(l) {
         display: flex;
         position: relative;
-        justify-content: center;
-        gap: 21rem;
-        top: 9.5rem;
+        justify-content: space-between;
+        top: 9rem;
         width: 100%;
         height: 0px;
 
@@ -446,6 +481,14 @@
           height: 2.25rem;
         }
       }
+
+      @include breakpoint(xs) {
+        top: 12rem;
+      }
+
+      @include breakpoint(xxs) {
+        top: 6.5rem;
+      }
     }
 
     &__content {
@@ -455,30 +498,31 @@
       column-gap: 2rem;
 
       @include breakpoint(l) {
-        display: flex;
-        justify-content: center;
-        gap: 2rem;
+        grid-template-columns: repeat(3, 1fr);
+        padding: 0 3rem;
+      }
+
+      @include breakpoint(m) {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      @include breakpoint(xs) {
+        grid-template-columns: 1fr;
       }
     }
 
     &__card {
       font-size: 1rem;
-
-      @include breakpoint(l) {
-        width: 12rem;
-      }
     }
 
     &__image {
-      height: 19rem;
-
-      @include breakpoint(l) {
-        height: 16rem;
-        width: 12rem;
-
-        & img {
-          max-width: 55%;
-        }
+      width: 100%;
+      aspect-ratio : 1 / 1.25;
+      padding: 20%;
+      & img {
+        object-fit: contain;
+        width:  100%;
+        height: 100%;
       }
     }
 
