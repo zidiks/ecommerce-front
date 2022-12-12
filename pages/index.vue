@@ -259,7 +259,7 @@ h2 {
   flex-direction: column;
   width: 100%;
   margin-top: 1.5rem;
-  padding: 1.5rem;
+  padding: 1rem;
   background-color: $LGRAY;
 
   @include breakpoint(xxs) {
@@ -335,7 +335,7 @@ h2 {
       justify-content: space-between;
       top: 7rem;
       width: 100%;
-      height: 0px;
+      height: 0;
 
       & svg {
         min-width: 2.25rem;
