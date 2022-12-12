@@ -141,7 +141,7 @@ export default {
           padding: 0;
           margin-top: 0;
           border: none;
-          height: 0px;
+          height: 0;
           transition: 0.5s ease;
           margin-bottom: 0;
         }

@@ -23,9 +23,9 @@ main {
 
 .link {
   text-decoration: none;
-  color: $BLACK;
+  color: var(--data-color-black);
   &:hover {
-    color: $BLACK;
+    color: var(--data-color-hover);
   }
 
   &-inactive {

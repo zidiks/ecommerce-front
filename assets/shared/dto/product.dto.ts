@@ -10,6 +10,7 @@ export interface ProductModel extends ApiId, ApiTimestamp {
   brand?: BrandModel;
   description: string;
   categoryId: string;
+  category?: any;
   productTypeId: string;
   productProps: ProductPropertyValueModel[];
 }

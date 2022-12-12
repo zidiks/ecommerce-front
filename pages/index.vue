@@ -35,7 +35,7 @@
             <path d="M43.354 25.3536C43.5493 25.1583 43.5493 24.8417 43.354 24.6465L40.1721 21.4645C39.9768 21.2692 39.6602 21.2692 39.465 21.4645C39.2697 21.6597 39.2697 21.9763 39.465 22.1716L42.2934 25L39.465 27.8284C39.2697 28.0237 39.2697 28.3403 39.465 28.5355C39.6602 28.7308 39.9768 28.7308 40.1721 28.5355L43.354 25.3536ZM7.00049 25.5L43.0005 25.5L43.0005 24.5L7.00049 24.5L7.00049 25.5Z" fill="#0B0B0B"/>
           </svg>
         </div>
-        <Cards class="bestsellers__card" :addClass="ReusableClasses.CardBestsellers" v-for="item of bestsellersContent" :item="item" :key="item.text" />
+        <Cards class="bestsellers__card" :addClass="ReusableClasses.CardBestsellers" v-for="item of bestsellersContent" :item="item" :key="item._id" />
       </div>
       <div class="bestsellers__button">
         <nuxt-link to="/catalogue">
@@ -76,7 +76,7 @@
         <nuxt-link to="/catalogue" class="button desktop-visibility">СМОТРЕТЬ ВСЕ</nuxt-link>
       </div>
       <div class="latest__content">
-        <Cards class="latest__card" :addClass="ReusableClasses.CardLatest" v-for="item of latestContent" :item="item" :key="item.text" />
+        <Cards class="latest__card" :addClass="ReusableClasses.CardLatest" v-for="item of latestContent" :item="item" :key="item._id" />
       </div>
       <div class="latest__button">
         <nuxt-link to="/catalogue" class="button mobile-visibility">СМОТРЕТЬ ВСЕ</nuxt-link>
