@@ -29,6 +29,14 @@ $breakpoints: (
   }
 }
 
+@mixin breakpoint-min($screen-size) {
+  @if map-has-key($breakpoints, $screen-size) {
+    @media (min-width: calc(map-get($breakpoints, $screen-size) + 1px)) {
+      @content;
+    }
+  }
+}
+
 @font-face {
   font-family: 'Golos';
   src: url('~/assets/fonts/golos-text_regular.ttf');
