@@ -42,14 +42,6 @@ export default {
     }
   },
 
-  computed: {
-    cssVars() {
-      return {
-        '--height': `${this.currentHeight + 200}px`
-      }
-    }
-  },
-
   methods: {
     burgerButton: function() {
       this.burgerShown = !this.burgerShown;
@@ -114,6 +106,15 @@ export default {
       justify-content: space-evenly;
       border-top: $main-border;
       border-bottom: $main-border;
+
+      @include breakpoint(xl) {
+        justify-content: space-around;
+        padding: 0.5rem 3rem;
+
+        & li {
+          margin: 0 0.25rem;
+        }
+      }
 
       @include breakpoint(l) {
         position: fixed;

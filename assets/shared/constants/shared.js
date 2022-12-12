@@ -118,6 +118,29 @@ export let pageNumbers = [
   1, 2, 3, 4, 5, 6, 7, 8,
 ]
 
+export let sliderContent = [
+  [
+    require('~/assets/img/slider-1.png'),
+    require('~/assets/img/slider-2.png'),
+    require('~/assets/img/slider-3.png'),
+  ],
+  [
+    require('~/assets/img/slider-1.png'),
+    require('~/assets/img/slider-3.png'),
+    require('~/assets/img/slider-2.png'),
+  ],
+  [
+    require('~/assets/img/slider-3.png'),
+    require('~/assets/img/slider-2.png'),
+    require('~/assets/img/slider-1.png'),
+  ],
+  [
+    require('~/assets/img/slider-2.png'),
+    require('~/assets/img/slider-1.png'),
+    require('~/assets/img/slider-3.png'),
+  ],
+]
+
 export let bestsellersContent = [
   {
     name: 'Dolce&Gabbana The One For Men',

@@ -1,7 +1,28 @@
 <template>
   <main>
     <section class="slider">
-      <h2>Slider division plug</h2>
+      <a-carousel arrows dots-class="slick-dots">
+        <template #customPaging>
+          <a>
+            <div></div>
+          </a>
+        </template>
+        <template #prevArrow>
+          <div class="custom-slick-arrow" > <!-- style="top: 4.5rem; left: 5%; transform: translate(-50%, -50%);" -->
+            <Control-arrow :arrowDirection="'-180'" />
+          </div>
+        </template>
+        <div class="slider__slide" v-for="array of sliderContent" :key="array.id">
+          <div class="slider__item" v-for="item of array" :key="item.name">
+            <img :src="item" alt="slide image">
+          </div>
+        </div>
+        <template #nextArrow>
+          <div class="custom-slick-arrow" > <!--style="right: 4%"-->
+            <Control-arrow :arrowDirection="'0'" />
+          </div>
+        </template>
+      </a-carousel>
     </section>
     <div class="divider">
       <span>АКТУАЛЬНЫЕ ПРЕДЛОЖЕНИЯ ЖДУТ ВАС</span>
@@ -116,7 +137,7 @@
 </template>
 
 <script scoped>
-import { bestsellersContent, latestContent } from '~/assets/shared/constants/shared'
+import { bestsellersContent, latestContent, sliderContent } from '~/assets/shared/constants/shared';
 
 export default {
   data: () => {
@@ -125,6 +146,7 @@ export default {
       addLatestClass: 'latest',
       bestsellersContent,
       latestContent,
+      sliderContent,
       currentWidth: 0,
       cardRenderAmount: 0,
     }
@@ -133,7 +155,6 @@ export default {
   methods: {
     setCurrentWidth: function() {
       this.currentWidth = window.innerWidth;
-      console.log('current width is set')
     },
     setCardsAmount: function(width) {
       if(width > 960) {
@@ -173,12 +194,98 @@ h2 {
   }
 }
 
+.ant-carousel {
+
+  & .custom-slick-arrow {
+    top: 45% !important;
+
+    @include breakpoint(l) {
+      display: none !important;
+    }
+  }
+}
+
+.slick-dots {
+    display: none !important;
+
+    @include breakpoint(l) {
+      display: flex !important;
+      justify-content: center;
+      gap: 1rem;
+      position: relative;
+      top: 115%;
+
+      .slick-active {
+
+        & div {
+          border: 2px solid $BLACK;
+          border-radius: 50%;
+        }
+      }
+
+      & li {
+        display: flex !important;
+        justify-content: center;
+        align-items: center;
+        height: 21px;
+        width: 21px;
+        border: $main-border;
+        background-color: $WHITE;
+        border-radius: 50%;
+
+        & div {
+          width: 15px;
+          height: 15px;
+          cursor: pointer;
+        }
+      }
+    }
+
+    @include breakpoint(xs) {
+      top: 110%;
+    }
+  }
+
 .slider {
-  margin-top: 1.5rem;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  height: 10rem;
-  background-color: $DGRAY;
+  margin-top: 1.5rem;
+  padding: 1.5rem 0;
+  background-color: $LGRAY;
+
+  @include breakpoint(xxs) {
+    padding: 1rem 0;
+  }
+
+  &__slide {
+    display: flex !important;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+
+    @include breakpoint(l) {
+
+      &:nth-child(3) {
+        display: none;
+      }
+    }
+
+    @include breakpoint(xs) {
+
+      &:nth-child(2) {
+        display: none;
+      }
+    }
+
+    & img {
+      width: 100%;
+    }
+  }
 }
 
 .divider {
@@ -190,7 +297,12 @@ h2 {
   line-height: 2rem;
 
   @include breakpoint(l) {
+    margin-top: 6rem;
     font-size: 1.25rem;
+  }
+
+  @include breakpoint(xxs) {
+    margin-top: 3rem;
   }
 }
 
