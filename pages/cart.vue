@@ -5,9 +5,14 @@
       <a-breadcrumb-item>Корзина<span class="breadcrumbs-separator">/</span></a-breadcrumb-item>
     </a-breadcrumb>
     <div class="cart-page__head">
-          <h2 :class="`${isConfirmed ? '' : 'cart-page__hidden'}`">оформление заказа</h2>
-          <h2 :class="`${isConfirmed ? 'cart-page__hidden' : ''}`">корзина ({{ cartContent.length }})</h2>
+      <h2 :class="`${isConfirmed ? '' : 'cart-page__hidden'}`">оформление заказа</h2>
+      <h2 :class="`${isConfirmed ? 'cart-page__hidden' : ''}`">корзина ({{ cartContent.length }})</h2>
+      <div :class="`cart-page__${isConfirmed ? 'backward' : 'hidden'}`" @click="isConfirmed = false">
+        <div></div>
+        <div></div>
+        <div></div>
       </div>
+    </div>
     <section class="cart-page__wrapper">
       <section class="delivery">
         <div :class="`delivery__wrapper ${isConfirmed ? '' : 'cart-page__hidden'}`">
@@ -149,12 +154,59 @@
   @import '~/assets/styles/global';
 
   .cart-page {
+
+    &__backward {
+
+      @include breakpoint(l) {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        border-radius: 50%;
+        padding: 0.5rem;
+        aspect-ratio: 1/1;
+        width: fit-content;
+        transition: 0.3s;
+        cursor: pointer;
+
+        &:hover {
+          background-color: $LGRAY;
+        }
+
+        & div {
+          height: 3px;
+          background-color: $BLACK;
+
+          &:nth-child(1) {
+            width: 1rem;
+            transform: rotate(-45deg)
+          }
+
+          &:nth-child(2) {
+            width: 1.5rem;
+            margin: 3.5px 0 3.5px 1px;
+          }
+
+          &:nth-child(3) {
+            width: 1rem;
+            transform: rotate(45deg)
+          }
+        }
+      }
+    }
+
     &__head {
       @extend .cart-page__wrapper;
       margin-top: 2.5rem;
 
       & h2 {
         font-size: 2rem;
+
+        &:nth-child(1) {
+
+          @include breakpoint(l) {
+            margin-top: 1.75rem;
+          }
+        }
       }
     }
 
