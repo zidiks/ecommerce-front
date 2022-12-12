@@ -199,6 +199,14 @@ h2 {
   & .custom-slick-arrow {
     top: 45% !important;
 
+    &:nth-child(1) {
+      left: -7%;
+    }
+
+    &:nth-child(3) {
+      left: 105%;
+    }
+
     @include breakpoint(l) {
       display: none !important;
     }
@@ -251,7 +259,7 @@ h2 {
   flex-direction: column;
   width: 100%;
   margin-top: 1.5rem;
-  padding: 1.5rem 0;
+  padding: 1.5rem;
   background-color: $LGRAY;
 
   @include breakpoint(xxs) {
