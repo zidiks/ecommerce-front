@@ -25,9 +25,9 @@ main {
 
 .link {
   text-decoration: none;
-  color: $BLACK;
+  color: var(--data-color-black);
   &:hover {
-    color: $BLACK;
+    color: var(--data-color-hover);
   }
 
   &-inactive {
@@ -200,9 +200,23 @@ main {
   }
 }
 
-.page-enter-active, .page-leave-active {
+.mobile-visibility {
+  @include breakpoint-min(l) {
+    display: none;
+  }
+}
+
+.desktop-visibility {
+  @include breakpoint(l) {
+    display: none;
+  }
+}
+
+.page-enter-active,
+.page-leave-active {
   transition: opacity 0.5s;
 }
-.page-enter, .page-leave-to {
+.page-enter,
+.page-leave-to {
   opacity: 0;
 }

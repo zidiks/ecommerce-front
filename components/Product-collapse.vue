@@ -9,49 +9,9 @@
         </div>
     </template>
     <a-collapse-panel class="collapse__panel" key="1" header="Описание товара">
-        <div class="collapse__item">
-          <h3>Бренд, аромат</h3>
-          <p>{{ item.brand }}</p>
-        </div>
-        <div class="collapse__item">
-          <h3>Тип, для кого</h3>
-          <p>{{ item.type + ', ' + item.sex }}</p>
-        </div>
-        <div class="collapse__item">
-          <h3>Парфюмер, год создания</h3>
-          <p>{{ item.perfumer + ', ' + item.year }}</p>
-        </div>
-        <div class="collapse__item">
-          <h3>семейство ароматов</h3>
-          <p>{{ item.aromas?.join(', ') }}</p>
-        </div>
-        <div class="collapse__item">
-          <h3>базовые ноты</h3>
-          <p>{{ item.baseNotes?.join(', ') }}</p>
-        </div>
-        <div class="collapse__item">
-          <h3>начальные ноты</h3>
-          <p>{{ item.startNotes?.join(', ') }}</p>
-        </div>
-        <div class="collapse__item">
-          <h3>средние ноты</h3>
-          <p>{{ item.midNotes?.join(', ') }}</p>
-        </div>
-        <div class="collapse__item">
-          <h3>сезон, время суток</h3>
-          <p>{{ item.season + ', ' + item.daytime }}</p>
-        </div>
-        <div class="collapse__item">
-          <h3>стойкость, Шлейфовость</h3>
-          <p>{{ item.strength?.join(', ') }}</p>
-        </div>
-        <div class="collapse__item">
-          <h3>страна торговой марки</h3>
-          <p>{{ item.country }}</p>
-        </div>
-        <div class="collapse__item">
-          <h3>СДЕЛАНО В</h3>
-          <p>{{ item.made }}</p>
+        <div v-for="item of items" :key="item.productTypePropertyId" class="collapse__item">
+          <h3>{{ item.productTypePropertyId }}</h3>
+          <p>{{ item.value }}</p>
         </div>
     </a-collapse-panel>
     <a-collapse-panel class="collapse__panel" key="2" header="Оплата и доставка">
@@ -88,12 +48,10 @@ export default defineComponent({
   },
   methods: {
     activate: function() {
-      console.log('activation');
-      console.log(this.isActive ? false : true);
       return this.isActive ? this.isActive = false : this.isActive = true;
     }
   },
-  props: ['item'],
+  props: ['items'],
 });
 </script>
 

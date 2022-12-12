@@ -30,7 +30,7 @@
     <section class="bestsellers">
       <div class="bestsellers__head">
         <h2>ЛИДЕРЫ ПРОДАЖ</h2>
-        <div class="bestsellers__controls">
+        <div class="bestsellers__controls desktop-visibility">
           <svg class="arrow-inactive" width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect x="49.75" y="49.75" width="49.5" height="49.5" rx="24.75" transform="rotate(-180 49.75 49.75)" stroke="#0B0B0B" stroke-width="0.5"/>
             <rect class="arrow__back" x="45.9287" y="45.9285" width="41.8571" height="41.8571" rx="20.9286" transform="rotate(-180 45.9287 45.9285)" fill="#FEFEFE" stroke="#0B0B0B"/>
@@ -44,7 +44,19 @@
         </div>
       </div>
       <div class="bestsellers__content">
-        <Cards class="bestsellers__card" v-for="item of bestsellersContent.slice(0, cardRenderAmount)" :addClass="addBestClass" :item="item" :key="item.text" />
+        <div class="bestsellers__controls mobile-visibility">
+          <svg class="arrow-inactive" width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="49.75" y="49.75" width="49.5" height="49.5" rx="24.75" transform="rotate(-180 49.75 49.75)" stroke="#0B0B0B" stroke-width="0.5"/>
+            <rect class="arrow__back" x="45.9287" y="45.9285" width="41.8571" height="41.8571" rx="20.9286" transform="rotate(-180 45.9287 45.9285)" fill="#FEFEFE" stroke="#0B0B0B"/>
+            <path d="M6.78934 24.6464C6.59407 24.8417 6.59407 25.1583 6.78934 25.3535L9.97132 28.5355C10.1666 28.7308 10.4832 28.7308 10.6784 28.5355C10.8737 28.3403 10.8737 28.0237 10.6784 27.8284L7.85 25L10.6784 22.1716C10.8737 21.9763 10.8737 21.6597 10.6784 21.4645C10.4832 21.2692 10.1666 21.2692 9.97132 21.4645L6.78934 24.6464ZM42.8572 24.5L7.14289 24.5L7.14289 25.5L42.8572 25.5L42.8572 24.5Z" fill="#0B0B0B"/>
+          </svg>
+          <svg class="arrow" width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="49.75" y="49.75" width="49.5" height="49.5" rx="24.75" transform="rotate(-180 49.75 49.75)" stroke="#0B0B0B" stroke-width="0.5"/>
+            <rect class="arrow__back" x="45.9285" y="45.9286" width="41.8571" height="41.8571" rx="20.9286" transform="rotate(-180 45.9285 45.9286)" fill="#FEFEFE" stroke="#0B0B0B"/>
+            <path d="M43.354 25.3536C43.5493 25.1583 43.5493 24.8417 43.354 24.6465L40.1721 21.4645C39.9768 21.2692 39.6602 21.2692 39.465 21.4645C39.2697 21.6597 39.2697 21.9763 39.465 22.1716L42.2934 25L39.465 27.8284C39.2697 28.0237 39.2697 28.3403 39.465 28.5355C39.6602 28.7308 39.9768 28.7308 40.1721 28.5355L43.354 25.3536ZM7.00049 25.5L43.0005 25.5L43.0005 24.5L7.00049 24.5L7.00049 25.5Z" fill="#0B0B0B"/>
+          </svg>
+        </div>
+        <Cards class="bestsellers__card" :addClass="ReusableClasses.CardBestsellers" v-for="item of bestsellersContent" :item="item" :key="item._id" />
       </div>
       <div class="bestsellers__button">
         <nuxt-link to="/catalogue">
@@ -82,13 +94,13 @@
           ПОДБОРКА СМЕЛЫХ АРОМАТОВ ДЛЯ ВАС.
           ПОЗНАКОМТЕСЬ С НОВЫМИ АРОМАТАМИ ПЕРВЫМИ.
         </div>
-        <nuxt-link to="/catalogue" :class="currentWidth > 960 ? 'button' : 'latest__hidden'">СМОТРЕТЬ ВСЕ</nuxt-link>
+        <nuxt-link to="/catalogue" class="button desktop-visibility">СМОТРЕТЬ ВСЕ</nuxt-link>
       </div>
       <div class="latest__content">
-        <Cards class="latest__card" v-for="item of latestContent.slice(0, cardRenderAmount)" :item="item" :addClass="addLatestClass" :key="item.text" />
+        <Cards class="latest__card" :addClass="ReusableClasses.CardLatest" v-for="item of latestContent" :item="item" :key="item._id" />
       </div>
       <div class="latest__button">
-        <nuxt-link to="/catalogue" :class="currentWidth > 960 ? 'latest__hidden' : 'button'">СМОТРЕТЬ ВСЕ</nuxt-link>
+        <nuxt-link to="/catalogue" class="button mobile-visibility">СМОТРЕТЬ ВСЕ</nuxt-link>
       </div>
     </section>
     <section class="discounts">
@@ -112,7 +124,7 @@
             В ЗАКАЗЕ ВЫ ПОЛУЧАЕТЕ СКИДКУ
             5 РУБЛЕЙ.
           </div>
-          <div :style="currentWidth > 960 ? 'display: block' : 'display: none'">
+          <div class="desktop-visibility">
             - СКИДКИ НЕ СУММИРУЮТСЯ. ПОКУПАТЕЛЬ САМ ВЫБИРАЕТ НАИБОЛЕЕ
             ВЫГОДНЫЙ ДЛЯ СЕБЯ ВАРИАНТ СКИДКИ.
           </div>
@@ -137,49 +149,36 @@
 </template>
 
 <script scoped>
-import { bestsellersContent, latestContent, sliderContent } from '~/assets/shared/constants/shared';
+import { sliderContent } from '~/assets/shared/constants/shared';
+import { ReusableClasses } from "assets/shared/enums/reusable-classes.enum";
 
 export default {
-  data: () => {
+  data() {
     return {
-      addBestClass: 'bestsellers',
-      addLatestClass: 'latest',
-      bestsellersContent,
-      latestContent,
+      ReusableClasses,
       sliderContent,
-      currentWidth: 0,
-      cardRenderAmount: 0,
+      bestsellersContent: [],
+      latestContent: [],
     }
   },
-
-  methods: {
-    setCurrentWidth: function() {
-      this.currentWidth = window.innerWidth;
-    },
-    setCardsAmount: function(width) {
-      if(width > 960) {
-        this.cardRenderAmount = 4;
-      } else if(width > 768) {
-        this.cardRenderAmount = 3;
-      } else if(width > 480) {
-        this.cardRenderAmount = 2;
-      } else if(width > 320) {
-        this.cardRenderAmount = 1;
+  async fetch() {
+    const resLatest = await this.$api.products.getProducts({
+      preview: true,
+      pagination: {
+        page: 1,
+        limit: 3,
       }
-    },
-  },
-
-  beforeMount() {
-    this.setCurrentWidth();
-    this.setCardsAmount(this.currentWidth);
-  },
-
-  mounted() {
-    window.addEventListener('resize', () => {
-      this.setCurrentWidth();
-      this.setCardsAmount(this.currentWidth);
-    })
-  },
+    });
+    this.latestContent = resLatest.data;
+    const resBestsellers = await this.$api.products.getProducts({
+      preview: true,
+      pagination: {
+        page: 1,
+        limit: 4,
+      }
+    });
+    this.bestsellersContent = resBestsellers.data;
+  }
 }
 </script>
 
@@ -331,28 +330,27 @@ h2 {
     column-gap: 1rem;
 
     @include breakpoint(l) {
-      position: relative;
+      position: absolute;
+      z-index: 10;
+      align-items: center;
       justify-content: space-between;
-      top: 7rem;
       width: 100%;
-      height: 0;
+      height: 100%;
 
       & svg {
+        margin-bottom: calc(2rem + 1rem + 14px);
         min-width: 2.25rem;
         width: 2.25rem;
+
+        @include breakpoint(m) {
+          margin-bottom: calc(2rem + .7rem + 12px);
+        }
       }
-    }
-
-    @include breakpoint(xs) {
-      top: 9.5rem;
-    }
-
-    @include breakpoint(xxs) {
-      top: 6.5rem;
     }
   }
 
   &__content {
+    position: relative;
     margin-top: 1rem;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -368,13 +366,32 @@ h2 {
       grid-template-columns: repeat(2, 1fr);
     }
 
-    @include breakpoint(xs) {
+    @include breakpoint(xxs) {
       grid-template-columns: 1fr;
     }
   }
 
   &__card {
     font-size: 1rem;
+
+    @include breakpoint(l) {
+      &:nth-child(4) {
+        display: none;
+      }
+    }
+
+    @include breakpoint(m) {
+      font-size: .7rem;
+      &:nth-child(3) {
+        display: none;
+      }
+    }
+
+    @include breakpoint(xxs) {
+      &:nth-child(2) {
+        display: none;
+      }
+    }
   }
 
   &__image {
@@ -390,6 +407,9 @@ h2 {
 
   &__name {
     font-size: 14px;
+    @include breakpoint(m) {
+      font-size: 12px;
+    }
   }
 
   &__button {
@@ -489,14 +509,37 @@ h2 {
 
   &__content {
     margin-top: 2rem;
-    display: flex;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     font-size: 1rem;
     gap: 2rem;
+
+    @include breakpoint(m) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include breakpoint(xxs) {
+      grid-template-columns: 1fr;
+    }
   }
 
   &__card {
-    width: 100%;
+    &:nth-child(4) {
+      display: none;
+    }
+
+    @include breakpoint(m) {
+      font-size: .7rem;
+      &:nth-child(3) {
+        display: none;
+      }
+    }
+
+    @include breakpoint(xxs) {
+      &:nth-child(2) {
+        display: none;
+      }
+    }
   }
 
   &__image {

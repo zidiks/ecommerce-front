@@ -6,9 +6,18 @@ $WHITE: #FEFEFE;
 $LGRAY: #F8F8F8;
 $DGRAY: #C7C7C7;
 $BLACK: #0B0B0B;
+$HOVER: #918883;
 $border-black: rgba(0, 0, 0, 0.5);
 
 $main-border: solid 0.5px $border-black;
+
+:root{
+  --data-color-hover: #{$HOVER};
+  --data-color-black: #{$BLACK};
+  --data-color-dgray: #{#DGRAY};
+  --data-color-lgray: #{#DGRAY};
+  --data-color-white: #{#DGRAY};
+}
 
 $breakpoints: (
   xxxl: 1920px,
@@ -24,6 +33,14 @@ $breakpoints: (
 @mixin breakpoint($screen-size) {
   @if map-has-key($breakpoints, $screen-size) {
     @media (max-width: map-get($breakpoints, $screen-size)) {
+      @content;
+    }
+  }
+}
+
+@mixin breakpoint-min($screen-size) {
+  @if map-has-key($breakpoints, $screen-size) {
+    @media (min-width: calc(map-get($breakpoints, $screen-size) + 1px)) {
       @content;
     }
   }
