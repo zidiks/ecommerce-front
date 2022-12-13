@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Search :burgerShown="burgerShown" class="search-mobile"/>
+    <Search :burgerShown="burgerShown" class="search-mobile search-pc"/>
     <header class="header">
       <div class="header__crutch">
         <div class="header__plug">
@@ -13,13 +13,17 @@
 
         </div>
       </div>
-      <nav :class="`header__navbar${burgerShown ? '' : '-hidden'}`">
-        <li class="link-li" v-for="item of headerNavLinks" :key="item.text" @click="currentWidth <= 960 ? burgerButton() : ''">
-          <nuxt-link :to="item.link" class="link">{{ item.text }}</nuxt-link>
+      <nav @mouseleave="dropdown()" :class="`header__navbar${burgerShown ? '' : '-hidden'}`">
+        <li @mouseenter="dropdown(item.dropdown)" class="link-li" :class="{ 'link-li-active': dropdownOpen && item.dropdown }" v-for="item of headerNavLinks" :key="item.text" @click="currentWidth <= 960 ? burgerButton() : ''">
+          <nuxt-link :to="item.link" class="link-custom">{{ item.text }}</nuxt-link>
         </li>
+        <div @mouseenter="dropdownFocus = true" @mouseleave="dropdownFocus = false" class="dropdown" :class="{ 'dropdown-active': dropdownOpen }">
+          test
+        </div>
       </nav>
       <div :class="`overlay${burgerShown ? '' : '-hidden'}`">
       </div>
+      <Search class="search search-pc" />
     </header>
   </div>
 </template>
@@ -30,12 +34,14 @@ export default {
     return {
       headerNavLinks: [
       { text: 'ГЛАВНАЯ', link: '/'},
-      { text: 'КАТАЛОГ', link: '/catalogue'},
+      { text: 'КАТАЛОГ', link: '/catalogue', dropdown: true},
       { text: 'О НАС', link: '/about'},
       { text: 'АКЦИИ', link: '/offers' },
       { text: 'ТРЕКЕР ЗАКАЗА', link: '/tracker'},
       { text: 'КОРЗИНА', link: '/cart'},
       ],
+      dropdownOpen: false,
+      dropdownFocus: false,
       burgerShown: false,
       currentHeight: 0,
       currentWidth: 0,
@@ -43,11 +49,18 @@ export default {
   },
 
   methods: {
-    burgerButton: function() {
+    dropdown(value = false) {
+      setTimeout(() => {
+        if (!this.dropdownFocus) {
+          this.dropdownOpen = !!value;
+        }
+      }, 300);
+    },
+    burgerButton() {
       this.burgerShown = !this.burgerShown;
       document.body.style.overflow = this.burgerShown && this.currentWidth <= 960 ? 'hidden' : 'visible';
     },
-    getCurrentScreenSize: function() {
+    getCurrentScreenSize() {
       this.currentHeight = window.innerHeight;
       this.currentWidth = window.innerWidth;
     }
@@ -80,7 +93,33 @@ export default {
     }
   }
 
+  .search-pc {
+    z-index: 901;
+  }
+
+  .dropdown {
+    z-index: 800;
+    position: absolute;
+    width: 100%;
+    height: 50vh;
+    max-height: 0;
+    left: 0;
+    bottom: -1px;
+    background: white;
+    border-bottom: $main-border;
+    border-right: $main-border;
+    border-left: $main-border;
+    overflow: hidden;
+    transition: .3s;
+    transform-origin: top;
+    &-active {
+      bottom: calc(-50vh - 1px);
+      max-height: 50vh;
+    }
+  }
+
   .header {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -99,13 +138,45 @@ export default {
     }
 
     &__navbar {
+      position: relative;
       width: 100%;
       margin-top: 2rem;
-      padding: 0.5rem 5rem;
+      padding: 0 5rem;
       display: flex;
-      justify-content: space-evenly;
+      justify-content: center;
       border-top: $main-border;
       border-bottom: $main-border;
+
+      .link-li {
+        position: relative;
+        .link-custom {
+          height: 100%;
+          display: flex;
+          align-items: center;
+          padding: 0.5rem;
+          text-decoration: none;
+          color: var(--data-color-black);
+        }
+        &:hover::before {
+          position: absolute;
+          width: 100%;
+          height: 2px;
+          bottom: -1px;
+          content: '';
+          background: var(--data-color-black);
+        }
+        &-active {
+          &::before {
+            z-index: 900;
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: -1px;
+            content: '';
+            background: var(--data-color-black);
+          }
+        }
+      }
 
       @include breakpoint(xl) {
         justify-content: space-around;

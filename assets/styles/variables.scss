@@ -9,7 +9,7 @@ $BLACK: #0B0B0B;
 $HOVER: #918883;
 $border-black: rgba(0, 0, 0, 0.5);
 
-$main-border: solid 0.5px $border-black;
+$main-border: solid 1px $border-black;
 
 :root{
   --data-color-hover: #{$HOVER};
@@ -17,6 +17,7 @@ $main-border: solid 0.5px $border-black;
   --data-color-dgray: #{#DGRAY};
   --data-color-lgray: #{#DGRAY};
   --data-color-white: #{#DGRAY};
+  --data-color-border-black: #{$border-black};
 }
 
 $breakpoints: (

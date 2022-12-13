@@ -2,7 +2,6 @@
   <div class="content-width">
     <Header />
     <div class="page-wrap">
-      <Search class="search" />
       <Nuxt />
     </div>
     <Footer />
