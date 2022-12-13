@@ -10,11 +10,12 @@
     <section class="product fade-in" v-if="productData">
       <div class="pics">
         <div class="pics__side">
+          <div class="pics__wrapper" :style="`transform: translateY(${-(currentIndex - 1) * 10.5}rem); transition: 0.5s`">
           <div :class="`pics__pic${currentIndex == index ? '-current' : ''}`"
             v-for="(item, index) of productData?.media" :key="item.src"
-            @click="currentIndex = index"
-            :style="`transform: translateY(${-(currentIndex - 1) * 120}%);`"> <!--:style="`transform: translateY(${100 / productData.media.length * index}px)`"-->
+            @click="currentIndex = index">
             <img :src="baseUrl + '/storage/images/' + item" alt="perfume">
+          </div>
           </div>
         </div>
         <div class="pics__main">
@@ -175,9 +176,6 @@
     }
 
     &__side {
-      display: grid;
-      grid-template-rows: repeat(3, 1fr);
-      row-gap: 2rem;
       height: 30rem;
       overflow: hidden;
       @include breakpoint(l) {
@@ -192,6 +190,13 @@
           border-radius: 50%;
         }
       }
+    }
+
+    &__wrapper {
+      display: grid;
+      grid-template-columns: 1fr;
+      row-gap: 2rem;
+      //height: 100%;
     }
 
     &__pic {
