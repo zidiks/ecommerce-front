@@ -14,9 +14,9 @@ $main-border: solid 1px $border-black;
 :root{
   --data-color-hover: #{$HOVER};
   --data-color-black: #{$BLACK};
-  --data-color-dgray: #{#DGRAY};
-  --data-color-lgray: #{#DGRAY};
-  --data-color-white: #{#DGRAY};
+  --data-color-dgray: #{$DGRAY};
+  --data-color-lgray: #{$LGRAY};
+  --data-color-white: #{$WHITE};
   --data-color-border-black: #{$border-black};
 }
 

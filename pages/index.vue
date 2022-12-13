@@ -1,6 +1,6 @@
 <template>
   <main>
-    <section class="slider">
+    <section class="slider fade-in" v-if="mountedState">
       <a-carousel arrows dots-class="slick-dots">
         <template #customPaging>
           <a>
@@ -24,6 +24,7 @@
         </template>
       </a-carousel>
     </section>
+    <Spinner v-else></Spinner>
     <div class="divider">
       <span>АКТУАЛЬНЫЕ ПРЕДЛОЖЕНИЯ ЖДУТ ВАС</span>
     </div>
@@ -161,6 +162,7 @@ export default {
       sliderContent,
       bestsellersContent: [],
       latestContent: [],
+      mountedState: false,
     }
   },
   async fetch() {
@@ -180,6 +182,9 @@ export default {
       }
     });
     this.bestsellersContent = resBestsellers.data;
+  },
+  mounted() {
+    this.mountedState = true;
   }
 }
 </script>
@@ -689,5 +694,9 @@ h2 {
       }
     }
   }
+}
+
+.ant-carousel .slick-list .slick-slide.slick-active {
+  pointer-events: none !important;
 }
 </style>
