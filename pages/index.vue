@@ -8,7 +8,7 @@
           </a>
         </template>
         <template #prevArrow>
-          <div class="custom-slick-arrow" > <!-- style="top: 4.5rem; left: 5%; transform: translate(-50%, -50%);" -->
+          <div class="custom-slick-arrow" >
             <Control-arrow :arrowDirection="'-180'" />
           </div>
         </template>
@@ -18,7 +18,7 @@
           </div>
         </div>
         <template #nextArrow>
-          <div class="custom-slick-arrow" > <!--style="right: 4%"-->
+          <div class="custom-slick-arrow" >
             <Control-arrow :arrowDirection="'0'" />
           </div>
         </template>
