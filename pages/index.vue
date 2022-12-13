@@ -27,9 +27,7 @@
     <div class="divider">
       <span>АКТУАЛЬНЫЕ ПРЕДЛОЖЕНИЯ ЖДУТ ВАС</span>
     </div>
-    <Spinner v-if="$fetchState.pending"></Spinner>
-    <Empty class="fade-in" v-if="$fetchState.error || (!$fetchState.pending && !bestsellersContent.length)"></Empty>
-    <section v-if="bestsellersContent.length" class="fade-in bestsellers">
+    <section v-if="bestsellersContent.length && !$fetchState.pending" class="fade-in bestsellers">
       <div class="bestsellers__head">
         <h2>ЛИДЕРЫ ПРОДАЖ</h2>
         <div class="bestsellers__controls desktop-visibility">
@@ -98,9 +96,7 @@
         </div>
         <nuxt-link to="/catalogue" class="button desktop-visibility">СМОТРЕТЬ ВСЕ</nuxt-link>
       </div>
-      <Spinner v-if="$fetchState.pending"></Spinner>
-      <Empty class="fade-in" v-if="$fetchState.error || (!$fetchState.pending && !latestContent.length)"></Empty>
-      <div class="fade-in" v-if="latestContent.length">
+      <div class="fade-in" v-if="latestContent.length && !$fetchState.pending">
         <div class="latest__content">
           <Cards class="latest__card" :addClass="ReusableClasses.CardLatest" v-for="item of latestContent" :item="item" :key="item._id" />
         </div>
@@ -379,6 +375,7 @@ h2 {
 
   &__card {
     font-size: 1rem;
+    z-index: 11;
 
     @include breakpoint(l) {
       &:nth-child(4) {

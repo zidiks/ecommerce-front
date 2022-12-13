@@ -7,7 +7,7 @@
     </a-breadcrumb>
     <Spinner v-if="$fetchState.pending"></Spinner>
     <Empty class="fade-in" v-if="$fetchState.error || (!$fetchState.pending && !productData)"></Empty>
-    <section class="product fade-in" v-if="productData">
+    <section class="product fade-in" v-if="productData && !$fetchState.pending">
       <div class="pics">
         <div class="pics__side">
           <div class="pics__wrapper" :style="`transform: translateY(${-(currentIndex - 1) * 10.5}rem); transition: 0.5s`">
@@ -63,11 +63,11 @@
         </div>
       </div>
     </section>
-    <section class="characteristics">
+    <section class="characteristics" v-if="productData && !$fetchState.pending">
       <Product-collapse v-if="productData?.productProps?.length" :items="productData.productProps"/>
       <div class="characteristics__plug"></div>
     </section>
-    <section class="also">
+    <section class="also" v-if="productData && !$fetchState.pending">
       <div class="also__head">
         <h2>похожие товары</h2>
         <div class="also__controls">
@@ -113,7 +113,7 @@
         preview: true,
         pagination: {
           page: 1,
-          limit: 4,
+          limit: 1,
         }
       });
       this.similarData = resSimilar.data;
@@ -203,7 +203,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      border: $main-border;
+      border: solid 1px rgba(0, 0, 0, 0.3);
       height: 8.5rem;
       cursor: pointer;
       transition: transform 0.5s;

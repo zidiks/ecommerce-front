@@ -59,6 +59,7 @@
       font-size: 1rem;
       width: 100%;
       outline: none;
+      background: transparent;
       &::placeholder {
         color: $DGRAY;
       }

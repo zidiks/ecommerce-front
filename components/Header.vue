@@ -14,16 +14,16 @@
         </div>
       </div>
       <nav @mouseleave="dropdown()" :class="`header__navbar${burgerShown ? '' : '-hidden'}`">
-        <li @mouseenter="dropdown(item.dropdown)" class="link-li" :class="{ 'link-li-active': dropdownOpen && item.dropdown }" v-for="item of headerNavLinks" :key="item.text" @click="currentWidth <= 960 ? burgerButton() : ''">
+        <li @mouseenter="dropdown(item.dropdown)" class="link-li" :class="{ 'link-li-active': dropdownOpen && item.dropdown }" v-for="item of headerNavLinks" :key="item.text" @click="currentWidth <= 960 ? burgerButton() : ''; dropdown(false)">
           <nuxt-link :to="item.link" class="link-custom">{{ item.text }}</nuxt-link>
         </li>
         <div @mouseenter="dropdownFocus = true" @mouseleave="dropdownFocus = false" class="dropdown" :class="{ 'dropdown-active': dropdownOpen }">
-          test
+          <Search class="search dropdown-search" />
         </div>
       </nav>
       <div :class="`overlay${burgerShown ? '' : '-hidden'}`">
       </div>
-      <Search class="search search-pc" />
+      <Search class="search" />
     </header>
   </div>
 </template>
@@ -54,7 +54,7 @@ export default {
         if (!this.dropdownFocus) {
           this.dropdownOpen = !!value;
         }
-      }, 300);
+      }, 200);
     },
     burgerButton() {
       this.burgerShown = !this.burgerShown;
@@ -93,10 +93,6 @@ export default {
     }
   }
 
-  .search-pc {
-    z-index: 901;
-  }
-
   .dropdown {
     z-index: 800;
     position: absolute;
@@ -105,14 +101,18 @@ export default {
     max-height: 0;
     left: 0;
     bottom: -1px;
-    background: white;
-    border-bottom: $main-border;
-    border-right: $main-border;
-    border-left: $main-border;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(1.6rem);
     overflow: hidden;
     transition: .3s;
     transform-origin: top;
+    &-search {
+      width: 100%;
+      display: flex !important;
+      justify-content: center;
+    }
     &-active {
+      box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.2);
       bottom: calc(-50vh - 1px);
       max-height: 50vh;
     }
@@ -245,6 +245,14 @@ export default {
       width: 100%;
       height: 0;
       transition: 0.5s ease;
+    }
+  }
+
+  .search {
+    display: block;
+
+    @include breakpoint(l) {
+      display: none;
     }
   }
 </style>
