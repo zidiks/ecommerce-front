@@ -13,7 +13,7 @@
           <div :class="`pics__pic${currentIndex == index ? '-current' : ''}`"
             v-for="(item, index) of productData?.media" :key="item.src"
             @click="currentIndex = index"
-            :style="`transform: translateY(${-(currentIndex - 1) * 120}%); transition: 0.5s`"> <!--:style="`transform: translateY(${100 / productData.media.length * index}px)`"-->
+            :style="`transform: translateY(${-(currentIndex - 1) * 120}%);`"> <!--:style="`transform: translateY(${100 / productData.media.length * index}px)`"-->
             <img :src="baseUrl + '/storage/images/' + item" alt="perfume">
           </div>
         </div>
@@ -201,11 +201,12 @@
       border: $main-border;
       height: 8.5rem;
       cursor: pointer;
+      transition: transform 0.5s;
 
       &-current {
         @extend .pics__pic;
         margin: 0;
-        border: $BLACK solid 5px;
+        border: $BLACK solid 1px;
       }
 
       & img {
