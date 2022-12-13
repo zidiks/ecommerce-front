@@ -27,7 +27,9 @@
     <div class="divider">
       <span>АКТУАЛЬНЫЕ ПРЕДЛОЖЕНИЯ ЖДУТ ВАС</span>
     </div>
-    <section class="bestsellers">
+    <Spinner v-if="$fetchState.pending"></Spinner>
+    <Empty class="fade-in" v-if="$fetchState.error || (!$fetchState.pending && !bestsellersContent.length)"></Empty>
+    <section v-if="bestsellersContent.length" class="fade-in bestsellers">
       <div class="bestsellers__head">
         <h2>ЛИДЕРЫ ПРОДАЖ</h2>
         <div class="bestsellers__controls desktop-visibility">
@@ -96,11 +98,15 @@
         </div>
         <nuxt-link to="/catalogue" class="button desktop-visibility">СМОТРЕТЬ ВСЕ</nuxt-link>
       </div>
-      <div class="latest__content">
-        <Cards class="latest__card" :addClass="ReusableClasses.CardLatest" v-for="item of latestContent" :item="item" :key="item._id" />
-      </div>
-      <div class="latest__button">
-        <nuxt-link to="/catalogue" class="button mobile-visibility">СМОТРЕТЬ ВСЕ</nuxt-link>
+      <Spinner v-if="$fetchState.pending"></Spinner>
+      <Empty class="fade-in" v-if="$fetchState.error || (!$fetchState.pending && !latestContent.length)"></Empty>
+      <div class="fade-in" v-if="latestContent.length">
+        <div class="latest__content">
+          <Cards class="latest__card" :addClass="ReusableClasses.CardLatest" v-for="item of latestContent" :item="item" :key="item._id" />
+        </div>
+        <div class="latest__button">
+          <nuxt-link to="/catalogue" class="button mobile-visibility">СМОТРЕТЬ ВСЕ</nuxt-link>
+        </div>
       </div>
     </section>
     <section class="discounts">
@@ -476,7 +482,7 @@ h2 {
 
     & h3 {
       font-weight: 600;
-      font-size: 17px;
+      font-size: 16px;
 
       @include breakpoint(xxs) {
         font-size: 14px;
