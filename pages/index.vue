@@ -24,7 +24,10 @@
         </template>
       </a-carousel>
     </section>
-    <Spinner v-else></Spinner>
+    <div v-else class="slider-spinner">
+      <Spinner></Spinner>
+    </div>
+
     <div class="divider">
       <span>АКТУАЛЬНЫЕ ПРЕДЛОЖЕНИЯ ЖДУТ ВАС</span>
     </div>
@@ -698,5 +701,13 @@ h2 {
 
 .ant-carousel .slick-list .slick-slide.slick-active {
   pointer-events: none !important;
+}
+
+.slider-spinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1.5rem;
+  height: 417.26px;
 }
 </style>
