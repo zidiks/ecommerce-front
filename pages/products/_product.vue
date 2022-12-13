@@ -10,12 +10,15 @@
     <section class="product fade-in" v-if="productData">
       <div class="pics">
         <div class="pics__side">
-          <div class="pics__pic" v-for="item of 3" :key="item.src">
-
+          <div :class="`pics__pic${currentIndex == index ? '-current' : ''}`"
+            v-for="(item, index) of productData?.media" :key="item.src"
+            @click="currentIndex = index"
+            :style="`transform: translateY(${-(currentIndex - 1) * 120}%); transition: 0.5s`"> <!--:style="`transform: translateY(${100 / productData.media.length * index}px)`"-->
+            <img :src="baseUrl + '/storage/images/' + item" alt="perfume">
           </div>
         </div>
         <div class="pics__main">
-          <img :src="productData?.media?.length ? baseUrl + '/storage/images/' + productData.media[0] : '_nuxt/static/no-image.png'" :alt="productData.name">
+          <img :src="productData?.media?.length ? baseUrl + '/storage/images/' + productData.media[currentIndex] : '_nuxt/static/no-image.png'" :alt="productData.name">
         </div>
       </div>
       <div class="main-descr">
@@ -98,6 +101,7 @@
         isOverlay: false,
         activeKey: ['0'],
         productData: null,
+        currentIndex: 0,
         similarData: [],
         baseUrl: this.$config.baseUrl,
       }
@@ -135,6 +139,9 @@
         this.isOverlay = false;
         document.querySelector('body').style.overflow = 'visible';
       },
+      debuger: function(el) {
+        console.log(el);
+      }
     },
   }
 </script>
@@ -172,6 +179,7 @@
       grid-template-rows: repeat(3, 1fr);
       row-gap: 2rem;
       height: 30rem;
+      overflow: hidden;
       @include breakpoint(l) {
         margin-top: 1rem;
         grid-template-rows: 1fr;
@@ -187,9 +195,25 @@
     }
 
     &__pic {
-      background-color: rgb(226, 226, 226); // Plug
+      display: flex;
+      justify-content: center;
+      align-items: center;
       border: $main-border;
+      height: 8.5rem;
       cursor: pointer;
+
+      &-current {
+        @extend .pics__pic;
+        margin: 0;
+        border: $BLACK solid 5px;
+      }
+
+      & img {
+        height: 90%;
+        max-width: 100%;
+        aspect-ratio: 1/1.25;
+        object-fit: contain;
+      }
     }
 
     &__main {
@@ -197,6 +221,7 @@
       justify-content: center;
       align-items: center;
       height: 30rem;
+      max-width: 100%;
       border: $main-border;
 
       @include breakpoint(l) {
@@ -205,7 +230,10 @@
       }
 
       & img {
-        height: 23rem;
+        height: 90%;
+        max-width: 90%;
+        aspect-ratio: 1/1.25;
+        object-fit: contain;
 
         @include breakpoint(l) {
           height: 80%;
