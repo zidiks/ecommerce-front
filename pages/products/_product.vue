@@ -5,7 +5,9 @@
       <a-breadcrumb-item><nuxt-link to="/catalogue">КАТАЛОГ</nuxt-link></a-breadcrumb-item>
       <a-breadcrumb-item><nuxt-link v-if="productData?.category" :to="'/categories/' + productData.category._id">{{ productData.category.name }}</nuxt-link></a-breadcrumb-item>
     </a-breadcrumb>
-    <section class="product" v-if="productData">
+    <Spinner v-if="$fetchState.pending"></Spinner>
+    <Empty class="fade-in" v-if="$fetchState.error || (!$fetchState.pending && !productData)"></Empty>
+    <section class="product fade-in" v-if="productData">
       <div class="pics">
         <div class="pics__side">
           <div class="pics__pic" v-for="item of 3" :key="item.src">
