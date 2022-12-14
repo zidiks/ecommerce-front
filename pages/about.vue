@@ -133,7 +133,18 @@
       & img {
         height: 100%;
 
-        &:last-of-type {
+        &:first-child {
+
+          @include breakpoint(xl) {
+            width: 40%;
+          }
+
+          @include breakpoint(l) {
+            width: auto;
+          }
+        }
+
+        &:last-child {
 
           @include breakpoint(l) {
             align-self: flex-end;
@@ -154,7 +165,7 @@
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        font-size: 1rem;
+        font-size: 14px;
       }
 
       @include breakpoint(l) {
@@ -194,6 +205,7 @@
       font-size: 18px;
 
       @include breakpoint(l) {
+        padding: 0;
         font-size: 14px;
         width: 24rem;
       }
@@ -212,22 +224,27 @@
   }
 
   .delivery {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     margin-top: 2.5rem;
     padding-bottom: 2.5rem;
     border-bottom: $main-border;
 
     @include breakpoint(l) {
+      display: flex;
       flex-direction: column;
       border: none;
     }
 
     &__text {
+      display: flex;
+      flex-direction: column;
+      padding-right: 1rem;
 
       @include breakpoint(l) {
         display: flex;
         flex-direction: column;
+        padding: 0;
         width: 100%;
       }
 
@@ -243,19 +260,16 @@
         margin-top: 1.25rem;
         font-size: 25px;
 
-        @include breakpoint(l) {
-          width: 24rem;
-        }
+
       }
 
       & p {
-        width: 36rem;
+        width: 100%;
         padding-bottom: 1.25rem;
         font-size: 18px;
         border-bottom: $main-border;
 
         @include breakpoint(l) {
-          width: 24rem;
           font-size: 14px;
           padding: 0;
           border: none;
@@ -268,8 +282,18 @@
       width: 100%;
       justify-content: flex-end;
 
+      @include breakpoint(l) {
+        justify-content: center;
+      }
+
       & img {
         width: 100%;
+        padding-left: 5rem;
+
+        @include breakpoint(l) {
+          padding: 0;
+          width: 70%;
+        }
       }
     }
   }
@@ -288,11 +312,19 @@
     }
 
     & h2, div {
-      width: 24rem;
+      max-width: 24rem;
     }
 
     & div, div > a {
-      font-size: 16px;
+      font-size: 1rem;
+
+      @include breakpoint(l) {
+        font-size: 13px;
+      }
+
+      @include breakpoint(xxs) {
+        font-size: 11px;
+      }
     }
   }
 </style>

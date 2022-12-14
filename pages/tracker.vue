@@ -53,7 +53,7 @@
       @include breakpoint(l) {
         display: flex;
         flex-direction: column;
-        width: 23rem;
+        max-width: 23rem;
         border: none;
       }
 
@@ -76,7 +76,8 @@
       width: 29.5rem;
 
       @include breakpoint(l) {
-        width: 23rem;
+        max-width: 23rem;
+        width: 100%;
       }
     }
 

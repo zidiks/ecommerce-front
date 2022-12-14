@@ -207,6 +207,10 @@
             margin-top: 1.75rem;
           }
         }
+
+        @include breakpoint(xxs) {
+          font-size: 1.75rem;
+        }
       }
     }
 
@@ -245,6 +249,10 @@
       margin: 0;
     }
 
+    @include breakpoint(xxs) {
+      margin-top: 1rem;
+    }
+
     &__contacts {
       & h3 {
         margin-bottom: 2.5rem;
@@ -264,7 +272,7 @@
 
       @include breakpoint(l) {
         justify-content: center;
-        width: 24rem;
+        max-width: 24rem;
       }
     }
 
@@ -288,8 +296,10 @@
       margin-top: 2.5rem;
 
       @include breakpoint(l) {
-        width: 24rem;
+        max-width: 24rem;
+        width: 100%;
         margin-top: 0.5rem;
+
       }
     }
 
@@ -300,13 +310,17 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        width: 24rem;
+        max-width: 24rem;
       }
     }
 
     &__text {
       font-size: 1rem;
       margin-bottom: 2rem;
+    }
+
+    &__fields {
+      width: 100%;
     }
   }
 
@@ -397,7 +411,7 @@
     &__option {
 
       @include breakpoint(l) {
-        width: 24rem;
+        max-width: 24rem;
       }
     }
 
@@ -463,8 +477,16 @@
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         justify-content: center;
-        width: 24rem;
+        max-width: 24rem;
         padding-inline: 50%;
+      }
+
+      @include breakpoint(xs) {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        padding-inline: 0;
       }
 
       & h4 {
@@ -493,6 +515,10 @@
       width: 12.5rem;
       height: 13rem;
       padding: 0 2rem;
+
+      @include breakpoint(xxs) {
+
+      }
 
       & img {
         height: 80%;
@@ -549,7 +575,7 @@
 
         @include breakpoint(l) {
           margin-top: 1rem;
-          width: 24rem;
+          max-width: 24rem;
         }
 
         & a {
