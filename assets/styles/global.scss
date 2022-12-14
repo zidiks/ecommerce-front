@@ -52,8 +52,7 @@ main {
   margin: auto;
 
   @include breakpoint(l) {
-    width: 90%;
-    padding: 0 1rem;
+    padding: 0 1.5rem;
   }
 }
 
