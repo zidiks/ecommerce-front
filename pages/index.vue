@@ -411,8 +411,6 @@ h2 {
 }
 
 .latest {
-  margin-top: 6rem;
-
   &__head {
     display: grid;
     grid-template-columns: repeat(3, 1fr);

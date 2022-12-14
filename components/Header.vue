@@ -13,13 +13,10 @@
 
         </div>
       </div>
-      <nav @mouseleave="dropdown()" :class="`header__navbar${burgerShown ? '' : '-hidden'}`">
-        <li @mouseenter="dropdown(item.dropdown)" class="link-li" :class="{ 'link-li-active': dropdownOpen && item.dropdown }" v-for="item of headerNavLinks" :key="item.text" @click="currentWidth <= 960 ? burgerButton() : ''; dropdown(false)">
+      <nav :class="`header__navbar${burgerShown ? '' : '-hidden'}`">
+        <li class="link-li" v-for="item of headerNavLinks" :key="item.text" @click="currentWidth <= 960 ? burgerButton() : '';">
           <nuxt-link :to="item.link" class="link-custom">{{ item.text }}</nuxt-link>
         </li>
-        <div @mouseenter="dropdownFocus = true" @mouseleave="dropdownFocus = false" class="dropdown" :class="{ 'dropdown-active': dropdownOpen }">
-          <Search class="search dropdown-search" />
-        </div>
       </nav>
       <div :class="`overlay${burgerShown ? '' : '-hidden'}`">
       </div>
@@ -34,14 +31,12 @@ export default {
     return {
       headerNavLinks: [
       { text: 'ГЛАВНАЯ', link: '/'},
-      { text: 'КАТАЛОГ', link: '/catalogue', dropdown: true},
+      { text: 'КАТАЛОГ', link: '/catalogue'},
       { text: 'О НАС', link: '/about'},
       { text: 'АКЦИИ', link: '/offers' },
       { text: 'ТРЕКЕР ЗАКАЗА', link: '/tracker'},
       { text: 'КОРЗИНА', link: '/cart'},
       ],
-      dropdownOpen: false,
-      dropdownFocus: false,
       burgerShown: false,
       currentHeight: 0,
       currentWidth: 0,
@@ -49,13 +44,6 @@ export default {
   },
 
   methods: {
-    dropdown(value = false) {
-      setTimeout(() => {
-        if (!this.dropdownFocus) {
-          this.dropdownOpen = !!value;
-        }
-      }, 200);
-    },
     burgerButton() {
       this.burgerShown = !this.burgerShown;
       document.body.style.overflow = this.burgerShown && this.currentWidth <= 960 ? 'hidden' : 'visible';
@@ -112,7 +100,7 @@ export default {
       justify-content: center;
     }
     &-active {
-      box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.2);
+      box-shadow: 0 10px 15px -3px rgba(0,0,0,0.2);
       bottom: calc(-50vh - 1px);
       max-height: 50vh;
     }
@@ -153,6 +141,18 @@ export default {
 
       .link-li {
         position: relative;
+        a.nuxt-link-exact-active {
+          &::before {
+            z-index: 900;
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            left: 0;
+            bottom: -1px;
+            content: '';
+            background: var(--data-color-black);
+          }
+        }
         .link-custom {
           height: 100%;
           display: flex;
@@ -161,24 +161,14 @@ export default {
           text-decoration: none;
           color: var(--data-color-black);
         }
-        &:hover::before {
+        &:hover > a::before {
           position: absolute;
           width: 100%;
           height: 2px;
+          left: 0;
           bottom: -1px;
           content: '';
           background: var(--data-color-black);
-        }
-        &-active {
-          &::before {
-            z-index: 900;
-            position: absolute;
-            width: 100%;
-            height: 2px;
-            bottom: -1px;
-            content: '';
-            background: var(--data-color-black);
-          }
         }
       }
 
