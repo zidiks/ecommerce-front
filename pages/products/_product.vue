@@ -30,11 +30,11 @@
         </div>
         <div class="controls">
           <div class="controls__price">
-            <div :class="productData.price ? 'controls__price-old' : 'controls__hidden'">
+            <div v-if="productData.price !== productData.totalPrice" class="controls__price-old">
               {{ productData.price + ' BYN' }}
             </div>
             <div class="controls__price-current">
-              {{ productData.price + ' BYN' }}
+              {{ productData.totalPrice + ' BYN' }}
             </div>
           </div>
           <div class="controls__buttons">
