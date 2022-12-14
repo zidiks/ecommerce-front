@@ -11,7 +11,7 @@
       {{ 50 }} МЛ
     </div>
     <div class="card__price">
-      {{ item.price }} BYN
+      {{ item.totalPrice }} BYN
     </div>
     </nuxt-link>
   </div>
