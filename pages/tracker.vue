@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main class="content-width">
     <a-breadcrumb class="breadcrumbs">
       <a-breadcrumb-item><nuxt-link to="/">ГЛАВНАЯ</nuxt-link></a-breadcrumb-item>
       <a-breadcrumb-item>Трекер заказа<span class="breadcrumbs-separator">/</span></a-breadcrumb-item>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="content-width header__wrapper">
     <Search :burgerShown="burgerShown" class="search-mobile search-pc"/>
     <header class="header">
       <div class="header__crutch">
@@ -123,6 +123,10 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    &__wrapper {
+      padding-top: 2rem;
+    }
 
     &__crutch {
       width: 100%;

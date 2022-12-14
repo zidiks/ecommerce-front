@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main class="content-width">
     Special offers page plug
 
   </main>

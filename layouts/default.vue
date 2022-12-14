@@ -1,5 +1,5 @@
 <template>
-  <div class="content-width">
+  <div>
     <Header />
     <div class="page-wrap">
       <Nuxt />
