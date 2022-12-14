@@ -206,7 +206,7 @@
         margin-top: 1rem;
         height: auto;
         border-radius: 25px;
-        width: 12rem;
+        width: 12.3rem;
 
         & div {
           border-radius: 50%;

@@ -103,11 +103,19 @@ export default defineComponent({
 
     & h3 {
       font-size: 25px;
+
+      @include breakpoint(xs) {
+        font-size: 1.25rem;
+      }
     }
 
     & p {
       font-size: 18px;
       margin: 0;
+
+      @include breakpoint(xs) {
+        font-size: 1rem;
+      }
     }
   }
 }
