@@ -10,7 +10,7 @@
     <section class="product fade-in" v-if="productData && !$fetchState.pending">
       <div class="pics">
         <div class="pics__side">
-          <div class="pics__wrapper" :style="`transform: translateY(${-(currentIndex - 1) * 10.5}rem); transition: 0.5s`">
+          <div class="pics__wrapper" :style="`transform: translate${translateDirection}(${-(currentIndex - 1) * translateAmount}rem);`">
           <div :class="`pics__pic${currentIndex == index ? '-current' : ''}`"
             v-for="(item, index) of productData?.media" :key="item.src"
             @click="currentIndex = index">
@@ -103,6 +103,9 @@
         activeKey: ['0'],
         productData: null,
         currentIndex: 0,
+        currentWidth: 0,
+        translateDirection: 'Y',
+        translateAmount: 10.5,
         similarData: [],
         baseUrl: this.$config.baseUrl,
       }
@@ -140,10 +143,28 @@
         this.isOverlay = false;
         document.querySelector('body').style.overflow = 'visible';
       },
-      debuger: function(el) {
-        console.log(el);
-      }
+      getCurrentWidth: function() {
+        this.currentWidth = window.innerWidth;
+        this.setWidthDependVariables();
+      },
+      setWidthDependVariables: function() {
+        if(this.currentWidth > 960) {
+          this.translateDirection = 'Y';
+          this.translateAmount = 10.5;
+        } else {
+          this.translateDirection = 'X';
+          this.translateAmount = 4.5;
+        }
+      },
     },
+
+    beforeMount() {
+      this.getCurrentWidth();
+    },
+
+    mounted() {
+      window.addEventListener('resize', this.getCurrentWidth);
+    }
   }
 </script>
 
@@ -167,24 +188,25 @@
     display: grid;
     grid-template-columns: 1fr 2.5fr;
     column-gap: 2rem;
+    min-width: 28rem;
 
     @include breakpoint(l) {
       display: flex;
       flex-direction: column-reverse;
       justify-content: flex-end;
       align-items: center;
+      min-width: 0;
     }
 
     &__side {
       height: 30rem;
       overflow: hidden;
+
       @include breakpoint(l) {
         margin-top: 1rem;
-        grid-template-rows: 1fr;
-        grid-template-columns: repeat(3, 1fr);
-        column-gap: 2rem;
-        width: 10rem;
-        height: 2rem;
+        height: auto;
+        border-radius: 25px;
+        width: 12rem;
 
         & div {
           border-radius: 50%;
@@ -196,7 +218,13 @@
       display: grid;
       grid-template-columns: 1fr;
       row-gap: 2rem;
-      //height: 100%;
+      transition: 0.5s;
+
+      @include breakpoint(l) {
+        display: flex;
+        gap: 1.47rem;
+        width: max-content;
+      }
     }
 
     &__pic {
@@ -207,6 +235,12 @@
       height: 8.5rem;
       cursor: pointer;
       transition: transform 0.5s;
+
+      @include breakpoint(l) {
+        height: 3rem;
+        width: 3rem;
+        overflow: hidden;
+      }
 
       &-current {
         @extend .pics__pic;
@@ -219,6 +253,10 @@
         max-width: 100%;
         aspect-ratio: 1/1.25;
         object-fit: contain;
+
+        @include breakpoint(l) {
+          object-fit: cover;
+        }
       }
     }
 
@@ -389,8 +427,17 @@
     }
 
     &__button {
+      display: flex;
+      overflow: hidden;
+      width: inherit;
+
+      & div {
+        width: 100%;
+        max-width: 23rem;
+      }
 
       @include breakpoint(l) {
+        width: fit-content;
 
         & div, :last-child {
           width: 12.5rem;
@@ -412,6 +459,7 @@
       display: flex;
       justify-content: space-evenly;
       align-items: center;
+      max-width: 10rem;
       width: 100%;
       height: 4rem;
       font-size: 1.25rem;
