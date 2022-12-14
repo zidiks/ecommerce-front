@@ -2,6 +2,12 @@
   "name": "ecommerce-front",
   "version": "1.0.0",
   "private": true,
+  "config": {
+    "nuxt": {
+      "host": "0.0.0.0",
+      "port": "5000"
+    }
+  },
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
