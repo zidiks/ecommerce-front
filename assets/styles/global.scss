@@ -48,7 +48,7 @@ main {
 .content-width {
   width: 100%;
   max-width: 75rem;
-  padding: 0 3rem;
+  padding: 0 5rem;
   margin: auto;
 
   @include breakpoint(l) {
@@ -218,7 +218,7 @@ main {
 }
 
 .fade-in {
-  animation: fadeIn 2s;
+  animation: fadeIn .6s;
 }
 
 @keyframes fadeIn {

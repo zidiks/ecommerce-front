@@ -216,7 +216,7 @@ h2 {
   align-items: center;
   margin-top: 1.5rem;
   width: 100%;
-  height: 30rem;
+  height: 26rem;
 }
 
 .divider {
@@ -610,8 +610,4 @@ h2 {
     }
   }
 }
-
-//.ant-carousel .slick-list .slick-slide.slick-active {
-//  pointer-events: none !important;
-//}
 </style>

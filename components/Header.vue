@@ -135,7 +135,7 @@ export default {
       margin-top: 2rem;
       padding: 0 5rem;
       display: flex;
-      justify-content: center;
+      justify-content: space-around;
       border-top: $main-border;
       border-bottom: $main-border;
 
@@ -174,7 +174,7 @@ export default {
 
       @include breakpoint(xl) {
         justify-content: space-around;
-        padding: 0.5rem 4%;
+        padding: 0 4%;
 
         & li {
           margin: 0 0.25rem;

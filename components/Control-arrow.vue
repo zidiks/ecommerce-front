@@ -21,12 +21,7 @@
   @import '~/assets/styles/global';
 
   .controls-arrow {
-
-    & svg {
-      @include breakpoint(l) {
-        min-width: 2.25rem;
-        width: 2.25rem;
-      }
-    }
+    width: 50px;
+    height: 50px;
   }
 </style>
