@@ -7,4 +7,6 @@ export enum BaseProductProperty {
   IsNew = 'isNew',
   IsRec = 'isRec',
   Discount = 'discount',
+  CreatedAt = 'createdAt',
+  UpdatedAt = 'updatedAt',
 }

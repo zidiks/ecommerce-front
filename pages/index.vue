@@ -157,6 +157,8 @@
 <script scoped>
 import { sliderContent } from '~/assets/shared/constants/shared';
 import { ReusableClasses } from "assets/shared/enums/reusable-classes.enum";
+import { BaseProductProperty } from "assets/shared/enums/base-product-property.enum";
+import { ComparisonOperator } from "assets/shared/enums/mongoose-query.enum";
 
 export default {
   data() {
@@ -171,9 +173,18 @@ export default {
   async fetch() {
     const resLatest = await this.$api.products.getProducts({
       preview: true,
+      sort: {
+        property: BaseProductProperty.CreatedAt,
+        direction: -1,
+      },
       pagination: {
         page: 1,
         limit: 3,
+      },
+      baseProperties: {
+        [BaseProductProperty.IsNew]: {
+          [ComparisonOperator.eq]: true
+        }
       }
     });
     this.latestContent = resLatest.data;
@@ -182,6 +193,11 @@ export default {
       pagination: {
         page: 1,
         limit: 4,
+      },
+      baseProperties: {
+        [BaseProductProperty.IsRec]: {
+          [ComparisonOperator.eq]: true
+        }
       }
     });
     this.bestsellersContent = resBestsellers.data;
