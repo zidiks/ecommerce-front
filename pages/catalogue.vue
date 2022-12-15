@@ -50,7 +50,6 @@
           this.renderColumns.push([]);
           this.renderColumns.pop();
         }
-        console.log(this.renderColumns)
       },
       clearAllColumns() {
         // console.log('mouse out');
