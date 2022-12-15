@@ -1,4 +1,5 @@
 export enum BaseProductProperty {
+  Id = '_id',
   Brand = 'brand',
   Category = 'categoryId',
   Type = 'productTypeId',

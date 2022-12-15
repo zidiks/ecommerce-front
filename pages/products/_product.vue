@@ -38,25 +38,25 @@
             </div>
           </div>
           <div class="controls__buttons">
-            <div @click="closeOverlay()" :class="isOverlay ? 'controls__message' : 'controls__hidden'">
-              <div class="controls__overlay"></div>
-              <div title="Скрыть уведомление">
-                <img src="~/static/Alert.svg" alt="alert">
-                <p>
-                  ТОВАР УСПЕШНО<br>
-                  ДОБАВЛЕН В КОРЗИНУ
-                </p>
-              </div>
-            </div>
             <div class="controls__content">
-              <div class="controls__amount">
-                <div class="controls__less" @click="decrement()">-</div>
-                <div class="controls__number">{{ amount }}</div>
-                <div class="controls__more" @click="increment()">+</div>
-              </div>
               <div class="controls__button">
-                <div :class="isInCart ? 'controls__hidden' : 'button'" @click="addToCart()">в корзину</div>
-                <nuxt-link :class="isInCart ? 'button-inversed' : 'controls__hidden'" to="/cart">оформить заказ</nuxt-link>
+                <div v-if="!vuexProduct?.count" class="button-base" @click="addToCart()">в корзину</div>
+                <nuxt-link v-if="vuexProduct?.count" class="button-inversed" to="/cart"><span class="fade-in">оформить заказ</span></nuxt-link>
+  <!--                <div v-if="vuexProduct?.count" class="controls__message fade-in">-->
+  <!--                  <div class="controls__overlay"></div>-->
+  <!--                  <div title="Скрыть уведомление">-->
+  <!--                    <img src="~/static/Alert.svg" alt="alert">-->
+  <!--                    <p>-->
+  <!--                      ТОВАР УСПЕШНО<br>-->
+  <!--                      ДОБАВЛЕН В КОРЗИНУ-->
+  <!--                    </p>-->
+  <!--                  </div>-->
+  <!--                </div>-->
+              </div>
+              <div class="controls__amount" v-if="vuexProduct?.count">
+                <div class="controls__less" @click="decrement()">-</div>
+                <div class="controls__number">{{ vuexProduct?.count || 0 }}</div>
+                <div class="controls__more" @click="increment()">+</div>
               </div>
             </div>
           </div>
@@ -97,6 +97,7 @@
   export default {
     data () {
       return {
+        productId: this.$route.params.product,
         amount: 1,
         isInCart: false,
         isOverlay: false,
@@ -111,7 +112,7 @@
       }
     },
     async fetch() {
-      this.productData = await this.$api.products.getProductById(this.$route.params.product);
+      this.productData = await this.$api.products.getProductById(this.productId);
       const resSimilar = await this.$api.products.getProducts({
         preview: true,
         pagination: {
@@ -121,27 +122,20 @@
       });
       this.similarData = resSimilar.data;
     },
+    computed: {
+      vuexProduct() {
+        return this.$store.getters["cart/getById"](this.productId);
+      },
+    },
     methods: {
       increment: function() {
-        this.isInCart = false;
-        this.isOverlay = false;
-        return this.amount++;
+        this.$store.commit('cart/increment', this.productId);
       },
       decrement: function() {
-        if(this.amount > 1) {
-          this.isInCart = false;
-          this.isOverlay = false;
-          return this.amount--;
-        }
+        this.$store.commit('cart/decrement', this.productId);
       },
       addToCart: function() {
-        this.isInCart = true;
-        this.isOverlay = this.isInCart;
-        if(this.currentWidth <= 960)document.querySelector('body').style.overflow = 'hidden';
-      },
-      closeOverlay: function() {
-        this.isOverlay = false;
-        document.querySelector('body').style.overflow = 'visible';
+        this.$store.commit('cart/push', this.productId);
       },
       getCurrentWidth: function() {
         this.currentWidth = window.innerWidth;
@@ -289,7 +283,6 @@
   .main-descr {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
 
     &__text {
 
@@ -327,6 +320,7 @@
       display: flex;
       gap: 2rem;
       font-size: 2rem;
+      margin-top: 1rem;
 
       @include breakpoint(l) {
         font-size: 22px;
@@ -364,7 +358,6 @@
       display: flex;
       font-size: 1rem;
       align-items: baseline;
-      margin-left: 4rem;
 
       @include breakpoint(l) {
         margin: 0;
@@ -411,9 +404,14 @@
     }
 
     &__content {
-      display: flex;
       width: 100%;
-      gap: 1.5rem;
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      column-gap: 1rem;
+
+      &-active {
+        grid-template-columns: 1fr;
+      }
 
       @include breakpoint(l) {
         justify-content: center;
@@ -428,8 +426,7 @@
 
     &__button {
       display: flex;
-      overflow: hidden;
-      width: inherit;
+      flex-direction: column;
 
       & div {
         width: 100%;
@@ -459,8 +456,6 @@
       display: flex;
       justify-content: space-evenly;
       align-items: center;
-      max-width: 10rem;
-      width: 100%;
       height: 4rem;
       font-size: 1.25rem;
       border: $main-border;
