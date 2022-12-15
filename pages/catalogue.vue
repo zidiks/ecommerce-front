@@ -4,14 +4,16 @@
       <a-breadcrumb-item><nuxt-link to="/">ГЛАВНАЯ</nuxt-link></a-breadcrumb-item>
       <a-breadcrumb-item><nuxt-link to="/catalogue">КАТАЛОГ</nuxt-link></a-breadcrumb-item>
     </a-breadcrumb>
-    <section @mouseout="clearAllColumns()" :style="`grid-template-columns: repeat(${maxDepth}, 1fr)`" class="structure">
+    <section @mouseleave="setColumnData(1, [])" :style="`grid-template-columns: repeat(${maxDepth}, 1fr)`" class="structure">
       <div class="structure__column" v-for="(column, index) in renderColumns" :key="index">
-        Column {{ index + 1 }}
-        <div v-if="index === 0" @mouseover="setColumnData(index + 1, [])" class="structure__item fade-in-left">
-          Все товары
-        </div>
-        <div @mouseover="setColumnData(index + 1, item.children)" class="structure__item fade-in-left" v-for="item in column">
-          {{ item?.name }}
+        <div class="structure__column-wrapper">
+          <div v-if="index === 0" @mouseover="setColumnData(index + 1, [])" class="structure__header fade-in-left">
+            <h2>Все товары</h2>
+          </div>
+          <div v-else><h2>&nbsp;</h2></div>
+          <div @mouseover="setColumnData(index + 1, item.children)" class="structure__item fade-in-left" v-for="item in column" :key="item.name">
+            {{ item?.name }} <div v-if="item.children.length">&#x27A7;</div>
+          </div>
         </div>
       </div>
     </section>
@@ -48,6 +50,7 @@
           this.renderColumns.push([]);
           this.renderColumns.pop();
         }
+        console.log(this.renderColumns)
       },
       clearAllColumns() {
         // console.log('mouse out');
@@ -65,8 +68,28 @@
 
   .structure {
     display: grid;
+    column-gap: 1rem;
+    margin-top: 2rem;
+
     &__column {
 
+      &-wrapper {
+        display: grid;
+        grid-template-columns: 1fr;
+        height: fit-content;
+        row-gap: 1rem;
+
+        & h2 {
+          font-size: 1.75rem;
+        }
+      }
+    }
+
+    &__item {
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.25rem;
+      cursor: pointer;
     }
   }
 </style>

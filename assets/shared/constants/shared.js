@@ -300,6 +300,21 @@ export let catalogueTree = {
               _id: '',
               children: [],
             },
+            {
+              name: 'Мегасекс',
+              handle: '',
+              media: [],
+              description: null,
+              productTypeId: null,
+              __v: 0,
+              _id: '',
+              children: [
+                {
+                  name: 'benis :D',
+                  children: [],
+                }
+              ],
+            },
           ],
         },
         {
