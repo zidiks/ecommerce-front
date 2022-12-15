@@ -151,6 +151,14 @@ export default {
             bottom: -1px;
             content: '';
             background: var(--data-color-black);
+
+            @include breakpoint(l) {
+              display: none;
+            }
+          }
+
+          @include breakpoint(l) {
+            font-weight: 600;
           }
         }
         .link-custom {
@@ -169,6 +177,10 @@ export default {
           bottom: -1px;
           content: '';
           background: var(--data-color-black);
+
+          @include breakpoint(l) {
+            display: none;
+          }
         }
       }
 
