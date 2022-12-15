@@ -73,23 +73,23 @@
       </section>
       <section :class="`cart ${isConfirmed ? 'cart-page__hidden' : ''}`">
         <div class="cart__content">
-          <div class="cart__item" v-for="item of cartContent" :key="item.name">
+          <div class="cart__item" v-for="item of cartContent" :key="item.product._id">
             <div class="cart__image">
-              <img :src="item.img" :alt="item.name">
+              <img :src="baseUrl + '/storage/images/' + item.product.media[0]" :alt="item.product.name">
             </div>
             <div class="cart__item-description">
-              <h3>{{ item.name }}</h3>
+              <h3>{{ item.product.name }}</h3>
               <div class="cart__item-price">
                 <div class="cart__price-current">
-                  {{ item.price }} BYN
+                  {{ item.product.totalPrice }} BYN
                 </div>
-                <div :class="item.priceOld ? 'cart__price-old' : 'cart__hidden'">
-                  {{ item.priceOld }} BYN
+                <div v-if="item.product.price !== item.product.totalPrice" class="cart__price-old">
+                  {{ item.product.price }} BYN
                 </div>
               </div>
-              <h4>объем: {{ item.vol }}</h4>
-              <h4>кол-во, шт: {{ item.amount }}</h4>
-              <div class="cart__remove-item">
+              <h4>объем: {{ 50 }}</h4>
+              <h4>кол-во, шт: {{ item.count }}</h4>
+              <div @click="$store.commit('cart/remove',item.product._id); $fetch()" class="cart__remove-item">
                 <u>Удалить</u>
               </div>
             </div>
@@ -119,33 +119,48 @@
 </template>
 
 <script>
-  import { cartContent, deliveryMethods } from 'assets/shared/constants/shared'
+  import { deliveryMethods } from 'assets/shared/constants/shared'
+  import { BaseProductProperty } from "assets/shared/enums/base-product-property.enum";
+  import { ComparisonOperator } from "assets/shared/enums/mongoose-query.enum";
 
   export default {
-    data: () => ({
-      cartContent,
-      deliveryMethods,
-      finalPrice: 0,
-      discount: 5,
-      currentDeliveryID: 0,
-      isConfirmed: false,
-    }),
-    methods: {
-      setFinalPrice: function() {
-        cartContent.forEach(item => {
-          this.finalPrice += item.price * item.amount;
+    data() {
+      return {
+        cartContent: [],
+        deliveryMethods,
+        finalPrice: 0,
+        discount: 5,
+        currentDeliveryID: 0,
+        isConfirmed: false,
+        baseUrl: this.$config.baseUrl,
+      }
+    },
+    async fetch() {
+      const vuexCart = this.$store.state.cart.products;
+      const cartRes = await this.$api.products.getProducts({
+          preview: true,
+          baseProperties: {
+            [BaseProductProperty.Id]: {
+              [ComparisonOperator.in]: vuexCart.map(product => product.id),
+            }
+          },
+          pagination: {
+            page: 1,
+            limit: vuexCart.length,
+          }
         });
-        this.finalPrice = this.finalPrice.toFixed(2);
-      },
+      this.cartContent = vuexCart.map(item => ({
+        product: cartRes.data.find(resItem => resItem._id === item.id),
+        count: item.count,
+      }));
+    },
+    methods: {
       setCurrentDeliveryID: function(index) {
         this.currentDeliveryID = index;
       },
       confirmOrder: function() {
         this.isConfirmed = true;
       }
-    },
-    beforeMount() {
-      this.setFinalPrice();
     },
   }
 </script>
