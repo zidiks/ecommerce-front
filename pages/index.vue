@@ -439,6 +439,7 @@ h2 {
 
     @include breakpoint(m) {
       grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem
     }
 
     @include breakpoint(xxs) {
@@ -452,7 +453,7 @@ h2 {
     }
 
     @include breakpoint(m) {
-      font-size: .7rem;
+      font-size: .8rem;
       &:nth-child(3) {
         display: none;
       }

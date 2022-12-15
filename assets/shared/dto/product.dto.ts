@@ -2,6 +2,7 @@ import { BaseProductProperty } from "~/assets/shared/enums/base-product-property
 import { ComparisonOperator } from "~/assets/shared/enums/mongoose-query.enum";
 import { BrandModel } from "~/assets/shared/dto/brand.dto";
 import { ApiId, ApiTimestamp } from "~/assets/shared/models/api.model";
+import { ProductTypePropertyDto } from "~/assets/shared/dto/productTypeProperty.dto";
 
 export interface ProductModel extends ApiId, ApiTimestamp {
   name: string;
@@ -18,7 +19,7 @@ export interface ProductModel extends ApiId, ApiTimestamp {
   productProps: ProductPropertyValueModel[];
 }
 
-export interface ProductPropertyValueModel {
+export interface ProductPropertyValueModel extends ProductTypePropertyDto {
   productTypePropertyId: string;
   value: string | string[] | number | boolean;
 }

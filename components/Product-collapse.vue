@@ -10,8 +10,8 @@
     </template>
     <a-collapse-panel class="collapse__panel" key="1" header="Описание товара">
         <div v-for="item of items" :key="item.productTypePropertyId" class="collapse__item">
-          <h3>{{ item.productTypePropertyId }}</h3>
-          <p>{{ item.value }}</p>
+          <h3>{{ item.name }}</h3>
+          <p>{{ processValue(item.value) }}</p>
         </div>
     </a-collapse-panel>
     <a-collapse-panel class="collapse__panel" key="2" header="Оплата и доставка">
@@ -49,6 +49,17 @@ export default defineComponent({
   methods: {
     activate: function() {
       return this.isActive ? this.isActive = false : this.isActive = true;
+    },
+    processValue(value) {
+      if (Array.isArray(value)) {
+        return value.join(', ');
+      }
+
+      if (typeof value == "boolean") {
+        return value ? 'ДА' : 'НЕТ';
+      }
+
+      return  value;
     }
   },
   props: ['items'],

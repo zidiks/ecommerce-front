@@ -1,6 +1,6 @@
 <template>
   <div class="slider">
-    <a-carousel :infinite="true" v-if="mountedState" :dots="false" :slidesToShow="3" :slidesToScroll="3" :responsive="responsive" dots-class="slick-dots" class="fade-in slider__a-carousel" arrows>
+    <a-carousel :infinite="true" autoplay v-if="mountedState" :dots="false" :slidesToShow="3" :slidesToScroll="3" :responsive="responsive" dots-class="slick-dots" class="fade-in slider__a-carousel" arrows>
       <template #prevArrow>
         <div class="custom-slick-arrow" style="left: 10px; z-index: 1">
           <Control-arrow :arrowDirection="'-180'" />
