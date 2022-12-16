@@ -168,10 +168,9 @@
     display: grid;
     grid-template-areas:
           "p d"
-          "c d"
-          "c d"
-          "c .";
+          "c d";
     column-gap: 2rem;
+    grid-template-columns: repeat(2, 1fr);
     margin-top: 2.5rem;
 
     @include breakpoint(l) {
