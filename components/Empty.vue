@@ -1,6 +1,6 @@
 <template>
-  <div class="empty">
-    <h3>ДАННЫЕ ОТСУТСТВУЮТ</h3>
+  <div class="empty all-text-toUpperCase">
+    <h3>ДАнные ОТСУТСТВУЮТ</h3>
   </div>
 </template>
 

@@ -1,5 +1,5 @@
 <template>
-  <footer class="footer content-width">
+  <footer class="footer content-width all-text-toUpperCase">
     <div class="footer__content">
       <div class="footer__nav">
         <li class="link-li" v-for="item of footerNavLinks" :key="item.text">

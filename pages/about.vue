@@ -1,5 +1,5 @@
 <template>
-  <main class="content-width">
+  <main class="content-width all-text-toUpperCase">
     <a-breadcrumb class="breadcrumbs">
       <a-breadcrumb-item><nuxt-link to="/">ГЛАВНАЯ</nuxt-link></a-breadcrumb-item>
       <a-breadcrumb-item>О НАС</a-breadcrumb-item>

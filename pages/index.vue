@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main class="all-text-toUpperCase">
     <section class="slider fade-in">
       <MainCarousel v-if="sliderContent.length && !$fetchState.pending" :items="sliderContent"></MainCarousel>
       <div v-else class="slider-spinner">

@@ -1,5 +1,5 @@
 <template>
-  <main class="content-width">
+  <main class="content-width all-text-toUpperCase">
     Special offers page plug
 
   </main>

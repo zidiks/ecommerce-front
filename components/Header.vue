@@ -1,7 +1,7 @@
 <template>
   <div class="content-width header__wrapper">
     <Search :burgerShown="burgerShown" class="search-mobile search-pc"/>
-    <header class="header">
+    <header class="header all-text-toUpperCase">
       <div class="header__crutch">
         <div class="header__plug">
 
