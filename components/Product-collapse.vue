@@ -109,7 +109,7 @@ export default defineComponent({
 
   &__item {
     border-bottom: $main-border;
-    padding: 1.25rem 0;
+    padding: 1rem 0;
 
     &:nth-child(1) {
       margin-top: 2rem;
@@ -118,7 +118,7 @@ export default defineComponent({
 
     & h3 {
       font-size: 25px;
-
+      margin-bottom: 0.1rem;
       @include breakpoint(xs) {
         font-size: 1.25rem;
       }
