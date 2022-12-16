@@ -82,6 +82,10 @@ export default defineComponent({
     border: 0;
     font-size: 35px;
 
+    @include breakpoint(xl) {
+      font-size: 1.5rem;
+    }
+
     @include breakpoint(l) {
       font-size: 1.75rem;
     }

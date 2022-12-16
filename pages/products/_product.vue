@@ -62,10 +62,10 @@
           </div>
         </div>
       </div>
-    </section>
-    <section class="characteristics" v-if="productData && !$fetchState.pending">
-      <Product-collapse v-if="productData?.productProps?.length" :items="productData.productProps"/>
-      <div class="characteristics__plug"></div>
+      <section class="characteristics" v-if="productData && !$fetchState.pending">
+        <Product-collapse v-if="productData?.productProps?.length" :items="productData.productProps"/>
+        <div class="characteristics__plug"></div>
+      </section>
     </section>
     <section class="also" v-if="productData && !$fetchState.pending">
       <div class="also__head">
@@ -167,7 +167,9 @@
 
   .product {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas:
+          "p p d d d"
+          "c c d d d";
     column-gap: 2rem;
     margin-top: 2.5rem;
 
@@ -179,10 +181,11 @@
   }
 
   .pics {
+    grid-area: p;
     display: grid;
     grid-template-columns: 1fr 2.5fr;
     column-gap: 2rem;
-    min-width: 28rem;
+    //min-width: 28rem;
 
     @include breakpoint(l) {
       display: flex;
@@ -283,6 +286,7 @@
   .main-descr {
     display: flex;
     flex-direction: column;
+    grid-area: d;
 
     &__text {
 
@@ -487,8 +491,8 @@
   }
 
   .characteristics {
+    grid-area: c;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
 
     @include breakpoint(l) {
       grid-template-columns: 1fr;
