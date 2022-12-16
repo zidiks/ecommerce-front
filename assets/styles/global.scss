@@ -173,13 +173,14 @@ main {
   margin-top: 2.5rem;
   font-size: 1rem;
 
-  &-separator {
-    margin: 0 8px;
-    color: rgba(0, 0, 0, 0.45);
-  }
-
   @include breakpoint(l) {
     display: none;
+  }
+}
+
+.ant-breadcrumb-link {
+  &:hover > a {
+    color: var(--data-color-hover) !important;
   }
 }
 
@@ -227,8 +228,8 @@ main {
   animation: fadeIn .6s;
 }
 
-.fade-in-left {
-  animation: fadeInLeft .6s;
+.fade-in-left-category {
+  animation: fadeInLeftCategory .6s;
 }
 
 @keyframes fadeIn {
@@ -236,13 +237,13 @@ main {
   100% { opacity: 1; }
 }
 
-@keyframes fadeInLeft {
+@keyframes fadeInLeftCategory {
   0% {
     opacity: 0;
     transform: translateX(-1rem);
   }
   100% {
-    opacity: 1;
+    opacity: .7;
     transform: translateX(0);
   }
 }

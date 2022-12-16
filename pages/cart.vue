@@ -2,7 +2,7 @@
   <main class="content-width">
     <a-breadcrumb class="breadcrumbs">
       <a-breadcrumb-item><nuxt-link to="/">ГЛАВНАЯ</nuxt-link></a-breadcrumb-item>
-      <a-breadcrumb-item>Корзина<span class="breadcrumbs-separator">/</span></a-breadcrumb-item>
+      <a-breadcrumb-item>Корзина</a-breadcrumb-item>
     </a-breadcrumb>
     <div class="cart-page__head">
       <h2 :class="`${isConfirmed ? '' : 'cart-page__hidden'}`">оформление заказа</h2>

@@ -5,8 +5,7 @@ export function processCategoriesTreeFunc(apiTree: CategoryDto): ProcessCategori
   const res: ProcessCategoriesResModel = {
     maxDepth: 0,
   }
-  const processRes = processCategoryNode(apiTree, 0, res);
-  res.tree = processRes;
+  res.tree = apiTree ? processCategoryNode(apiTree, 0, res) : undefined;
   return res;
 }
 

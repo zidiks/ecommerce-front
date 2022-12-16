@@ -2,7 +2,7 @@
   <main class="content-width">
     <a-breadcrumb class="breadcrumbs">
       <a-breadcrumb-item><nuxt-link to="/">ГЛАВНАЯ</nuxt-link></a-breadcrumb-item>
-      <a-breadcrumb-item>Трекер заказа<span class="breadcrumbs-separator">/</span></a-breadcrumb-item>
+      <a-breadcrumb-item>Трекер заказа</a-breadcrumb-item>
     </a-breadcrumb>
     <section class="tracker">
       <div class="tracker__head">

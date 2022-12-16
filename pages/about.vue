@@ -2,7 +2,7 @@
   <main class="content-width">
     <a-breadcrumb class="breadcrumbs">
       <a-breadcrumb-item><nuxt-link to="/">ГЛАВНАЯ</nuxt-link></a-breadcrumb-item>
-      <a-breadcrumb-item>О НАС<span class="breadcrumbs-separator">/</span></a-breadcrumb-item>
+      <a-breadcrumb-item>О НАС</a-breadcrumb-item>
     </a-breadcrumb>
     <section class="about">
       <div class="about__head">
