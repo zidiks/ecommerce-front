@@ -37,28 +37,27 @@
               {{ productData.totalPrice + ' BYN' }}
             </div>
           </div>
-          <div class="controls__buttons">
-            <div class="controls__content">
+          <div class="controls__content">
+            <div class="controls__buttons">
               <div class="controls__button">
                 <div v-if="!vuexProduct?.count" class="button-base" @click="addToCart()">в корзину</div>
                 <nuxt-link v-if="vuexProduct?.count" class="button-inversed" to="/cart"><span class="fade-in">оформить заказ</span></nuxt-link>
-  <!--                <div v-if="vuexProduct?.count" class="controls__message fade-in">-->
-  <!--                  <div class="controls__overlay"></div>-->
-  <!--                  <div title="Скрыть уведомление">-->
-  <!--                    <img src="~/static/Alert.svg" alt="alert">-->
-  <!--                    <p>-->
-  <!--                      ТОВАР УСПЕШНО<br>-->
-  <!--                      ДОБАВЛЕН В КОРЗИНУ-->
-  <!--                    </p>-->
-  <!--                  </div>-->
-  <!--                </div>-->
               </div>
-              <div class="controls__amount" v-if="vuexProduct?.count">
-                <div class="controls__less" @click="decrement()">-</div>
-                <div class="controls__number">{{ vuexProduct?.count || 0 }}</div>
-                <div class="controls__more" @click="increment()">+</div>
+              <div class="controls__amount fade-in" v-if="vuexProduct?.count">
+                  <div class="controls__less" @click="decrement()">-</div>
+                  <div class="controls__number">{{ vuexProduct?.count || 0 }}</div>
+                  <div class="controls__more" @click="increment()">+</div>
               </div>
             </div>
+            <div class="controls__message-wrapper fade-drop-out">
+                <div v-if="vuexProduct?.count && isMessageShown" class="controls__message"  @click="isMessageShown = false">
+                  <img src="~/static/Alert.svg" alt="alert">
+                  <p>
+                    ТОВАР УСПЕШНО<br>
+                    ДОБАВЛЕН В КОРЗИНУ
+                  </p>
+                </div>
+              </div>
           </div>
         </div>
       </div>
@@ -99,8 +98,7 @@
       return {
         productId: this.$route.params.product,
         amount: 1,
-        isInCart: false,
-        isOverlay: false,
+        isMessageShown: false,
         activeKey: ['0'],
         productData: null,
         currentIndex: 0,
@@ -135,6 +133,7 @@
         this.$store.commit('cart/decrement', this.productId);
       },
       addToCart: function() {
+        this.isMessageShown = true;
         this.$store.commit('cart/push', this.productId);
       },
       getCurrentWidth: function() {
@@ -168,8 +167,10 @@
   .product {
     display: grid;
     grid-template-areas:
-          "p p d d d"
-          "c c d d d";
+          "p d"
+          "c d"
+          "c d"
+          "c .";
     column-gap: 2rem;
     margin-top: 2.5rem;
 
@@ -344,73 +345,64 @@
       display: none;
     }
 
-    &__overlay {
-      position: fixed;
-      z-index: 100;
-
-      @include breakpoint(l) {
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        backdrop-filter: blur(4px);
-        overflow: hidden;
-      }
-    }
-
     &__message {
       display: flex;
       font-size: 1rem;
       align-items: baseline;
+      margin-top: 1rem;
+      gap: 1rem;
 
       @include breakpoint(l) {
         margin: 0;
         width: 100%;
+        position: relative;
+        top: 50%;
+        left: 50%;
+        transform: translate(-0%, -50%);
       }
 
-      & div:last-child {
-        display: flex;
-        align-items: flex-start;
+      & img {
         position: relative;
-        z-index: 200;
-        gap: 1rem;
-        cursor: pointer;
+        top: 0.25rem;
+      }
+
+      &-wrapper {
 
         @include breakpoint(l) {
-          position: fixed;
-          top: 40%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          gap: 1rem;
-          background-color: $WHITE;
-          border: $main-border;
-          width: 16rem;
-          height: 5rem;
-          padding-top: 1rem;
-          padding-left: 1rem;
-        }
 
-        & img {
-          margin-top: 0.25rem;
         }
       }
-    }
 
-    &__buttons {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-top: 3rem;
+      // & div:last-child {
+      //   display: flex;
+      //   align-items: flex-start;
+      //   position: relative;
+      //   z-index: 200;
+      //   gap: 1rem;
+      //   cursor: pointer;
 
-      @include breakpoint(l) {
-        align-items: center;
-      }
+      //   @include breakpoint(l) {
+      //     position: relative;
+      //     top: 50%;
+      //     left: 50%;
+      //     transform: translate(-50%, -50%);
+      //     gap: 1rem;
+      //     background-color: $WHITE;
+      //     border: $main-border;
+      //     width: 16rem;
+      //     height: 5rem;
+      //     padding-top: 1rem;
+      //     padding-left: 1rem;
+      //   }
+
+      //
+      // }
     }
 
     &__content {
       width: 100%;
       display: grid;
-      grid-template-columns: 2fr 1fr;
+      grid-template-columns: 1fr;
       column-gap: 1rem;
 
       &-active {
@@ -418,6 +410,10 @@
       }
 
       @include breakpoint(l) {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 1.5rem;
         justify-content: center;
       }
 
@@ -428,26 +424,26 @@
       }
     }
 
+    &__buttons {
+      display: flex;
+      margin-top: 3rem;
+      justify-content: space-between;
+      gap: 1rem;
+
+      @include breakpoint(l) {
+        justify-content: center;
+      }
+    }
+
     &__button {
       display: flex;
       flex-direction: column;
-
-      & div {
-        width: 100%;
-        max-width: 23rem;
-      }
+      max-width: 20rem;
+      width: 100%;
 
       @include breakpoint(l) {
-        width: fit-content;
-
-        & div, :last-child {
-          width: 12.5rem;
-          height: 3.5rem;
-
-          @include breakpoint(xs) {
-            width: 100%;
-          }
-        }
+        max-width: 15rem;
+        width: 100%;
       }
 
       @include breakpoint(xs) {
@@ -463,11 +459,12 @@
       height: 4rem;
       font-size: 1.25rem;
       border: $main-border;
+      max-width: 10rem;
+      width: 100%;
 
       @include breakpoint(l) {
         min-width: 12rem;
-        width: 12rem;
-        height: 3.5rem;
+        width: 100%;
       }
 
       @include breakpoint(xs) {

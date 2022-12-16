@@ -74,8 +74,8 @@ export default defineComponent({
   background-color: transparent;
   margin-top: 5.5rem;
 
-  @include breakpoint(xs) {
-    margin-top: 3rem;
+  @include breakpoint(l) {
+    margin-top: 0;
   }
 
   &__panel {
