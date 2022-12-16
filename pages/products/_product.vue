@@ -49,8 +49,8 @@
                   <div class="controls__more" @click="increment()">+</div>
               </div>
             </div>
-            <div class="controls__message-wrapper fade-drop-out">
-                <div v-if="vuexProduct?.count && isMessageShown" class="controls__message"  @click="isMessageShown = false">
+            <div class="controls__message-wrapper">
+                <div v-if="vuexProduct?.count && isMessageShown" class="controls__message fade-in"  @click="isMessageShown = false" title="Скрыть уведомление">
                   <img src="~/static/Alert.svg" alt="alert">
                   <p>
                     ТОВАР УСПЕШНО<br>
@@ -350,14 +350,13 @@
       align-items: baseline;
       margin-top: 1rem;
       gap: 1rem;
+      cursor: pointer;
 
       @include breakpoint(l) {
         margin: 0;
         width: 100%;
-        position: relative;
-        top: 50%;
-        left: 50%;
-        transform: translate(-0%, -50%);
+        justify-content: center;
+        background-color: white;
       }
 
       & img {
@@ -368,34 +367,10 @@
       &-wrapper {
 
         @include breakpoint(l) {
-
+          height: fit-content;
+          height: 5rem;
         }
       }
-
-      // & div:last-child {
-      //   display: flex;
-      //   align-items: flex-start;
-      //   position: relative;
-      //   z-index: 200;
-      //   gap: 1rem;
-      //   cursor: pointer;
-
-      //   @include breakpoint(l) {
-      //     position: relative;
-      //     top: 50%;
-      //     left: 50%;
-      //     transform: translate(-50%, -50%);
-      //     gap: 1rem;
-      //     background-color: $WHITE;
-      //     border: $main-border;
-      //     width: 16rem;
-      //     height: 5rem;
-      //     padding-top: 1rem;
-      //     padding-left: 1rem;
-      //   }
-
-      //
-      // }
     }
 
     &__content {
@@ -404,22 +379,12 @@
       grid-template-columns: 1fr;
       column-gap: 1rem;
 
-      &-active {
-        grid-template-columns: 1fr;
-      }
-
       @include breakpoint(l) {
         display: flex;
         flex-direction: column;
         width: 100%;
         gap: 1.5rem;
         justify-content: center;
-      }
-
-      @include breakpoint(xs) {
-        display: grid;
-        grid-template-columns: 1fr;
-        justify-items: center;
       }
     }
 
@@ -431,6 +396,12 @@
 
       @include breakpoint(l) {
         justify-content: center;
+      }
+
+      @include breakpoint(xs) {
+        display: grid;
+        grid-template-columns: 1fr;
+        justify-items: center;
       }
     }
 
@@ -467,6 +438,7 @@
       }
 
       @include breakpoint(xs) {
+        height: 3rem;
         max-width: 16rem;
         width: 100%;
         justify-content: space-evenly;

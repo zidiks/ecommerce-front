@@ -232,10 +232,6 @@ main {
   animation: fadeInLeftCategory .6s;
 }
 
-.fade-drop-out {
-  animation: fadeDropOut 0.5s;
-}
-
 @keyframes fadeIn {
   0% { opacity: 0; }
   100% { opacity: 1; }
@@ -249,20 +245,5 @@ main {
   100% {
     opacity: .7;
     transform: translateX(0);
-  }
-}
-
-@keyframes fadeDropOut {
-  0% {
-    opacity: 0;
-    height: 0;
-  }
-  50% {
-    opacity: 0;
-    height: 50%;
-  }
-  100% {
-    opacity: 1;
-    height: fit-content !important;
   }
 }
