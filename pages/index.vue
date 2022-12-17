@@ -16,7 +16,7 @@
     <section v-if="bestsellersContent.length && !$fetchState.pending" class="content-width fade-in">
       <div class="bestsellers">
         <div class="bestsellers__head">
-          <h2>ЛИДЕРЫ ПРОДАЖ</h2>
+          <h2>РЕКОМЕНДУЕМ</h2>
           <div class="bestsellers__controls desktop-visibility">
             <svg class="arrow-inactive" width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect x="49.75" y="49.75" width="49.5" height="49.5" rx="24.75" transform="rotate(-180 49.75 49.75)" stroke="#0B0B0B" stroke-width="0.5"/>

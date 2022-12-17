@@ -11,11 +11,24 @@ export function processCategoriesTreeFunc(apiTree: CategoryDto): ProcessCategori
 
 function processCategoryNode(treeNode: CategoryDepthModel, depth: number, res: ProcessCategoriesResModel): CategoryDepthModel {
   treeNode.depth = depth;
+  treeNode.allProductTypeIds = [];
+  treeNode.allCategoriesIds = [treeNode._id];
+  if (treeNode.productTypeId) {
+    treeNode.allProductTypeIds.push(treeNode.productTypeId);
+  }
   if (depth > res.maxDepth) {
     res.maxDepth = depth;
   }
   if (treeNode.children?.length) {
-    treeNode.children.forEach((item: CategoryDepthModel) => processCategoryNode(item, depth + 1, res));
+    treeNode.children.forEach((item: CategoryDepthModel) => {
+      processCategoryNode(item, depth + 1, res);
+      if (item.allProductTypeIds && treeNode.allProductTypeIds) {
+        treeNode.allProductTypeIds = [...new Set([...treeNode.allProductTypeIds, ...item.allProductTypeIds])];
+      }
+      if (item.allCategoriesIds && treeNode.allCategoriesIds) {
+        treeNode.allCategoriesIds = [...new Set([...treeNode.allCategoriesIds, ...item.allCategoriesIds])];
+      }
+    });
   }
   return treeNode;
 }

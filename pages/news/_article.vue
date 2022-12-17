@@ -17,9 +17,7 @@
         <div class="article__image">
           <img :src="`${baseUrl}/storage/images/${articleObj.media}`" :alt="articleObj.title">
         </div>
-        <div class="article__text">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae vero veritatis ab sit porro neque optio est. Consequuntur unde laboriosam, dicta tempore voluptas voluptatum sed pariatur repellendus nostrum adipisci ducimus excepturi tenetur, repellat iusto sapiente at, ad neque expedita totam eius? Placeat aperiam velit, recusandae tempora necessitatibus est, atque itaque laboriosam voluptatum eaque qui animi aut nulla minus a quia. Cumque optio, repellat quisquam laborum, animi qui minima nulla autem velit eveniet sapiente labore accusantium voluptates soluta? Rem similique aspernatur sapiente nam distinctio tempore reprehenderit ducimus necessitatibus eum aliquid. Ex ea qui dolores. A nihil et nobis quam inventore eius. Quas sit sint possimus? Itaque a praesentium, facilis ad, magni earum odit veritatis voluptas nesciunt labore sint corporis alias doloremque. Odio accusantium numquam tenetur, eius iste quis? Natus, obcaecati. Fugiat voluptatum exercitationem amet, ex totam quidem! Aut, officia deleniti? Corrupti cupiditate quaerat deleniti, voluptatibus consequatur, architecto enim aut iusto repellendus ab voluptatum. Minima dolorem pariatur quibusdam tempore eum! Totam iste dignissimos dolorem praesentium culpa. Voluptate laborum laboriosam molestias temporibus iste dolor asperiores dolorum debitis obcaecati eligendi cupiditate, aspernatur doloremque ex rerum, tenetur modi earum similique quos totam minus placeat facilis! Facere aspernatur perspiciatis possimus quasi vitae praesentium repellendus saepe, in sed enim veniam eaque, voluptatem nulla iste vel voluptates impedit nisi inventore distinctio, fuga nihil omnis natus. Numquam natus officia minus et quisquam voluptatum aspernatur, quibusdam voluptatibus voluptates quaerat sunt sequi! A neque quos dolorem minus quam harum ea adipisci amet, vitae reprehenderit, explicabo rerum aliquid nulla doloribus id blanditiis.
-        </div>
+        <div class="article__text" v-html="articleObj.content"></div>
       </div>
       <div class="article__date">
         {{ `${articleDate.getDate()}-${articleDate.getMonth() + 1}-${articleDate.getFullYear()}, ${articleDate.getHours()}:${articleDate.getMinutes()}` }}
@@ -33,7 +31,7 @@
 <script>
   export default {
     data() {
-      return{
+      return {
         articleId: this.$route.params.article,
         articleObj: null,
         baseUrl: this.$config.baseUrl,
@@ -110,10 +108,6 @@
 
       @include breakpoint(l) {
         font-size: 1rem;
-      }
-
-      @include breakpoint(s) {
-        font-size: 1.25rem;
       }
     }
 

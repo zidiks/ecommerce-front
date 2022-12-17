@@ -3,7 +3,7 @@
     <a-breadcrumb class="breadcrumbs">
       <a-breadcrumb-item><nuxt-link to="/">ГЛАВНАЯ</nuxt-link></a-breadcrumb-item>
       <a-breadcrumb-item><nuxt-link to="/catalogue">КАТАЛОГ</nuxt-link></a-breadcrumb-item>
-      <a-breadcrumb-item>ВСЕ<span class="breadcrumbs-separator">/</span></a-breadcrumb-item>
+      <a-breadcrumb-item v-if="selectedCategory">{{ selectedCategory }}</a-breadcrumb-item>
     </a-breadcrumb>
     <section class="filters">
       <div class="filters__left">
@@ -15,12 +15,13 @@
     </section>
     <section class="products">
       <div class="products__content">
-        <Cards class="products__card" v-for="item of productsContent.slice(0, cardRenderAmount)" :item="item" :addClass="addClass" :key="item.text" />
-      </div>
-      <div class="products__button">
-        <div class="button-inversed">
-          <span>ПОКАЗАТЬ БОЛЬШЕ</span>
-        </div>
+        <Cards
+          class="products__card"
+          v-for="item of productsContent"
+          :item="item"
+          :key="item.text"
+          :addClass="ReusableClasses.CardBestsellers"
+        />
       </div>
       <div class="products__controls">
         <svg class="arrow-inactive" width="30" height="30" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -44,45 +45,46 @@
 </template>
 
 <script scoped>
-import { productsContent, pageNumbers } from 'assets/shared/constants/shared'
+import { pageNumbers } from 'assets/shared/constants/shared'
+import { ReusableClasses } from "assets/shared/enums/reusable-classes.enum";
+import {BaseProductProperty} from "assets/shared/enums/base-product-property.enum";
+import {ComparisonOperator} from "assets/shared/enums/mongoose-query.enum";
 export default {
   data: () => ({
+      ReusableClasses,
       pageNumbers,
-      addClass: 'product.dto.ts',
-      productsContent,
-      currentWidth: 0,
-      cardRenderAmount: 0,
+      productsContent: [],
+      queryCategories: [],
+      queryTypes: [],
+      selectedCategory: undefined,
     }
   ),
-
-  methods: {
-    setCurrentWidth: function() {
-      this.currentWidth = window.innerWidth;
-    },
-    setCardsAmount: function(width) {
-      if(width > 960) {
-        this.cardRenderAmount = 16;
-      } else if(width > 768) {
-        this.cardRenderAmount = 12;
-      } else if(width > 320) {
-        this.cardRenderAmount = 10;
-      } else if(width > 240) {
-        this.cardRenderAmount = 5;
+  async fetch() {
+    const resProducts = await this.$api.products.getProducts({
+      preview: true,
+      pagination: {
+        page: 1,
+        limit: 20,
+      },
+      baseProperties: {
+        [BaseProductProperty.Category]: this.queryCategories.length ? {
+          [ComparisonOperator.in]: this.queryCategories,
+        } : undefined,
+        [BaseProductProperty.Type]: this.queryTypes.length ? {
+          [ComparisonOperator.in]: this.queryTypes,
+        } : undefined,
       }
-    },
+    });
+    this.productsContent = resProducts.data;
   },
+  methods: {
 
-  beforeMount() {
-    this.setCurrentWidth();
-    this.setCardsAmount(this.currentWidth);
   },
-
-  mounted() {
-    window.addEventListener('resize', () => {
-      this.setCurrentWidth();
-      this.setCardsAmount(this.currentWidth);
-    })
-  }
+  created() {
+    this.queryCategories = [...this.$route.query.categories || []];
+    this.queryTypes = [...this.$route.query.types || []];
+    this.selectedCategory = this.$route.query.category || 'Все категории';
+  },
 }
 </script>
 
@@ -163,7 +165,7 @@ export default {
   &__controls {
     display: flex;
     align-items: center;
-    margin-top: 1.25rem;
+    margin-top: 4rem;
     gap: 3.5rem;
 
     @include breakpoint(xs) {
