@@ -3,7 +3,7 @@
     <a-breadcrumb class="breadcrumbs">
       <a-breadcrumb-item><nuxt-link to="/">ГЛАВНАЯ</nuxt-link></a-breadcrumb-item>
       <a-breadcrumb-item><nuxt-link to="/catalogue">КАТАЛОГ</nuxt-link></a-breadcrumb-item>
-      <a-breadcrumb-item v-if="!categoryData">{{ categoryData?.name || 'ВСЕ КАТЕГОРИИ' }}</a-breadcrumb-item>
+      <a-breadcrumb-item v-if="!categoryData">{{ categoryData?.name || 'ВСЕ ТОВАРЫ' }}</a-breadcrumb-item>
       <a-breadcrumb-item
         v-else
         v-for="item of categoryData.path"
@@ -14,12 +14,7 @@
     </a-breadcrumb>
     <div  v-if="productsContent && !$fetchState.pending && mountedState">
       <section class="filters">
-        <div class="filters__left">
-          Filters division plug
-        </div>
-        <div class="filters__right">
-          Sort division plug
-        </div>
+        <SmartInputs :filters="filters"></SmartInputs>
       </section>
       <section class="products">
         <div class="products__content">
@@ -59,8 +54,11 @@
 <script scoped>
 import { pageNumbers } from 'assets/shared/constants/shared'
 import { ReusableClasses } from "assets/shared/enums/reusable-classes.enum";
-import {BaseProductProperty} from "assets/shared/enums/base-product-property.enum";
-import {ComparisonOperator} from "assets/shared/enums/mongoose-query.enum";
+import { BaseProductProperty } from "assets/shared/enums/base-product-property.enum";
+import { ComparisonOperator } from "assets/shared/enums/mongoose-query.enum";
+import { ProductTypePropertyType } from "assets/shared/enums/product-property.enum";
+import { v4 as uuidv4 } from 'uuid';
+
 export default {
   data: () => ({
       ReusableClasses,
@@ -70,6 +68,7 @@ export default {
       queryTypes: [],
       mountedState: false,
       categoryData: undefined,
+      filters: [],
     }
   ),
   async fetch() {
@@ -94,6 +93,25 @@ export default {
       }
     });
     this.productsContent = resProducts.data;
+    this.filters = [
+      {
+        code: 'brand',
+        name: 'Бренд',
+        stringifyId: true,
+        type: ProductTypePropertyType.StringSelect,
+        options: [],
+      },
+      {
+        code: 'price',
+        name: 'Цена',
+        type: ProductTypePropertyType.NumberInput,
+      },
+      {
+        code: 'isNew',
+        name: 'Новинка',
+        type: ProductTypePropertyType.CheckBox,
+      },
+    ];
   },
   created() {
     this.$watch(

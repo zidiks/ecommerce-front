@@ -168,3 +168,17 @@ export let deliveryMethods = [
     fields: [deliveryFields.europostAdress, deliveryFields.commentary],
   },
 ]
+
+export const propertiesFakeResponse = [
+  {
+    "_id":"639820e9ed9277c29c4eab9b",
+    "name": "для кого",
+    "description": null,
+    "type": "STRING_SELECT",
+    "options": [
+      "женский",
+      "мужской",
+      "унисекс"
+    ],
+  }
+]
