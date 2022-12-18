@@ -3,7 +3,7 @@
     <a-breadcrumb class="breadcrumbs">
       <a-breadcrumb-item><nuxt-link to="/">ГЛАВНАЯ</nuxt-link></a-breadcrumb-item>
       <a-breadcrumb-item><nuxt-link to="/catalogue">КАТАЛОГ</nuxt-link></a-breadcrumb-item>
-      <a-breadcrumb-item><nuxt-link v-if="productData?.category" :to="'/categories/' + productData.category._id">{{ productData.category.name }}</nuxt-link></a-breadcrumb-item>
+      <a-breadcrumb-item><nuxt-link v-if="productData?.category" :to="'/products?category=' + productData.category._id">{{ productData.category.name }}</nuxt-link></a-breadcrumb-item>
     </a-breadcrumb>
     <Spinner v-if="$fetchState.pending"></Spinner>
     <Empty class="fade-in" v-if="$fetchState.error || (!$fetchState.pending && !productData)"></Empty>

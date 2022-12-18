@@ -4,6 +4,7 @@ import { CategoryDepthModel, ProcessCategoriesResModel } from "~/assets/shared/m
 export function processCategoriesTreeFunc(apiTree: CategoryDto): ProcessCategoriesResModel {
   const res: ProcessCategoriesResModel = {
     maxDepth: 0,
+    list: [],
   }
   res.tree = apiTree ? processCategoryNode(apiTree, 0, res) : undefined;
   return res;
@@ -30,5 +31,14 @@ function processCategoryNode(treeNode: CategoryDepthModel, depth: number, res: P
       }
     });
   }
+  res.list?.push({
+    _id: treeNode._id,
+    name: treeNode.name,
+    description: treeNode.description,
+    productTypeId: treeNode.productTypeId,
+    depth: treeNode.depth,
+    allProductTypeIds: treeNode.allProductTypeIds,
+    allCategoriesIds: treeNode.allCategoriesIds,
+  });
   return treeNode;
 }

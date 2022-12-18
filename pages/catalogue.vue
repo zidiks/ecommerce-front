@@ -20,7 +20,7 @@
               v-if="index === 0"
               @mouseover="setColumnData(index + 1, [])"
               class="structure__item fade-in-left-category"
-              @click="routeWithQuery('Все товары')"
+              @click="routeWithQuery()"
             >
               <span>Все товары</span>
             </div>
@@ -29,7 +29,7 @@
               :class="{ 'structure__item-active': activeItems.includes(item._id) }"
               class="structure__item fade-in-left-category"
               v-for="item in column"
-              @click="routeWithQuery(item.name, item.allProductTypeIds, item.allCategoriesIds)"
+              @click="routeWithQuery(item._id)"
               :key="item.name"
             >
               <span>{{ item?.name }}</span>
@@ -60,7 +60,6 @@
 </template>
 
 <script scoped>
-  import { processCategoriesTreeFunc } from "assets/shared/functions/process-categories-tree.func";
   import { BaseProductProperty } from "assets/shared/enums/base-product-property.enum";
   import { ComparisonOperator } from "assets/shared/enums/mongoose-query.enum";
   import { ReusableClasses } from "assets/shared/enums/reusable-classes.enum";
@@ -69,19 +68,21 @@
     data() {
       return {
         ReusableClasses,
-        categoriesTree: undefined,
-        maxDepth: 0,
         renderColumns: [],
         activeItems: [],
         latestContent: [],
         mountedState: false,
       }
     },
+    computed: {
+      categoriesTree () {
+        return this.$store.state.categories.categoriesTree;
+      },
+      maxDepth () {
+        return this.$store.state.categories.maxDepth;
+      },
+    },
     async fetch() {
-      const categoriesTreeData = await this.$api.categories.getCategoriesTree();
-      const res = processCategoriesTreeFunc(categoriesTreeData);
-      this.categoriesTree = res.tree;
-      this.maxDepth = res.maxDepth > 3 ? res.maxDepth : 3;
       this.renderColumns = Array(this.maxDepth).fill([]);
       this.activeItems = Array(this.maxDepth).fill(null);
       this.renderColumns[0] = this.categoriesTree?.children || [];
@@ -107,8 +108,8 @@
       this.mountedState = true;
     },
     methods: {
-      routeWithQuery(category, types, categories) {
-        this.$router.push({path: '/products', query: { types, categories, category }})
+      routeWithQuery(category) {
+        this.$router.push({path: '/products', query: { category }})
       },
       setColumnData(depth, data, itemId) {
         this.activeItems[depth] = null;
