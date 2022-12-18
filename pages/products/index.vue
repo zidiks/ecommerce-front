@@ -3,7 +3,14 @@
     <a-breadcrumb class="breadcrumbs">
       <a-breadcrumb-item><nuxt-link to="/">ГЛАВНАЯ</nuxt-link></a-breadcrumb-item>
       <a-breadcrumb-item><nuxt-link to="/catalogue">КАТАЛОГ</nuxt-link></a-breadcrumb-item>
-      <a-breadcrumb-item v-if="selectedCategory">{{ selectedCategory }}</a-breadcrumb-item>
+      <a-breadcrumb-item v-if="!categoryData">{{ categoryData?.name || 'ВСЕ КАТЕГОРИИ' }}</a-breadcrumb-item>
+      <a-breadcrumb-item
+        v-else
+        v-for="item of categoryData.path"
+        :key="item._id">
+        <nuxt-link :to="'/products?category=' + item._id">{{ item.name }}</nuxt-link>
+      </a-breadcrumb-item>
+      <a-breadcrumb-item v-if="categoryData">{{ categoryData.name }}</a-breadcrumb-item>
     </a-breadcrumb>
     <div  v-if="productsContent && !$fetchState.pending && mountedState">
       <section class="filters">
@@ -17,7 +24,7 @@
       <section class="products">
         <div class="products__content">
           <Cards
-            class="products__card"
+            class="products__card fade-in"
             v-for="item of productsContent"
             :item="item"
             :key="item.text"
@@ -61,7 +68,6 @@ export default {
       productsContent: [],
       queryCategories: [],
       queryTypes: [],
-      selectedCategory: undefined,
       mountedState: false,
       categoryData: undefined,
     }
@@ -72,7 +78,6 @@ export default {
     const routeTypes = this.categoryData?.allProductTypeIds || [];
     this.queryCategories = Array.isArray(routeCategories) ? routeCategories : [routeCategories];
     this.queryTypes = Array.isArray(routeTypes) ? routeTypes : [routeTypes];
-    this.selectedCategory = this.categoryData?.name || 'Все категории';
     const resProducts = await this.$api.products.getProducts({
       preview: true,
       pagination: {
@@ -89,6 +94,14 @@ export default {
       }
     });
     this.productsContent = resProducts.data;
+  },
+  created() {
+    this.$watch(
+      () => this.$route.query,
+      (toParams, previousParams) => {
+        this.$fetch();
+      }
+    )
   },
   mounted() {
     setTimeout(() => {

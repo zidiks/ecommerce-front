@@ -3,7 +3,19 @@
     <a-breadcrumb class="breadcrumbs">
       <a-breadcrumb-item><nuxt-link to="/">ГЛАВНАЯ</nuxt-link></a-breadcrumb-item>
       <a-breadcrumb-item><nuxt-link to="/catalogue">КАТАЛОГ</nuxt-link></a-breadcrumb-item>
-      <a-breadcrumb-item><nuxt-link v-if="productData?.category" :to="'/products?category=' + productData.category._id">{{ productData.category.name }}</nuxt-link></a-breadcrumb-item>
+      <a-breadcrumb-item
+        v-for="item of categoryData?.path || []"
+        :key="item._id">
+        <nuxt-link :to="'/products?category=' + item._id">{{ item.name }}</nuxt-link>
+      </a-breadcrumb-item>
+      <a-breadcrumb-item>
+        <nuxt-link
+          v-if="productData?.category"
+          :to="'/products?category=' + productData.category._id"
+        >
+          {{ productData.category.name }}
+        </nuxt-link>
+      </a-breadcrumb-item>
     </a-breadcrumb>
     <Spinner v-if="$fetchState.pending"></Spinner>
     <Empty class="fade-in" v-if="$fetchState.error || (!$fetchState.pending && !productData)"></Empty>
@@ -101,6 +113,7 @@
         isMessageShown: false,
         activeKey: ['0'],
         productData: null,
+        categoryData: undefined,
         currentIndex: 0,
         currentWidth: 0,
         translateDirection: 'Y',
@@ -111,6 +124,7 @@
     },
     async fetch() {
       this.productData = await this.$api.products.getProductById(this.productId);
+      this.categoryData = this.$store.getters['categories/getById'](this.productData?.categoryId);
       const resSimilar = await this.$api.products.getProducts({
         preview: true,
         pagination: {

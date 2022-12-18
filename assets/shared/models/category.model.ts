@@ -3,8 +3,13 @@ import { ApiId } from "~/assets/shared/models/api.model";
 
 export interface CategoryDepthModel extends CategoryDto {
   depth?: number;
+  path?: CategoryPathItem[];
   allProductTypeIds?: string[];
   allCategoriesIds?: string[];
+}
+
+export interface CategoryPathItem extends ApiId {
+  name: string;
 }
 
 export interface CategoryDepthModelPrev extends ApiId {
@@ -12,6 +17,7 @@ export interface CategoryDepthModelPrev extends ApiId {
   description?: string;
   productTypeId?: string;
   depth?: number;
+  path?: CategoryPathItem[];
   allProductTypeIds?: string[];
   allCategoriesIds?: string[];
 }
