@@ -14,7 +14,7 @@
     </a-breadcrumb>
     <div  v-if="productsContent && !$fetchState.pending && mountedState">
       <section class="filters">
-        <SmartInputs :filters="filters"></SmartInputs>
+        <SmartInputs @valueChanges="queryChange($event)" :filters="filters"></SmartInputs>
       </section>
       <section class="products">
         <div class="products__content">
@@ -57,7 +57,6 @@ import { ReusableClasses } from "assets/shared/enums/reusable-classes.enum";
 import { BaseProductProperty } from "assets/shared/enums/base-product-property.enum";
 import { ComparisonOperator } from "assets/shared/enums/mongoose-query.enum";
 import { ProductTypePropertyType } from "assets/shared/enums/product-property.enum";
-import { v4 as uuidv4 } from 'uuid';
 
 export default {
   data: () => ({
@@ -71,6 +70,11 @@ export default {
       filters: [],
     }
   ),
+  methods: {
+    queryChange(value) {
+      console.log('New query: ', value);
+    },
+  },
   async fetch() {
     this.categoryData = this.$store.getters['categories/getById'](this.$route.query.category);
     const routeCategories = this.categoryData?.allCategoriesIds || [];
@@ -109,6 +113,7 @@ export default {
       {
         code: 'isNew',
         name: 'Новинка',
+        default:  false,
         type: ProductTypePropertyType.CheckBox,
       },
     ];

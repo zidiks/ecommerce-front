@@ -18,11 +18,24 @@ export default {
     return {
       ProductTypePropertyType,
       baseUrl: this.$config.baseUrl,
-      form: Object.fromEntries(this.filters.map(filter => [filter.code, null])),
+      form: Object.fromEntries(this.filters.map(filter => [filter.code, filter.default || null])),
+    }
+  },
+  watch: {
+    form: {
+      handler() {
+        this.changedForm();
+      },
+      deep: true,
+    },
+  },
+  methods: {
+    changedForm() {
+      this.$emit('valueChanges', this.form);
     }
   },
   mounted() {
     console.log(this.form);
-  }
+  },
 }
 </script>
