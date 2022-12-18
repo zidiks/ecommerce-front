@@ -1,10 +1,9 @@
 <template>
-  <form>
+  <form class="wrapper">
     <div v-for="field of filters"  :item="field.id">
-      <InputsCheckBox v-if="field.type === ProductTypePropertyType.CheckBox" :form="form" :data="field"></InputsCheckBox>
-      <InputsNumberInput v-if="field.type === ProductTypePropertyType.NumberInput" :form="form" :data="field"></InputsNumberInput>
-      <InputsSingleSelect v-if="[ProductTypePropertyType.NumberSelect, ProductTypePropertyType.StringSelect].includes(field.type)" :form="form" :data="field"></InputsSingleSelect>
-      <InputsStringMultiSelect v-if="field.type === ProductTypePropertyType.StringMultiSelect" :form="form" :data="field"></InputsStringMultiSelect>
+      <InputsCheckBox v-if="field.type === ProductTypePropertyType.CheckBox" :form="form" :property="field"></InputsCheckBox>
+      <InputsNumberInput v-if="field.type === ProductTypePropertyType.NumberInput" :form="form"  :property="field"></InputsNumberInput>
+      <InputsStringMultiSelect v-if="[ProductTypePropertyType.NumberSelect, ProductTypePropertyType.StringSelect, ProductTypePropertyType.StringMultiSelect].includes(field.type)" :form="form"  :property="field"></InputsStringMultiSelect>
     </div>
   </form>
 </template>
@@ -39,3 +38,12 @@ export default {
   },
 }
 </script>
+
+<style lang="scss">
+  .wrapper {
+    justify-content: center;
+    padding: 2rem 0;
+    display: flex;
+    column-gap: 1rem;
+  }
+</style>

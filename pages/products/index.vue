@@ -13,7 +13,7 @@
       <a-breadcrumb-item v-if="categoryData">{{ categoryData.name }}</a-breadcrumb-item>
     </a-breadcrumb>
     <div  v-if="productsContent && !$fetchState.pending && mountedState">
-      <section class="filters">
+      <section>
         <SmartInputs @valueChanges="queryChange($event)" :filters="filters"></SmartInputs>
       </section>
       <section class="products">
@@ -101,9 +101,33 @@ export default {
       {
         code: 'brand',
         name: 'Бренд',
-        stringifyId: true,
-        type: ProductTypePropertyType.StringSelect,
-        options: [],
+        stringifyId: '_id',
+        stringifyLabel: 'name',
+        default:  [],
+        type: ProductTypePropertyType.StringMultiSelect,
+        options: [
+          {
+            "_id": "63982188ed9277c29c4eabab",
+            "name": "Lancôme",
+            "description": "Lancôme — косметический бренд, основанный в 1935 году, в настоящее время принадлежит компании L'Oreal (с 1964 года).",
+            "origin": "Франция",
+            "__v": 0
+          },
+          {
+            "_id": "63982345ed9277c29c4eabfd",
+            "name": "Versace",
+            "description": "Gianni Versace S.p.A. (сокращённо Versace, произносится Верса́че) — итальянская компания, основанная в 1978 году модельером Джанни Версаче, производитель модной одежды, парфюмерии, часов, товаров для дома, аксессуаров и других предметов роскоши. После смерти Версаче в 1997 году управление концерном перешло к его младшей сестре, Донателле Версаче. Эмблемой компании служит медуза Ронданини.",
+            "origin": "Италия",
+            "__v": 0
+          },
+          {
+            "_id": "639824d1ed9277c29c4eac36",
+            "name": "Hugo Boss",
+            "description": "HUGO BOSS — немецкая компания-производитель модной одежды. Штаб-квартира — в городе Метцинген (земля Баден-Вюртемберг, Германия).",
+            "origin": "Германия",
+            "__v": 0
+          }
+        ],
       },
       {
         code: 'price',
@@ -137,29 +161,9 @@ export default {
 <style lang="scss">
 @import '~/assets/styles/global';
 
-.filters {
-  display: flex;
-  justify-content: space-between;
-  padding: 2rem 0;
-
-  @include breakpoint(l) {
-    margin-top: 1rem;
-    border-bottom: none;
-  }
-
-  &__left, &__right {
-    font-size: 2rem;
-    background-color: $DGRAY;
-
-    @include breakpoint(xs) {
-      font-size: 1.5rem;
-    }
-  }
-}
-
 .products {
   width: 100%;
-  margin-top: 2.25rem;
+  margin-top: 1.4rem;
   display: flex;
   flex-direction: column;
   align-items: center;

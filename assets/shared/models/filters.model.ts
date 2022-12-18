@@ -2,7 +2,8 @@ import { ProductTypePropertyType } from "~/assets/shared/enums/product-property.
 
 export interface FilterModel {
   name: string;
-  stringifyId?: boolean;
+  stringifyId?: string;
+  stringifyLabel?: string;
   default?: any;
   type: ProductTypePropertyType;
   options?: (string | number)[];
