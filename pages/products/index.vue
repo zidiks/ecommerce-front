@@ -1,5 +1,5 @@
 <template>
-  <main class="content-width">
+  <main class="content-width all-text-toUpperCase">
     <a-breadcrumb class="breadcrumbs">
       <a-breadcrumb-item><nuxt-link to="/">ГЛАВНАЯ</nuxt-link></a-breadcrumb-item>
       <a-breadcrumb-item><nuxt-link to="/catalogue">КАТАЛОГ</nuxt-link></a-breadcrumb-item>
@@ -14,9 +14,9 @@
     </a-breadcrumb>
     <div  v-if="productsContent && !$fetchState.pending && mountedState">
       <section>
-        <SmartInputs @valueChanges="queryChange($event)" :baseFilters="baseFilters" :customFilters="customFilters"></SmartInputs>
+        <SmartInputs :disabled="refreshProductsState" @valueChanges="queryChange($event)" :baseFilters="baseFilters" :customFilters="customFilters"></SmartInputs>
       </section>
-      <section class="products">
+      <section v-if="!refreshProductsState" class="products">
         <div class="products__content">
           <Cards
             class="products__card fade-in"
@@ -44,6 +44,9 @@
           </svg>
         </div>
       </section>
+      <div v-else>
+        <Spinner></Spinner>
+      </div>
     </div>
     <div v-else>
       <Spinner></Spinner>
@@ -67,6 +70,7 @@ export default {
       queryCategories: [],
       queryTypes: [],
       mountedState: false,
+      refreshProductsState: false,
       categoryData: undefined,
       baseFilters: [],
       customFilters: [],
@@ -82,8 +86,7 @@ export default {
       console.log('New query: ', value);
       const basePropsQuery = validateFilters(value.basePropertiesForm);
       const customPropsQuery = validateFilters(value.customPropertiesForm);
-      console.log(basePropsQuery);
-      console.log(customPropsQuery);
+      const sortQuery = value.sortForm.direction !== undefined && value.sortForm.property !== undefined ? value.sortForm : undefined;
       const resProducts = await this.queryProducts(
         true,
         {
@@ -92,11 +95,13 @@ export default {
         },
         basePropsQuery,
         customPropsQuery,
+        sortQuery,
       );
       this.productsContent = resProducts.data;
     },
-    async queryProducts(preview, pagination, basePropsQuery, customPropsQuery) {
-      return  await this.$api.products.getProducts({
+    async queryProducts(preview, pagination, basePropsQuery, customPropsQuery, sort) {
+      this.refreshProductsState = true;
+      const productsRes =  await this.$api.products.getProducts({
         preview,
         pagination,
         baseProperties: Object.assign({
@@ -108,7 +113,12 @@ export default {
           } : undefined,
         }, basePropsQuery || {}),
         customProperties: customPropsQuery || {},
+        sort,
       });
+      setTimeout(() => {
+        this.refreshProductsState = false;
+      }, 500)
+      return productsRes;
     },
   },
   async fetch() {
@@ -166,7 +176,8 @@ export default {
   },
   mounted() {
     setTimeout(() => {
-      this.mountedState = true
+      this.mountedState = true;
+      this.refreshProductsState = false;
     }, 100);
   },
 }

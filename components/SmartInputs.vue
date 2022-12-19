@@ -1,5 +1,8 @@
 <template>
   <form class="wrapper">
+    <div>
+      <InputsSortSelect :sort="sortForm"></InputsSortSelect>
+    </div>
     <div v-for="field of baseFilters || []"  :key="field.id">
       <InputsCheckBox v-if="field.type === ProductTypePropertyType.CheckBox" :form="basePropertiesForm" :property="field"></InputsCheckBox>
       <InputsNumberInput v-if="[ProductTypePropertyType.NumberInput, ProductTypePropertyType.NumberSelect].includes(field.type)" :form="basePropertiesForm"  :property="field"></InputsNumberInput>
@@ -16,7 +19,6 @@
 <script>
 import {ProductTypePropertyType} from "assets/shared/enums/product-property.enum";
 import {generateFormControls} from "assets/shared/functions/generate-form-controls.func";
-import {debounce} from "assets/shared/helpers/debounce.helper";
 
 export default {
   props: ['baseFilters', 'customFilters'],
@@ -26,6 +28,10 @@ export default {
       baseUrl: this.$config.baseUrl,
       basePropertiesForm: generateFormControls(this.baseFilters || []),
       customPropertiesForm: generateFormControls(this.customFilters || []),
+      sortForm: {
+        property: null,
+        direction: 1,
+      },
     }
   },
   watch: {
@@ -41,12 +47,19 @@ export default {
       },
       deep: true,
     },
+    sortForm: {
+      handler() {
+        this.changedForm();
+      },
+      deep: true,
+    },
   },
   methods: {
     changedForm() {
       this.$emit('valueChanges', {
         basePropertiesForm: this.basePropertiesForm,
         customPropertiesForm: this.customPropertiesForm,
+        sortForm: this.sortForm,
       });
     }
   },
