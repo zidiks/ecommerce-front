@@ -1,27 +1,41 @@
 <template>
   <form class="wrapper">
-    <div v-for="field of filters"  :item="field.id">
-      <InputsCheckBox v-if="field.type === ProductTypePropertyType.CheckBox" :form="form" :property="field"></InputsCheckBox>
-      <InputsNumberInput v-if="field.type === ProductTypePropertyType.NumberInput" :form="form"  :property="field"></InputsNumberInput>
-      <InputsStringMultiSelect v-if="[ProductTypePropertyType.NumberSelect, ProductTypePropertyType.StringSelect, ProductTypePropertyType.StringMultiSelect].includes(field.type)" :form="form"  :property="field"></InputsStringMultiSelect>
+    <div v-for="field of baseFilters || []"  :key="field.id">
+      <InputsCheckBox v-if="field.type === ProductTypePropertyType.CheckBox" :form="basePropertiesForm" :property="field"></InputsCheckBox>
+      <InputsNumberInput v-if="[ProductTypePropertyType.NumberInput, ProductTypePropertyType.NumberSelect].includes(field.type)" :form="basePropertiesForm"  :property="field"></InputsNumberInput>
+      <InputsStringMultiSelect v-if="[ProductTypePropertyType.StringSelect, ProductTypePropertyType.StringMultiSelect].includes(field.type)" :form="basePropertiesForm"  :property="field"></InputsStringMultiSelect>
+    </div>
+    <div v-for="field of customFilters || []"  :key="field.id">
+      <InputsCheckBox v-if="field.type === ProductTypePropertyType.CheckBox" :form="customPropertiesForm" :property="field"></InputsCheckBox>
+      <InputsNumberInput v-if="[ProductTypePropertyType.NumberInput, ProductTypePropertyType.NumberSelect].includes(field.type)" :form="customPropertiesForm"  :property="field"></InputsNumberInput>
+      <InputsStringMultiSelect v-if="[ProductTypePropertyType.StringSelect, ProductTypePropertyType.StringMultiSelect].includes(field.type)" :form="customPropertiesForm"  :property="field"></InputsStringMultiSelect>
     </div>
   </form>
 </template>
 
 <script>
 import {ProductTypePropertyType} from "assets/shared/enums/product-property.enum";
+import {generateFormControls} from "assets/shared/functions/generate-form-controls.func";
+import {debounce} from "assets/shared/helpers/debounce.helper";
 
 export default {
-  props: ['filters'],
+  props: ['baseFilters', 'customFilters'],
   data() {
     return {
       ProductTypePropertyType,
       baseUrl: this.$config.baseUrl,
-      form: Object.fromEntries(this.filters.map(filter => [filter.code, filter.default || null])),
+      basePropertiesForm: generateFormControls(this.baseFilters || []),
+      customPropertiesForm: generateFormControls(this.customFilters || []),
     }
   },
   watch: {
-    form: {
+    basePropertiesForm: {
+      handler() {
+        this.changedForm();
+      },
+      deep: true,
+    },
+    customPropertiesForm: {
       handler() {
         this.changedForm();
       },
@@ -30,11 +44,11 @@ export default {
   },
   methods: {
     changedForm() {
-      this.$emit('valueChanges', this.form);
+      this.$emit('valueChanges', {
+        basePropertiesForm: this.basePropertiesForm,
+        customPropertiesForm: this.customPropertiesForm,
+      });
     }
-  },
-  mounted() {
-    console.log(this.form);
   },
 }
 </script>
@@ -44,6 +58,6 @@ export default {
     justify-content: center;
     padding: 2rem 0;
     display: flex;
-    column-gap: 1rem;
+    column-gap: 1.5rem;
   }
 </style>

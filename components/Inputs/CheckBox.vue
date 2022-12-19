@@ -1,12 +1,16 @@
 <template>
-  <a-checkbox v-model:checked="form[property.code]">{{ property.name }}</a-checkbox>
+  <a-checkbox v-model:checked="form[property.code][ComparisonOperator.eq]">{{ property.name }}</a-checkbox>
 </template>
 
 <script>
+import {ComparisonOperator} from "assets/shared/enums/mongoose-query.enum";
+
 export default {
   props: ['form', 'property'],
-  mounted() {
-    console.log(this.form);
+  data() {
+    return {
+      ComparisonOperator
+    }
   }
 }
 </script>

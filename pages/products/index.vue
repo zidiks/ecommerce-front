@@ -14,7 +14,7 @@
     </a-breadcrumb>
     <div  v-if="productsContent && !$fetchState.pending && mountedState">
       <section>
-        <SmartInputs @valueChanges="queryChange($event)" :filters="filters"></SmartInputs>
+        <SmartInputs @valueChanges="queryChange($event)" :baseFilters="baseFilters" :customFilters="customFilters"></SmartInputs>
       </section>
       <section class="products">
         <div class="products__content">
@@ -57,6 +57,7 @@ import { ReusableClasses } from "assets/shared/enums/reusable-classes.enum";
 import { BaseProductProperty } from "assets/shared/enums/base-product-property.enum";
 import { ComparisonOperator } from "assets/shared/enums/mongoose-query.enum";
 import { ProductTypePropertyType } from "assets/shared/enums/product-property.enum";
+import {validateFilters} from "assets/shared/functions/validate-query.func";
 
 export default {
   data: () => ({
@@ -67,12 +68,47 @@ export default {
       queryTypes: [],
       mountedState: false,
       categoryData: undefined,
-      filters: [],
+      baseFilters: [],
+      customFilters: [],
     }
   ),
+  computed: {
+    brands() {
+      return this.$store.state.brands.brands;
+    },
+  },
   methods: {
-    queryChange(value) {
+    async queryChange(value) {
       console.log('New query: ', value);
+      const basePropsQuery = validateFilters(value.basePropertiesForm);
+      const customPropsQuery = validateFilters(value.customPropertiesForm);
+      console.log(basePropsQuery);
+      console.log(customPropsQuery);
+      const resProducts = await this.queryProducts(
+        true,
+        {
+          page: 1,
+          limit: 20,
+        },
+        basePropsQuery,
+        customPropsQuery,
+      );
+      this.productsContent = resProducts.data;
+    },
+    async queryProducts(preview, pagination, basePropsQuery, customPropsQuery) {
+      return  await this.$api.products.getProducts({
+        preview,
+        pagination,
+        baseProperties: Object.assign({
+          [BaseProductProperty.Category]: this.queryCategories.length ? {
+            [ComparisonOperator.in]: this.queryCategories,
+          } : undefined,
+          [BaseProductProperty.Type]: this.queryTypes.length ? {
+            [ComparisonOperator.in]: this.queryTypes,
+          } : undefined,
+        }, basePropsQuery || {}),
+        customProperties: customPropsQuery || {},
+      });
     },
   },
   async fetch() {
@@ -81,23 +117,16 @@ export default {
     const routeTypes = this.categoryData?.allProductTypeIds || [];
     this.queryCategories = Array.isArray(routeCategories) ? routeCategories : [routeCategories];
     this.queryTypes = Array.isArray(routeTypes) ? routeTypes : [routeTypes];
-    const resProducts = await this.$api.products.getProducts({
-      preview: true,
-      pagination: {
+    const resProducts = await this.queryProducts(
+      true,
+      {
         page: 1,
         limit: 20,
       },
-      baseProperties: {
-        [BaseProductProperty.Category]: this.queryCategories.length ? {
-          [ComparisonOperator.in]: this.queryCategories,
-        } : undefined,
-        [BaseProductProperty.Type]: this.queryTypes.length ? {
-          [ComparisonOperator.in]: this.queryTypes,
-        } : undefined,
-      }
-    });
+    );
     this.productsContent = resProducts.data;
-    this.filters = [
+    const typesUniqueProperties = await this.$api.types.getTypesUniqueProperties(this.categoryData.allProductTypeIds || []);
+    this.baseFilters = [
       {
         code: 'brand',
         name: 'Бренд',
@@ -105,34 +134,13 @@ export default {
         stringifyLabel: 'name',
         default:  [],
         type: ProductTypePropertyType.StringMultiSelect,
-        options: [
-          {
-            "_id": "63982188ed9277c29c4eabab",
-            "name": "Lancôme",
-            "description": "Lancôme — косметический бренд, основанный в 1935 году, в настоящее время принадлежит компании L'Oreal (с 1964 года).",
-            "origin": "Франция",
-            "__v": 0
-          },
-          {
-            "_id": "63982345ed9277c29c4eabfd",
-            "name": "Versace",
-            "description": "Gianni Versace S.p.A. (сокращённо Versace, произносится Верса́че) — итальянская компания, основанная в 1978 году модельером Джанни Версаче, производитель модной одежды, парфюмерии, часов, товаров для дома, аксессуаров и других предметов роскоши. После смерти Версаче в 1997 году управление концерном перешло к его младшей сестре, Донателле Версаче. Эмблемой компании служит медуза Ронданини.",
-            "origin": "Италия",
-            "__v": 0
-          },
-          {
-            "_id": "639824d1ed9277c29c4eac36",
-            "name": "Hugo Boss",
-            "description": "HUGO BOSS — немецкая компания-производитель модной одежды. Штаб-квартира — в городе Метцинген (земля Баден-Вюртемберг, Германия).",
-            "origin": "Германия",
-            "__v": 0
-          }
-        ],
+        options: this.brands.map(item => ({ label: item.name, value: item._id })),
       },
       {
-        code: 'price',
+        code: 'totalPrice',
         name: 'Цена',
         type: ProductTypePropertyType.NumberInput,
+        prefix: 'BYN',
       },
       {
         code: 'isNew',
@@ -141,6 +149,12 @@ export default {
         type: ProductTypePropertyType.CheckBox,
       },
     ];
+    this.customFilters = typesUniqueProperties.map(item => ({
+      code: item._id,
+      name: item.name,
+      type: item.type,
+      options: item.options.map(option => ({ label: option, value: option })),
+    }))
   },
   created() {
     this.$watch(

@@ -1,74 +1,31 @@
 <template>
   <a-select
-    v-model:checked="form[property.code]"
+    v-model:checked="form[property.code][ComparisonOperator.in]"
     mode="multiple"
     class="multiselect"
+    :filter-option="filterFunc"
     :placeholder="property.name"
     :options="options"
     :max-tag-count="1"
-    @change="handleChange"
+    :field-names="{ label: 'label', value: 'value' }"
   ></a-select>
 </template>
 
 <script>
 import { ref } from 'vue';
+import {ComparisonOperator} from "assets/shared/enums/mongoose-query.enum";
 export default {
   props: ['form', 'property'],
-  mounted() {
-    console.log(this.data);
-    console.log(this.form[this.property.code]);
-  },
   data() {
     return {
-      options: ref([
-        {
-          value: 'jack',
-          label: 'Jack',
-        },
-        {
-          value: 'lucy',
-          label: 'Lucy',
-        },
-        {
-          value: 'lucy2',
-          label: 'Lucy2',
-        },
-        {
-          value: 'lucy3',
-          label: 'Lucy3',
-        },
-        {
-          value: 'lucy4',
-          label: 'Lucy4',
-        },
-        {
-          value: 'lucy5',
-          label: 'Lucy5',
-        },
-        {
-          value: 'lucy6',
-          label: 'Lucy6',
-        },
-        {
-          value: 'lucy7',
-          label: 'Lucy7',
-        },
-        {
-          value: 'disabled',
-          label: 'Disabled',
-          disabled: true,
-        },
-        {
-          value: 'yiminghedawdawdaoidoawjiodjiawodia',
-          label: 'yiminghedawdawdaoidoawjiodjiawodia',
-        },
-      ]),
+      ComparisonOperator,
+      options: ref(this.property.options || []),
     }
   },
   methods: {
-    handleChange(value)  {
-      console.log(`selected ${value}`);
-    },
+    filterFunc(inputValue, option) {
+      return (option.componentOptions.children[0].text || '').toLowerCase().includes(inputValue.toLowerCase());
+    }
   },
 }
 </script>

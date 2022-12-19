@@ -1,6 +1,7 @@
 @import '/assets/styles/variables.scss';
 @import 'custom-ant-inputs/custom-ant-checkbox';
 @import 'custom-ant-inputs/custom-ant-select';
+@import 'custom-ant-inputs/custom-ant-dropdown';
 
 body {
   scroll-behavior: smooth;
@@ -252,4 +253,8 @@ main {
     opacity: .7;
     transform: translateX(0);
   }
+}
+
+.ant-input-number-handler-down-inner {
+  color: var(--data-color-black) !important;
 }
