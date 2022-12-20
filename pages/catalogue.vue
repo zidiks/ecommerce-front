@@ -303,6 +303,11 @@
     &-active {
       opacity: 1;
       font-weight: 600;
+
+      @include breakpoint(l) {
+        opacity: .7;
+        font-weight: 400;
+      }
     }
 
     &-disabled {
