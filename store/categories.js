@@ -9,6 +9,9 @@ export const state = () => ({
 export const getters = {
   getById: (state) => (id) => {
     return state.categoriesList.find(category => category._id === id);
+  },
+  getRoot: (state) => {
+    return state.categoriesList.find(category => category.depth === 0);
   }
 }
 

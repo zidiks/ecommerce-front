@@ -20,7 +20,7 @@
               v-if="index === 0"
               @mouseover="setColumnData(index + 1, [])"
               class="structure__item fade-in-left-category"
-              @click="routeWithQuery()"
+              @click="routeWithQuery($store.getters['categories/getRoot']._id)"
             >
               <span>Все товары</span>
             </div>

@@ -32,6 +32,7 @@ main {
 .link {
   text-decoration: none;
   color: var(--data-color-black);
+  transition: color .2s;
   &:hover {
     color: var(--data-color-hover);
   }

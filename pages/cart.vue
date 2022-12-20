@@ -78,7 +78,7 @@
               <img :src="baseUrl + '/storage/images/' + item.product.media[0]" :alt="item.product.name">
             </div>
             <div class="cart__item-description">
-              <h3>{{ item.product.name }}</h3>
+              <nuxt-link :to="'/products/' + item.product._id"><h3 class="link">{{ item.product.name }}</h3></nuxt-link>
               <div class="cart__item-price">
                 <div class="cart__price-current">
                   {{ item.product.totalPrice }} BYN
@@ -87,8 +87,7 @@
                   {{ item.product.price }} BYN
                 </div>
               </div>
-              <h4>объем: {{ 50 }}</h4>
-              <h4>кол-во, шт: {{ item.count }}</h4>
+              <h4>X {{ item.count }}</h4>
               <div @click="$store.commit('cart/remove',item.product._id); $fetch()" class="cart__remove-item">
                 <u>Удалить</u>
               </div>
