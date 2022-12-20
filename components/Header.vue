@@ -59,7 +59,7 @@
                 class="structure__item fade-in"
                 v-for="item in column"
                 @click="setColumnData(index + 1, item.children, item._id),
-                item.children.length ? '' : routeWithQuery(item._id),
+                item.children.length ? '' : (routeWithQuery(item._id), burgerShown = false),
                 currentColumn = (index < maxDepth - 1? index + 2 : index + 1),
                 backwardElement[index + 1] = item?.name"
                 :key="item.name"
