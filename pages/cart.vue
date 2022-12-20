@@ -57,7 +57,8 @@
             </div>
           </div>
           <div class="payment__button">
-            <button :disabled="!cartContent.length || $v.$invalid" style="width: 100%" class="button" @click="confirmOrder()">ПОДТВЕРДИТЬ</button>
+            <button v-if="!isConfirmed" :disabled="!cartContent.length" style="width: 100%" class="button" @click="confirmOrder()">ДАЛЕЕ</button>
+            <button v-else :disabled="!cartContent.length || $v.$invalid" style="width: 100%" class="button">ПОДТВЕРДИТЬ</button>
           </div>
           <div :class="`${isConfirmed ? 'cart__tracking ' : 'cart-page__hidden'}`">
             <h2>статус заказа</h2>
@@ -171,6 +172,11 @@
       }
     },
     methods: {
+      resizeHandler() {
+        if (window.innerWidth > 950) {
+          this.isConfirmed = true
+        }
+      },
       async fetchCart() {
         const cartRes = await this.$api.products.getProducts({
           preview: true,
@@ -214,6 +220,7 @@
     },
     mounted() {
       this.fetchCart();
+      window.addEventListener("resize", this.resizeHandler);
     }
   }
 </script>
@@ -476,6 +483,9 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      & > * {
+        width: 100%;
+      }
     }
 
     & h2 {
