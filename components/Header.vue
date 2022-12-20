@@ -45,7 +45,8 @@
                 class="structure__item fade-in structure__item-all"
                 style="font-weight: 600"
                 @click="routeWithQuery(),
-                setColumnData(index + 1, [])"
+                setColumnData(index + 1, []),
+                burgerShown = false"
               >
                 <span>Все товары</span>
               </div>
