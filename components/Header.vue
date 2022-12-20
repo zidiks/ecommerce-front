@@ -61,8 +61,7 @@
                 @click="setColumnData(index + 1, item.children, item._id),
                 item.children.length ? '' : routeWithQuery(item._id),
                 currentColumn = (index < maxDepth - 1? index + 2 : index + 1),
-                backwardElement[index + 1] = item?.name
-                debuger(currentColumn)"
+                backwardElement[index + 1] = item?.name"
                 :key="item.name"
               >
                 <span>{{ item?.name }}</span>
@@ -148,9 +147,6 @@
           this.renderColumns.push([]);
           this.renderColumns.pop();
         }
-      },
-      debuger: function(el) {
-        console.log(el)
       },
       routeWithQuery(category) {
         this.$router.push({path: '/products', query: { category }})
