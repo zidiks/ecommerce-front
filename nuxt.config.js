@@ -28,6 +28,7 @@ export default {
   plugins: [
     '@/plugins/antd-ui',
     { src: "@/plugins/api.ts" },
+    { src: "@/plugins/vuelidate" },
   ],
 
   loading: false,
@@ -45,6 +46,7 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    'nuxt-vuex-localstorage',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios

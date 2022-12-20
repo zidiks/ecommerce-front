@@ -136,19 +136,19 @@
     },
     computed: {
       vuexProduct() {
-        return this.$store.getters["cart/getById"](this.productId);
+        return this.$store.getters["localStorage/getById"](this.productId);
       },
     },
     methods: {
       increment: function() {
-        this.$store.commit('cart/increment', this.productId);
+        this.$store.commit('localStorage/increment', this.productId);
       },
       decrement: function() {
-        this.$store.commit('cart/decrement', this.productId);
+        this.$store.commit('localStorage/decrement', this.productId);
       },
       addToCart: function() {
         this.isMessageShown = true;
-        this.$store.commit('cart/push', this.productId);
+        this.$store.commit('localStorage/push', this.productId);
       },
       getCurrentWidth: function() {
         this.currentWidth = window.innerWidth;

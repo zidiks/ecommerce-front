@@ -4,6 +4,7 @@ import Categories from "~/assets/api/categories";
 import Brands from "~/assets/api/brands";
 import Types from "~/assets/api/types";
 import Methods from "~/assets/api/methods";
+import Orders from "~/assets/api/orders";
 
 export default (context: any, inject: any) => {
   const factories = {
@@ -13,6 +14,7 @@ export default (context: any, inject: any) => {
     brands: Brands(context.$axios),
     types: Types(context.$axios),
     methods: Methods(context.$axios),
+    orders: Orders(context.$axios),
   };
 
   inject("api", factories);

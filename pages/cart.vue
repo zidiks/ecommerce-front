@@ -6,65 +6,67 @@
     </a-breadcrumb>
     <div class="cart-page__head">
       <h2 :class="`${isConfirmed ? '' : 'cart-page__hidden'}`">оформление заказа</h2>
-      <h2 :class="`${isConfirmed ? 'cart-page__hidden' : ''}`">корзина ({{ cartContent.length }})</h2>
+      <h2 :class="`${isConfirmed ? 'cart-page__hidden' : ''}`">корзина ({{ calculation.totalItemsCount }})</h2>
       <div :class="`cart-page__${isConfirmed ? 'backward' : 'hidden'}`" @click="isConfirmed = false">
         <div></div>
         <div></div>
         <div></div>
       </div>
     </div>
-    <section class="cart-page__wrapper">
+    <section class="cart-page__wrapper fade-in" v-if="loaded">
       <section class="delivery">
-        <div :class="`delivery__wrapper ${isConfirmed ? '' : 'cart-page__hidden'}`">
-        <div class="delivery__contacts">
-          <h3>контактная информация</h3>
-          <input type="text" class="delivery__input" placeholder="ФИО">
-          <input type="text" class="delivery__input" placeholder="ТЕЛЕФОН">
-          <input type="text" class="delivery__input" placeholder="E-MAIL">
-        </div>
-        <div class="delivery__type">
-          <h3>варианты доставки</h3>
-          <div class="delivery__radios">
-            <label class="radio-button" v-for="item of deliveryMethods" :key="item._id">
-              <input type="radio" name="delivery-radio" :value="item" :id="item._id" v-model="selectedDeliveryMethod">
-              <div class="checkmark"></div>
-              <span>{{ item.name }}</span>
-            </label>
-          </div>
-          <div v-if="selectedDeliveryMethod" class="delivery__dynamic">
-            <div class="delivery__text" style="white-space: pre-line" v-html="selectedDeliveryMethod.description"></div>
-            <div class="delivery__fields" v-for="field of selectedDeliveryMethod.fields" :key="field">
-              <input type="text" class="delivery__input" :placeholder="field.toUpperCase()">
+        <form @submit.prevent="formSubmit">
+          <div :class="`delivery__wrapper ${isConfirmed ? '' : 'cart-page__hidden'}`">
+            <div class="delivery__contacts">
+              <h3>контактная информация</h3>
+              <input v-model="form.name" type="text" class="delivery__input" placeholder="ФИО">
+              <input v-model="form.phone" type="text" class="delivery__input" placeholder="ТЕЛЕФОН">
+              <input v-model="form.email" type="text" class="delivery__input" placeholder="E-MAIL">
+            </div>
+            <div class="delivery__type">
+              <h3>варианты доставки</h3>
+              <div class="delivery__radios">
+                <label class="radio-button" v-for="item of deliveryMethods" :key="item._id">
+                  <input type="radio" name="delivery-radio" :value="item" :id="item._id" v-model="form.delivery">
+                  <div class="checkmark"></div>
+                  <span>{{ item.name }}</span>
+                </label>
+              </div>
+              <div v-if="form.delivery" class="delivery__dynamic">
+                <div class="delivery__text" style="white-space: pre-line" v-html="form.delivery.description"></div>
+                <div class="delivery__fields" v-for="field of form.delivery.fields" :key="field">
+                  <input type="text" class="delivery__input" :placeholder="field.toUpperCase()">
+                </div>
+              </div>
+            </div>
+            <div class="payment" v-if="form.delivery">
+              <h3>варианты оплаты</h3>
+              <div class="payment__option">
+                <label class="radio-button" v-for="item of paymentMethods(form.delivery?.paymentMethods || [])" :key="item._id">
+                  <input type="radio" name="payment-radio" value="item" v-model="form.payment">
+                  <div class="checkmark"></div>
+                  <span>{{ item.name }}</span>
+                </label>
+              </div>
+              <div class="permission">
+                <label class="checkbox">
+                  <input type="checkbox" name="payment-checkbox" v-model="form.isConfirmed">
+                  <span>даю согласие на обработку персональных данных</span>
+                </label>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="payment" v-if="selectedDeliveryMethod">
-          <h3>варианты оплаты</h3>
-          <div class="payment__option">
-            <label class="radio-button" v-for="item of paymentMethods(selectedDeliveryMethod?.paymentMethods || [])" :key="item._id">
-              <input type="radio" name="payment-radio">
-              <div class="checkmark"></div>
-              <span>{{ item.name }}</span>
-            </label>
+          <div class="payment__button">
+            <button :disabled="!cartContent.length || $v.$invalid" style="width: 100%" class="button" @click="confirmOrder()">ПОДТВЕРДИТЬ</button>
           </div>
-          <div class="permission">
-            <label class="checkbox">
-              <input type="checkbox" name="payment-checkbox">
-              <span>даю согласие на обработку персональных данных</span>
-            </label>
+          <div :class="`${isConfirmed ? 'cart__tracking ' : 'cart-page__hidden'}`">
+            <h2>статус заказа</h2>
+            <p>
+              Отследить статус заказа вы сможете у нас
+              на сайте, перейдя по ссылке <u><nuxt-link class="link" to="/tracker">трекер заказа</nuxt-link></u>
+            </p>
           </div>
-        </div>
-        </div>
-        <div class="payment__button">
-            <button :disabled="!cartContent.length" style="width: 100%" class="button" @click="confirmOrder()">ПОДТВЕРДИТЬ</button>
-        </div>
-        <div :class="`${isConfirmed ? 'cart__tracking ' : 'cart-page__hidden'}`">
-          <h2>статус заказа</h2>
-          <p>
-            Отследить статус заказа вы сможете у нас
-            на сайте, перейдя по ссылке <u><nuxt-link class="link" to="/tracker">трекер заказа</nuxt-link></u>
-          </p>
-        </div>
+        </form>
       </section>
       <section :class="`cart ${isConfirmed ? 'cart-page__hidden' : ''}`">
         <div class="cart__content">
@@ -83,7 +85,7 @@
                 </div>
               </div>
               <h4>X {{ item.count }}</h4>
-              <div @click="$store.commit('cart/remove',item.product._id); $fetch()" class="cart__remove-item">
+              <div @click="$store.commit('localStorage/remove', item.product._id); fetchCart()" class="cart__remove-item">
                 <u>Удалить</u>
               </div>
             </div>
@@ -93,73 +95,126 @@
           <div class="cart__sum-upper">
             <div class="cart__sum-item">
               <p>Cумма:</p>
-              <p>{{ finalPrice }} BYN</p>
+              <p>{{ calculation.orderPrice }} BYN</p>
             </div>
             <div class="cart__sum-item">
               <p>Скидка:</p>
-              <p>{{ discount }} BYN</p>
+              <p>{{ calculation.totalDiscount }} BYN</p>
             </div>
           </div>
           <div class="cart__sum-lower">
             <div class="cart__sum-item">
               <p>Итого</p>
-              <p>{{ (finalPrice - discount).toFixed(2) }} BYN</p>
+              <p>{{ calculation.totalPrice }} BYN</p>
             </div>
           </div>
         </div>
       </section>
     </section>
+    <div style="height: 40rem" v-else>
+      <Spinner></Spinner>
+    </div>
   </main>
 </template>
 
 <script>
   import { BaseProductProperty } from "assets/shared/enums/base-product-property.enum";
   import { ComparisonOperator } from "assets/shared/enums/mongoose-query.enum";
+  import { required, email } from 'vuelidate/lib/validators';
+
+  const isTrue = (value) => value === true;
 
   export default {
     data() {
       return {
+        loaded: false,
         cartContent: [],
         finalPrice: 0,
         discount: 5,
         isConfirmed: false,
         baseUrl: this.$config.baseUrl,
-        selectedDeliveryMethod: undefined,
-        selectedPaymentMethod: undefined,
+        calculation: {
+          orderPrice: 0,
+          totalItemsCount: 0,
+          totalDiscount: 0,
+          totalPrice: 0,
+        },
+        form: {
+          name: '',
+          phone: '',
+          email: '',
+          delivery: undefined,
+          deliveryData: {},
+          payment: undefined,
+          isConfirmed: false,
+        }
+      }
+    },
+    validations() {
+      return {
+        form: {
+          name: { required },
+          phone: { required },
+          email: { required, email },
+          delivery: { required },
+          payment: { required },
+          isConfirmed: { required, isTrue },
+        }
       }
     },
     computed: {
       deliveryMethods() {
         return this.$store.state.methods.deliveryMethods;
       },
+      vuexCart() {
+        return this.$store.state.localStorage.products || [];
+      }
     },
-    async fetch() {
-      const vuexCart = this.$store.state.cart.products;
-      const cartRes = await this.$api.products.getProducts({
+    methods: {
+      async fetchCart() {
+        const cartRes = await this.$api.products.getProducts({
           preview: true,
           baseProperties: {
             [BaseProductProperty.Id]: {
-              [ComparisonOperator.in]: vuexCart.map(product => product.id),
+              [ComparisonOperator.in]: this.vuexCart || [],
             }
           },
           pagination: {
             page: 1,
-            limit: vuexCart.length,
+            limit: this.vuexCart.length,
           }
         });
-      this.cartContent = vuexCart.map(item => ({
-        product: cartRes.data.find(resItem => resItem._id === item.id),
-        count: item.count,
-      }));
-    },
-    methods: {
+        this.cartContent = this.vuexCart.map(item => ({
+          product: cartRes.data.find(resItem => resItem._id === item.id),
+          count: item.count,
+        }));
+        console.log(this.cartContent);
+        this.calculation = await this.$api.orders.getCalculation(this.cartContent.map(item => ({ productId: item.product._id, count: item.count })));
+        console.log(this.calculation);
+        setTimeout(() => {
+          this.loaded = true;
+        }, 300);
+      },
       paymentMethods(ids) {
         return this.$store.getters["methods/getPaymentsByIds"](ids);
       },
       confirmOrder: function() {
         this.isConfirmed = true;
+      },
+      formSubmit() {
+        console.log('test');
+        this.$v.$touch();
+        console.log(this.$v.$invalid);
+        console.log(this.form);
+        if (!this.$v.$invalid) {
+          console.log('valid!')
+        }
+        return false;
       }
     },
+    mounted() {
+      this.fetchCart();
+    }
   }
 </script>
 
@@ -280,6 +335,12 @@
     }
 
     &__input {
+      outline: none!important;
+
+      &-invalid {
+        border-color: red;
+      }
+
       @extend .input-field;
       margin-bottom: 0.5rem;
 
