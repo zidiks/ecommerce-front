@@ -3,7 +3,7 @@
     <a-carousel :infinite="true" autoplay v-if="mountedState" :dots="false" :slidesToShow="3" :responsive="responsive" dots-class="slick-dots" class="fade-in slider__a-carousel" arrows>
       <template #prevArrow>
         <div class="custom-slick-arrow" style="left: 10px; z-index: 1">
-          <Control-arrow :arrowDirection="'-180'" />
+          <Control-arrow :arrowBack="true" />
         </div>
       </template>
       <template #nextArrow>

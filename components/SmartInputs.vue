@@ -69,8 +69,10 @@ export default {
 <style lang="scss">
   .wrapper {
     justify-content: center;
+    flex-wrap: wrap;
     padding: 2rem 0;
     display: flex;
+    row-gap: 1.5rem;
     column-gap: 1.5rem;
   }
 </style>

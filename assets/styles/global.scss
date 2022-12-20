@@ -37,6 +37,7 @@ main {
   }
 
   &-inactive {
+    pointer-events: none;
     @extend .link;
     color: $DGRAY;
     &:hover {
@@ -130,6 +131,7 @@ main {
   }
 
   &-inactive {
+    pointer-events: none;
     .arrow__back {
       display: none;
     }

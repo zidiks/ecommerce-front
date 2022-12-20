@@ -208,11 +208,11 @@
 }
 
 .structure {
-  margin-bottom: 3rem;
+  padding-bottom: 3rem;
   display: grid;
   column-gap: 3rem;
-  margin-top: 4rem;
-  min-height: 7.5rem;
+  padding-top: 4rem;
+  min-height: 15rem;
 
   &-loading {
     min-height: 7.5rem;

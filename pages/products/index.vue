@@ -12,12 +12,15 @@
       </a-breadcrumb-item>
       <a-breadcrumb-item v-if="categoryData">{{ categoryData.name }}</a-breadcrumb-item>
     </a-breadcrumb>
-    <div  v-if="productsContent && !$fetchState.pending && mountedState">
+    <div class="products__wrapper" v-if="productsContent && !$fetchState.pending && mountedState">
+      <div v-if="refreshProductsState" class="refresh-overlay">
+        <Spinner></Spinner>
+      </div>
       <section>
-        <SmartInputs :disabled="refreshProductsState" @valueChanges="queryChange($event)" :baseFilters="baseFilters" :customFilters="customFilters"></SmartInputs>
+        <SmartInputs :disabled="refreshProductsState" @valueChanges="debounce(queryChange, $event)" :baseFilters="baseFilters" :customFilters="customFilters"></SmartInputs>
       </section>
-      <section v-if="!refreshProductsState" class="products">
-        <div class="products__content">
+      <section class="products">
+        <div class="products__content fade-in">
           <Cards
             class="products__card fade-in"
             v-for="item of productsContent"
@@ -26,27 +29,8 @@
             :addClass="ReusableClasses.CardBestsellers"
           />
         </div>
-        <div class="products__controls">
-          <svg class="arrow-inactive" width="30" height="30" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="49.75" y="49.75" width="49.5" height="49.5" rx="24.75" transform="rotate(-180 49.75 49.75)" stroke="#0B0B0B" stroke-width="0.5"/>
-            <rect class="arrow__back" x="45.9287" y="45.9285" width="41.8571" height="41.8571" rx="20.9286" transform="rotate(-180 45.9287 45.9285)" fill="#FEFEFE" stroke="#0B0B0B"/>
-            <path d="M6.78934 24.6464C6.59407 24.8417 6.59407 25.1583 6.78934 25.3535L9.97132 28.5355C10.1666 28.7308 10.4832 28.7308 10.6784 28.5355C10.8737 28.3403 10.8737 28.0237 10.6784 27.8284L7.85 25L10.6784 22.1716C10.8737 21.9763 10.8737 21.6597 10.6784 21.4645C10.4832 21.2692 10.1666 21.2692 9.97132 21.4645L6.78934 24.6464ZM42.8572 24.5L7.14289 24.5L7.14289 25.5L42.8572 25.5L42.8572 24.5Z" fill="#0B0B0B"/>
-          </svg>
-          <div class="products__pages">
-            <li class="link-li" v-for="item of pageNumbers" :key="item.id">
-              <span :class="item == 1 ? 'link' : 'link-inactive'">{{ item }}</span>
-            </li>
-          </div>
-          <svg class="arrow" width="30" height="30" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="49.75" y="49.75" width="49.5" height="49.5" rx="24.75" transform="rotate(-180 49.75 49.75)" stroke="#0B0B0B" stroke-width="0.5"/>
-            <rect class="arrow__back" x="45.9285" y="45.9286" width="41.8571" height="41.8571" rx="20.9286" transform="rotate(-180 45.9285 45.9286)" fill="#FEFEFE" stroke="#0B0B0B"/>
-            <path d="M43.354 25.3536C43.5493 25.1583 43.5493 24.8417 43.354 24.6465L40.1721 21.4645C39.9768 21.2692 39.6602 21.2692 39.465 21.4645C39.2697 21.6597 39.2697 21.9763 39.465 22.1716L42.2934 25L39.465 27.8284C39.2697 28.0237 39.2697 28.3403 39.465 28.5355C39.6602 28.7308 39.9768 28.7308 40.1721 28.5355L43.354 25.3536ZM7.00049 25.5L43.0005 25.5L43.0005 24.5L7.00049 24.5L7.00049 25.5Z" fill="#0B0B0B"/>
-          </svg>
-        </div>
+        <Pagination @valueChanges="pageChange($event)" :metadata="metadata"></Pagination>
       </section>
-      <div v-else>
-        <Spinner></Spinner>
-      </div>
     </div>
     <div v-else>
       <Spinner></Spinner>
@@ -60,10 +44,12 @@ import { ReusableClasses } from "assets/shared/enums/reusable-classes.enum";
 import { BaseProductProperty } from "assets/shared/enums/base-product-property.enum";
 import { ComparisonOperator } from "assets/shared/enums/mongoose-query.enum";
 import { ProductTypePropertyType } from "assets/shared/enums/product-property.enum";
-import {validateFilters} from "assets/shared/functions/validate-query.func";
+import { validateFilters } from "assets/shared/functions/validate-query.func";
+import {asyncTimeout} from "assets/shared/helpers/async-timeout.helper";
 
 export default {
-  data: () => ({
+  data() {
+    return {
       ReusableClasses,
       pageNumbers,
       productsContent: [],
@@ -74,8 +60,12 @@ export default {
       categoryData: undefined,
       baseFilters: [],
       customFilters: [],
+      timeout: undefined,
+      metadata: undefined,
+      paginationLimit: 40,
+      lastQuery: undefined,
     }
-  ),
+  },
   computed: {
     brands() {
       return this.$store.state.brands.brands;
@@ -83,25 +73,45 @@ export default {
   },
   methods: {
     async queryChange(value) {
-      console.log('New query: ', value);
       const basePropsQuery = validateFilters(value.basePropertiesForm);
       const customPropsQuery = validateFilters(value.customPropertiesForm);
-      const sortQuery = value.sortForm.direction !== undefined && value.sortForm.property !== undefined ? value.sortForm : undefined;
+      const sortQuery = value.sortForm.direction !== undefined && value.sortForm.property ? value.sortForm : undefined;
       const resProducts = await this.queryProducts(
         true,
         {
           page: 1,
-          limit: 20,
+          limit: this.paginationLimit,
         },
         basePropsQuery,
         customPropsQuery,
         sortQuery,
       );
       this.productsContent = resProducts.data;
+      this.metadata = resProducts.metadata;
+    },
+    async pageChange(index) {
+      const resProducts = await this.queryProducts(
+        true,
+        {
+          page: index || 1,
+          limit: this.paginationLimit,
+        },
+        this.lastQuery.baseProperties || {},
+        this.lastQuery.customProperties || {},
+        this.lastQuery.sort || undefined,
+      );
+      this.productsContent = resProducts.data;
+      this.metadata = resProducts.metadata;
+    },
+    async debounce(func, arg) {
+      if (this.timeout) {
+        clearTimeout(this.timeout);
+      }
+      this.timeout = setTimeout(async () => { await func(arg) }, this.$config.env.debounceTime || 300);
     },
     async queryProducts(preview, pagination, basePropsQuery, customPropsQuery, sort) {
       this.refreshProductsState = true;
-      const productsRes =  await this.$api.products.getProducts({
+      this.lastQuery = {
         preview,
         pagination,
         baseProperties: Object.assign({
@@ -114,10 +124,10 @@ export default {
         }, basePropsQuery || {}),
         customProperties: customPropsQuery || {},
         sort,
-      });
-      setTimeout(() => {
-        this.refreshProductsState = false;
-      }, 500)
+      };
+      const productsRes =  await this.$api.products.getProducts(this.lastQuery);
+      await asyncTimeout(500);
+      this.refreshProductsState = false;
       return productsRes;
     },
   },
@@ -131,10 +141,11 @@ export default {
       true,
       {
         page: 1,
-        limit: 20,
+        limit: this.paginationLimit,
       },
     );
     this.productsContent = resProducts.data;
+    this.metadata = resProducts.metadata;
     const typesUniqueProperties = await this.$api.types.getTypesUniqueProperties(this.categoryData.allProductTypeIds || []);
     this.baseFilters = [
       {
@@ -193,6 +204,21 @@ export default {
   flex-direction: column;
   align-items: center;
 
+  &__wrapper {
+    position: relative;
+    .refresh-overlay {
+      z-index: 999;
+      position: absolute;
+      display: flex;
+      padding-top: 8rem;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background: rgba(255, 255, 255, 0.8);
+    }
+  }
+
   &__content {
     width: 100%;
     display: grid;
@@ -234,30 +260,6 @@ export default {
 
   &__button {
     margin-top: 3.75rem;
-  }
-
-  &__controls {
-    display: flex;
-    align-items: center;
-    margin-top: 4rem;
-    gap: 3.5rem;
-
-    @include breakpoint(xs) {
-      gap: 1rem;
-    }
-  }
-
-  &__pages {
-    display: flex;
-    gap: 1rem;
-
-    @include breakpoint(xs) {
-      gap: 0.5rem;
-    }
-
-    @include breakpoint(xxs) {
-      gap: 0.25rem;
-    }
   }
 }
 </style>
