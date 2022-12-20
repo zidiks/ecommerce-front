@@ -33,7 +33,7 @@ export default {
       { text: 'ГЛАВНАЯ', link: '/'},
       { text: 'КАТАЛОГ', link: '/catalogue'},
       { text: 'О НАС', link: '/about'},
-      { text: 'АКЦИИ', link: '/offers' },
+      { text: 'Новости', link: '/news' },
       { text: 'ТРЕКЕР ЗАКАЗА', link: '/tracker'},
       { text: 'КОРЗИНА', link: '/cart'},
       ],
