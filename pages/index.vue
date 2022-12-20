@@ -47,9 +47,7 @@
         </div>
         <div class="bestsellers__button">
           <nuxt-link to="/catalogue">
-            <div class="button">
-              <span>ПЕРЕЙТИ В КАТАЛОГ</span>
-            </div>
+            <button class="button">ПЕРЕЙТИ В КАТАЛОГ</button>
           </nuxt-link>
         </div>
       </div>
@@ -85,7 +83,9 @@
             ПОДБОРКА СМЕЛЫХ АРОМАТОВ ДЛЯ ВАС.
             ПОЗНАКОМТЕСЬ С НОВЫМИ АРОМАТАМИ ПЕРВЫМИ.
           </div>
-          <nuxt-link to="/catalogue" class="button desktop-visibility">СМОТРЕТЬ ВСЕ</nuxt-link>
+          <nuxt-link to="/catalogue" class="desktop-visibility">
+            <button class="button">СМОТРЕТЬ ВСЕ</button>
+          </nuxt-link>
         </div>
         <div class="fade-in" v-if="latestContent.length && !$fetchState.pending">
           <div class="latest__content">

@@ -25,31 +25,26 @@
         <div class="delivery__type">
           <h3>варианты доставки</h3>
           <div class="delivery__radios">
-            <label class="radio-button" v-for="(item, index) of deliveryMethods" :key="index">
-              <input type="radio" name="delivery-radio" @click="setCurrentDeliveryID(index)" :id="index" :checked="index === 0 ? true : false">
+            <label class="radio-button" v-for="item of deliveryMethods" :key="item._id">
+              <input type="radio" name="delivery-radio" :value="item" :id="item._id" v-model="selectedDeliveryMethod">
               <div class="checkmark"></div>
               <span>{{ item.name }}</span>
             </label>
           </div>
-          <div :class="currentDeliveryID == index ? 'delivery__dynamic' : 'cart__hidden'" v-for="(item, index) of deliveryMethods" :key="item.name">
-            <div class="delivery__text" v-html="item.description"></div>
-            <div class="delivery__fields" v-for="field of item.fields" :key="field.name">
-              <input type="text" class="delivery__input" :placeholder="field.name">
+          <div v-if="selectedDeliveryMethod" class="delivery__dynamic">
+            <div class="delivery__text" style="white-space: pre-line" v-html="selectedDeliveryMethod.description"></div>
+            <div class="delivery__fields" v-for="field of selectedDeliveryMethod.fields" :key="field">
+              <input type="text" class="delivery__input" :placeholder="field.toUpperCase()">
             </div>
           </div>
         </div>
-        <div class="payment">
-          <h2>варианты оплаты</h2>
+        <div class="payment" v-if="selectedDeliveryMethod">
+          <h3>варианты оплаты</h3>
           <div class="payment__option">
-            <label class="radio-button">
-              <input type="radio" name="payment-radio" :disabled="currentDeliveryID === 0 ? false : true">
+            <label class="radio-button" v-for="item of paymentMethods(selectedDeliveryMethod?.paymentMethods || [])" :key="item._id">
+              <input type="radio" name="payment-radio">
               <div class="checkmark"></div>
-              <span>наличными КУРЬЕРУ ПРИ ПОЛУЧЕНИИ</span>
-            </label>
-            <label class="radio-button">
-              <input type="radio" name="payment-radio" :disabled="currentDeliveryID !== 0 ? false : true">
-              <div class="checkmark"></div>
-              <span>наложенным платежем</span>
+              <span>{{ item.name }}</span>
             </label>
           </div>
           <div class="permission">
@@ -61,7 +56,7 @@
         </div>
         </div>
         <div class="payment__button">
-            <div class="button" @click="confirmOrder()">{{ isConfirmed ? 'оформить' : 'подтвердить' }} заказ</div>
+            <button :disabled="!cartContent.length" style="width: 100%" class="button" @click="confirmOrder()">ПОДТВЕРДИТЬ</button>
         </div>
         <div :class="`${isConfirmed ? 'cart__tracking ' : 'cart-page__hidden'}`">
           <h2>статус заказа</h2>
@@ -118,7 +113,6 @@
 </template>
 
 <script>
-  import { deliveryMethods } from 'assets/shared/constants/shared'
   import { BaseProductProperty } from "assets/shared/enums/base-product-property.enum";
   import { ComparisonOperator } from "assets/shared/enums/mongoose-query.enum";
 
@@ -126,13 +120,18 @@
     data() {
       return {
         cartContent: [],
-        deliveryMethods,
         finalPrice: 0,
         discount: 5,
-        currentDeliveryID: 0,
         isConfirmed: false,
         baseUrl: this.$config.baseUrl,
+        selectedDeliveryMethod: undefined,
+        selectedPaymentMethod: undefined,
       }
+    },
+    computed: {
+      deliveryMethods() {
+        return this.$store.state.methods.deliveryMethods;
+      },
     },
     async fetch() {
       const vuexCart = this.$store.state.cart.products;
@@ -154,8 +153,8 @@
       }));
     },
     methods: {
-      setCurrentDeliveryID: function(index) {
-        this.currentDeliveryID = index;
+      paymentMethods(ids) {
+        return this.$store.getters["methods/getPaymentsByIds"](ids);
       },
       confirmOrder: function() {
         this.isConfirmed = true;
@@ -367,7 +366,7 @@
     border-bottom: $main-border;
     user-select: none;
     transition: 0.3s;
-    padding: 1rem 0;
+    padding: 1rem 0 1rem .5rem;
 
     &:last-child {
       border: none;
@@ -433,6 +432,7 @@
       display: flex;
       justify-content: center;
       margin-top: 3rem;
+      margin-bottom: 3rem;
 
       @include breakpoint(l) {
         margin-top: 2rem;

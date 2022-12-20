@@ -17,17 +17,11 @@
     <a-collapse-panel class="collapse__panel" key="2" header="Оплата и доставка">
       <div class="collapse__item">
         <h3>Оплата</h3>
-        <p>
-          Наличными курьеру, Наложенным платежом,<br>
-          Банковской картой онлайн
-        </p>
+        <p>{{ paymentMethods }}</p>
       </div>
       <div class="collapse__item">
         <h3>Доставка</h3>
-        <p>
-          Курьером по Минску (БЕСПЛАТНО),<br>
-          почта, европочта
-        </p>
+        <p>{{ deliveryMethods }}</p>
       </div>
     </a-collapse-panel>
   </a-collapse>
@@ -45,6 +39,14 @@ export default defineComponent({
     return {
       activeKey,
     };
+  },
+  computed: {
+    deliveryMethods() {
+      return this.$store.state.methods.deliveryMethods.map(method => method.name).join(', ');
+    },
+    paymentMethods() {
+      return this.$store.state.methods.paymentMethods.map(method => method.name).join(', ');
+    },
   },
   methods: {
     activate: function() {

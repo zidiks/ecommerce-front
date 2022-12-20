@@ -87,12 +87,16 @@ main {
   user-select: none;
 
   @include breakpoint(xs) {
-    width: 15rem;
+    width: 100%;
     font-size: 1rem;
     height: 3rem;
   }
 
-  &:hover {
+  &:disabled {
+    opacity: .3;
+  }
+
+  &:hover:enabled {
     color: $BLACK;
     background-color: $WHITE;
   }
