@@ -38,41 +38,6 @@
           </div>
         </div>
       </section>
-      <div class="structure-wrapper">
-        <section
-          @mouseleave="setColumnData(1, [])"
-          :style="`grid-template-columns: repeat(${maxDepth}, 1fr)`"
-          class="structure-mobile"
-        >
-          <div
-            class="structure__column"
-            v-for="(column, index) in renderColumns"
-            :key="index"
-          >
-            <div class="structure__column-wrapper">
-              <div
-                v-if="index === 0"
-                @mouseover="setColumnData(index + 1, [])"
-                class="structure__item fade-in-left-category"
-                @click="routeWithQuery()"
-              >
-                <span>Все товары</span>
-              </div>
-              <div
-                @mouseover="setColumnData(index + 1, item.children, item._id)"
-                :class="{ 'structure__item-active': activeItems.includes(item._id) }"
-                class="structure__item fade-in-left-category"
-                v-for="item in column"
-                @click="routeWithQuery(item._id)"
-                :key="item.name"
-              >
-                <span>{{ item?.name }}</span>
-                <img v-if="item.children?.length" src="/category-item-arrow.svg" :alt="item?.name">
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
       <section>
         <div class="latest-catalogue">
           <div class="latest-catalogue__head">
