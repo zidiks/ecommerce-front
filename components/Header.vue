@@ -186,7 +186,7 @@ export default {
 
       @include breakpoint(xl) {
         justify-content: space-around;
-        padding: 0 4%;
+        padding: 0 1.9%;
 
         & li {
           margin: 0 0.25rem;
