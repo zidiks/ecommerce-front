@@ -154,7 +154,7 @@
         }
 
         &.slick-active {
-          border: solid 2px var(--data-color-black);
+          border: solid 3px var(--data-color-black);
         }
       }
     }

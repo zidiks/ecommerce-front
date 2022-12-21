@@ -52,7 +52,7 @@
           <div class="controls__content">
             <div class="controls__buttons">
               <div class="controls__button">
-                <div v-if="!vuexProduct?.count" class="button-base" @click="addToCart()">в корзину</div>
+                <button v-if="!vuexProduct?.count" class="button-base" @click="addToCart()"><span class="all-text-toUpperCase">в корзину</span></button>
                 <nuxt-link v-if="vuexProduct?.count" class="button-inversed" to="/cart"><span class="fade-in">оформить заказ</span></nuxt-link>
               </div>
               <div class="controls__amount fade-in" v-if="vuexProduct?.count">
@@ -167,7 +167,6 @@
     display: grid;
     grid-template-columns: 1fr 2.5fr;
     column-gap: 2rem;
-    //min-width: 28rem;
 
     @include breakpoint(l) {
       display: flex;
@@ -399,7 +398,7 @@
       }
 
       @include breakpoint(xs) {
-        max-width: 16rem;
+        max-width: 100%;
         width: 100%;
       }
     }
@@ -421,7 +420,7 @@
 
       @include breakpoint(xs) {
         height: 3rem;
-        max-width: 16rem;
+        max-width: 100%;
         width: 100%;
         justify-content: space-evenly;
       }

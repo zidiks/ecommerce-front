@@ -58,7 +58,7 @@
           </div>
           <div class="payment__button">
             <button v-if="!isConfirmed" :disabled="!cartContent.length" style="width: 100%" class="button" @click="confirmOrder()">ДАЛЕЕ</button>
-            <button v-else :disabled="!cartContent.length || $v.$invalid" style="width: 100%" class="button">ПОДТВЕРДИТЬ</button>
+            <button v-else :disabled="!cartContent.length || $v.$invalid" style="width: 100%" class="button ca">ПОДТВЕРДИТЬ</button>
           </div>
           <div :class="`${isConfirmed ? 'cart__tracking ' : 'cart-page__hidden'}`">
             <h2>статус заказа</h2>
@@ -248,7 +248,6 @@
             historyList: [],
           }
           const newOrder = await this.$api.orders.addOrder(payload);
-          console.log(newOrder);
         }
         return false;
       }
@@ -296,7 +295,7 @@
 
           &:nth-child(2) {
             width: 1.5rem;
-            margin: 3.5px 0 3.5px 1px;
+            margin: 3.1px 0 3.1px 1.2px;
           }
 
           &:nth-child(3) {
@@ -359,6 +358,8 @@
     margin-top: 3.75rem;
 
     @include breakpoint(l) {
+      display: flex;
+      flex-direction: column;
       margin: 0;
     }
 
@@ -545,6 +546,10 @@
 
       @include breakpoint(l) {
         margin-top: 2rem;
+
+        & button {
+          max-width: 24rem;
+        }
       }
 
       & div {

@@ -46,7 +46,7 @@
           <Cards class="bestsellers__card" :addClass="ReusableClasses.CardBestsellers" v-for="item of bestsellersContent" :item="item" :key="item._id" />
         </div>
         <div class="bestsellers__button">
-          <nuxt-link to="/catalogue">
+          <nuxt-link to="/catalogue" class="button">
             <button class="button">ПЕРЕЙТИ В КАТАЛОГ</button>
           </nuxt-link>
         </div>
@@ -92,7 +92,9 @@
             <Cards class="latest__card" :addClass="ReusableClasses.CardLatest" v-for="item of latestContent" :item="item" :key="item._id" />
           </div>
           <div class="latest__button">
-            <nuxt-link to="/catalogue" class="button mobile-visibility">СМОТРЕТЬ ВСЕ</nuxt-link>
+            <nuxt-link to="/catalogue" class="button mobile-visibility">
+              <button class="button">СМОТРЕТЬ ВСЕ</button>
+            </nuxt-link>
           </div>
         </div>
       </div>

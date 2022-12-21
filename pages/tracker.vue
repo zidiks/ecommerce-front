@@ -19,7 +19,7 @@
           <input placeholder="КОД ОТСЛЕЖИВАНИЯ">
         </div>
         <div class="tracker__button">
-          <div class="button">ОТСЛЕДИТЬ ПОСЫЛКУ</div>
+          <button class="button">ОТСЛЕДИТЬ ПОСЫЛКУ</button>
         </div>
       </div>
     </section>
@@ -85,7 +85,7 @@
       margin-top: 2.5rem;
       width: 100%;
 
-      & div {
+      & button {
         width: 100%;
       }
     }

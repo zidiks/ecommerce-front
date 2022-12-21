@@ -11,7 +11,7 @@
         <h1>новости</h1>
       </div>
       <div class="news__content">
-        <nuxt-link :to="`/news/${item._id}`" v-for="item of articles.data" :key="item.title">
+        <nuxt-link class="article-border" :to="`/news/${item._id}`" v-for="item of articles.data" :key="item.title">
           <div class="news__article">
             <div class="news__image">
               <img :src="`${baseUrl}/storage/images/${item.media}`" :alt="item.title">
@@ -63,6 +63,18 @@
 <style lang="scss" scoped>
   @import '~/assets/styles/global';
 
+  .article-border {
+
+    @include breakpoint(l) {
+      padding-bottom: 2rem;
+      border-bottom: $main-border;
+
+      &:last-child {
+        border: none;
+      }
+    }
+  }
+
   .news {
 
     &__head {
@@ -95,15 +107,6 @@
       &:hover {
         .news__text-header {
           color: var(--data-color-hover);
-        }
-      }
-
-      @include breakpoint(l) {
-        padding-bottom: 2rem;
-        border-bottom: $main-border;
-
-        &:last-child {
-          border: none;
         }
       }
 
