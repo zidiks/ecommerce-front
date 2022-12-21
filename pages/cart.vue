@@ -43,7 +43,7 @@
               <h3>варианты оплаты</h3>
               <div class="payment__option">
                 <label class="radio-button" v-for="item of paymentMethods(form.delivery?.paymentMethods || [])" :key="item._id">
-                  <input type="radio" name="payment-radio" value="item" v-model="form.payment">
+                  <input type="radio" name="payment-radio" :id="item._id" :value="item" v-model="form.payment">
                   <div class="checkmark"></div>
                   <span>{{ item.name }}</span>
                 </label>
@@ -221,6 +221,9 @@
     mounted() {
       this.fetchCart();
       window.addEventListener("resize", this.resizeHandler);
+      if (window.innerWidth > 950) {
+        this.isConfirmed = true
+      }
     }
   }
 </script>
