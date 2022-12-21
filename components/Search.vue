@@ -48,6 +48,10 @@
     },
     watch: {
       $route(to, from) {
+        if (from.name === 'products') {
+          this.value = '';
+          this.$store.commit('sessionStorage/setSearchText', '');
+        }
         this.currentRoute = to;
       },
     },
