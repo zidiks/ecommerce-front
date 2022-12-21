@@ -24,6 +24,11 @@ export interface ProductPropertyValueModel extends ProductTypePropertyDto {
   value: string | string[] | number | boolean;
 }
 
+export interface AutocompleteModel extends ApiId {
+  name: string;
+  media?: string;
+}
+
 export interface GetProductsOptions {
   search?: string;
   sort?: {
