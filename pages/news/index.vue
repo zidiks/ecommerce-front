@@ -78,6 +78,10 @@
       @include breakpoint(l) {
         padding-bottom: 2rem;
         border-bottom: $main-border;
+
+        &:last-child {
+          border: none;
+        }
       }
 
       @include breakpoint(xs) {
