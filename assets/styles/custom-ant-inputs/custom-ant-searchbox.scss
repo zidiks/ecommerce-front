@@ -1,0 +1,44 @@
+.searchbox__autocomplete {
+  outline: none !important;
+  width: auto !important;
+  display: flex;
+  align-items: center;
+  .ant-select-selection {
+    border-bottom: none !important;
+    width: 100%;
+    .ant-select-search__field {
+      padding: 0 .4rem;
+      height: 2rem !important;
+      display: block !important;
+      border-color: transparent !important;
+      box-shadow: none !important;
+      input {
+        width: calc(100% - 2rem);
+        outline: none;
+        border-color: transparent !important;
+        box-shadow: none !important;
+        display: flex;
+        align-items: center;
+        height: 100%;
+        line-height: 1.2rem !important;
+        font-size: 1.2rem;
+      }
+      .ant-input-wrapper {
+        display: flex;
+        align-items: center;
+      }
+      .ant-input-group-addon {
+        display: flex;
+        align-items: center;
+        background: none;
+        width: 2rem;
+        img {
+          height: 1.4rem !important;
+          width: 1.4rem !important;
+          object-fit: contain;
+          padding: 0;
+        }
+      }
+    }
+  }
+}

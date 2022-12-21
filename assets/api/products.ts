@@ -1,4 +1,4 @@
-import { GetProductsOptions, ProductModel } from "~/assets/shared/dto/product.dto";
+import { AutocompleteModel, GetProductsOptions, ProductModel } from "~/assets/shared/dto/product.dto";
 import { Paginated } from "~/assets/shared/models/paginated.model";
 import { NuxtAxiosInstance } from "@nuxtjs/axios";
 
@@ -9,5 +9,9 @@ export default (axios: NuxtAxiosInstance) => ({
 
   getProductById(id: string): Promise<ProductModel | null> {
     return axios.get(`store/product/${id}`).then((response) => response.data);
+  },
+
+  autocomplete(text: string): Promise<AutocompleteModel[] | null> {
+   return axios.get(`store/autocomplete/${text}`).then((response) => response.data);
   }
 })

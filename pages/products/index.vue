@@ -70,6 +70,14 @@ export default {
     brands() {
       return this.$store.state.brands.brands;
     },
+    searchText() {
+      return this.$store.state.sessionStorage.searchText;
+    },
+  },
+  watch: {
+    searchText() {
+      this.pageChange(this.metadata.page || 1)
+    }
   },
   methods: {
     async queryChange(value) {
@@ -112,6 +120,7 @@ export default {
     async queryProducts(preview, pagination, basePropsQuery, customPropsQuery, sort) {
       this.refreshProductsState = true;
       this.lastQuery = {
+        search: this.searchText || undefined,
         preview,
         pagination,
         baseProperties: Object.assign({
@@ -146,7 +155,9 @@ export default {
     );
     this.productsContent = resProducts.data;
     this.metadata = resProducts.metadata;
-    const typesUniqueProperties = await this.$api.types.getTypesUniqueProperties(this.categoryData.allProductTypeIds || []);
+    const typesUniqueProperties = this.categoryData?.allProductTypeIds?.length
+      ? await this.$api.types.getTypesUniqueProperties(this.categoryData?.allProductTypeIds || [])
+      : [];
     this.baseFilters = [
       {
         code: 'brand',
@@ -183,7 +194,7 @@ export default {
       (toParams, previousParams) => {
         this.$fetch();
       }
-    )
+    );
   },
   mounted() {
     setTimeout(() => {
