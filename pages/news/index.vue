@@ -11,16 +11,18 @@
         <h1>новости</h1>
       </div>
       <div class="news__content">
-        <div class="news__article" v-for="item of articles.data" :key="item.title">
-          <div class="news__image">
-            <img :src="`${baseUrl}/storage/images/${item.media}`" :alt="item.title">
+        <nuxt-link :to="`/news/${item._id}`" v-for="item of articles.data" :key="item.title">
+          <div class="news__article">
+            <div class="news__image">
+              <img :src="`${baseUrl}/storage/images/${item.media}`" :alt="item.title">
+            </div>
+            <div class="news__text">
+              <h2 class="news__text-header">{{ item.title }}</h2>
+              <div class="news__text-content">{{ item.description }}</div>
+              <div class="news__text-time">{{ formatDate(item.updatedAt) }}</div>
+            </div>
           </div>
-          <div class="news__text">
-            <h2 class="news__text-header">{{ item.title }}</h2>
-            <div class="news__text-content" v-html="item.content"></div>
-            <nuxt-link :to="`/news/${item._id}`" class="news__text-link"><i><u>читать далее</u></i></nuxt-link>
-          </div>
-        </div>
+        </nuxt-link>
       </div>
     </section>
     <Spinner v-else />
@@ -34,12 +36,26 @@
       return {
         articles: null,
         baseUrl: this.$config.baseUrl,
+        formatter: undefined,
       }
     },
 
     async fetch() {
       this.articles = await this.$api.articles.getArticles();
-      console.log(this.articles);
+    },
+
+    methods: {
+      formatDate(date) {
+        return process.browser && this.formatter ? this.formatter.format(new Date(date)) : '';
+      }
+    },
+
+    mounted() {
+      this.formatter = new Intl.DateTimeFormat("ru", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
     }
   }
 </script>
@@ -74,6 +90,13 @@
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       column-gap: 1rem;
+      cursor: pointer;
+
+      &:hover {
+        .news__text-header {
+          color: var(--data-color-hover);
+        }
+      }
 
       @include breakpoint(l) {
         padding-bottom: 2rem;
@@ -113,13 +136,22 @@
 
       &-header {
         font-size: 1.5rem;
+        transition: color .3s;
       }
 
       &-content {
+        color: var(--data-color-black);
         width: 100%;
         max-height: 8.5rem;
         overflow: hidden;
         text-align: justify;
+      }
+
+      &-time {
+        margin-top: 1rem;
+        opacity: 0.6;
+        font-size: .8rem;
+        color: var(--data-color-black);
       }
 
       &-link {
