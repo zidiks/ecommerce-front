@@ -6,12 +6,12 @@
         <a-breadcrumb-item>новости</a-breadcrumb-item>
       </a-breadcrumb>
     </div>
-    <section class="news content-width" v-if="articles && !$fetchState.pending">
+    <section class="news content-width" v-if="articles.length && !$fetchState.pending">
       <div class="news__head all-text-toUpperCase">
         <h1>новости</h1>
       </div>
       <div class="news__content">
-        <nuxt-link class="article-border" :to="`/news/${item._id}`" v-for="item of articles.data" :key="item.title">
+        <nuxt-link class="article-border" :to="`/news/${item._id}`" v-for="item of articles" :key="item.title">
           <div class="news__article">
             <div class="news__image">
               <img :src="`${baseUrl}/storage/images/${item.media}`" :alt="item.title">
@@ -24,6 +24,9 @@
           </div>
         </nuxt-link>
       </div>
+      <div class="news__pagination">
+        <Pagination @valueChanges="pageChange($event)" :metadata="metadata"></Pagination>
+      </div>
     </section>
     <Spinner v-else />
   </main>
@@ -34,20 +37,37 @@
   export default {
     data() {
       return {
-        articles: null,
+        articles: [],
         baseUrl: this.$config.baseUrl,
         formatter: undefined,
+        metadata: undefined,
+        paginationLimit: 20,
       }
     },
 
     async fetch() {
-      this.articles = await this.$api.articles.getArticles();
+      const res = await this.$api.articles.getArticles({
+        preview: true,
+        limit: this.paginationLimit,
+        page: 1,
+      });
+      this.articles = res.data;
+      this.metadata = res.metadata;
     },
 
     methods: {
       formatDate(date) {
         return process.browser && this.formatter ? this.formatter.format(new Date(date)) : '';
-      }
+      },
+      async pageChange(index) {
+        const res = await this.$api.articles.getArticles({
+          preview: true,
+          limit: this.paginationLimit,
+          page: index || 1,
+        });
+        this.articles = res.data;
+        this.metadata = res.metadata;
+      },
     },
 
     mounted() {
@@ -86,10 +106,18 @@
       }
     }
 
+    &__pagination {
+      width: 100%;
+      display: flex;
+      margin-top: 1rem;
+      justify-content: center;
+    }
+
     &__content {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      grid-gap: 2rem;
+      column-gap: 2rem;
+      row-gap: 6rem;
       width: 100%;
       margin-top: 2rem;
 
@@ -116,11 +144,10 @@
     }
 
     &__image {
-
       & img {
         width: 100%;
-        max-height: 90%;
-        object-fit: contain;
+        height: 18rem;
+        object-fit:cover;
 
         @include breakpoint(l) {
           max-height: 20rem;
