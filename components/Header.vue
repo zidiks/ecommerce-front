@@ -1,27 +1,35 @@
 <template>
-  <div class="content-width header__wrapper">
-    <Search :burgerShown="burgerShown" class="search-mobile search-pc"/>
-    <header class="header all-text-toUpperCase">
-      <div class="header__crutch">
-        <div class="header__plug">
-
-        </div>
-        <div class="header__logo">
-          <img src="~/static/Logo.svg">
-        </div>
-        <div class="header__number">
-
-        </div>
+  <div>
+    <header class="mobile-visibility mobile-nav">
+      <div class="mobile-nav__slot-left">
+        <svg fill="#000000"><path d="M6 36v-3h36v3Zm0-10.5v-3h36v3ZM6 15v-3h36v3Z"/></svg>
       </div>
-      <nav :class="`header__navbar${burgerShown ? '' : '-hidden'}`">
-        <li class="link-li" v-for="item of headerNavLinks" :key="item.text" @click="currentWidth <= 960 ? burgerButton() : '';">
-          <nuxt-link :to="item.link" class="link-custom">{{ item.text }}</nuxt-link>
-        </li>
-      </nav>
-      <div :class="`overlay${burgerShown ? '' : '-hidden'}`">
+      <div class="mobile-nav__slot-center">
+        <img class="mobile-nav__logo" src="~/static/small_logo.svg">
       </div>
-      <Search class="search" />
+      <div class="mobile-nav__slot-right"></div>
     </header>
+    <div class="content-width header__wrapper desktop-visibility">
+      <header class="header all-text-toUpperCase">
+        <div class="header__crutch">
+          <div class="header__plug">
+
+          </div>
+          <div class="header__logo">
+            <img src="~/static/Logo.svg">
+          </div>
+          <div class="header__number">
+
+          </div>
+        </div>
+        <nav class="header__navbar">
+          <li class="link-li" v-for="item of headerNavLinks" :key="item.text" @click="currentWidth <= 960 ? burgerButton() : '';">
+            <nuxt-link :to="item.link" class="link-custom">{{ item.text }}</nuxt-link>
+          </li>
+        </nav>
+        <Search class="search" />
+      </header>
+    </div>
   </div>
 </template>
 
@@ -69,7 +77,8 @@ export default {
 
 
 <style lang="scss" scoped>
-  @import '~/assets/styles/global';
+  @import '@/assets/styles/global';
+  @import '@/assets/styles/components/mobile-nav.scss';
 
   .search-mobile {
     display: none;
@@ -190,38 +199,6 @@ export default {
 
         & li {
           margin: 0 0.25rem;
-        }
-      }
-
-      @include breakpoint(l) {
-        position: fixed;
-        z-index: 100;
-        flex-direction: column;
-        align-items: center;
-        width: fit-content;
-        top: 15rem;
-        padding: 0.5rem;
-        height: calc(16rem);
-        transition: 0.5s ease;
-        overflow: hidden;
-        white-space: nowrap;
-
-        & li {
-          font-size: 1.5rem;
-          line-height: 1.5rem;
-        }
-      }
-
-      &-hidden {
-        @extend .header__navbar;
-
-        @include breakpoint(l) {
-          padding: 0;
-          margin-top: 0;
-          border: none;
-          height: 0;
-          transition: 0.5s ease;
-          margin-bottom: 0;
         }
       }
     }
