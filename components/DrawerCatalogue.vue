@@ -36,22 +36,19 @@
     props: ['data'],
     computed: {
       states() {
-        return this.$store.state["mobile-catalogue"].treeNodeStates;
+        return this.$store.state.drawers.treeNodeStates;
       },
     },
     methods: {
       onClose() {
-        this.$store.commit('mobile-catalogue/closeNode', this.data._id);
+        this.$store.commit('drawers/closeNode', this.data._id);
       },
       onLinkClose() {
-        this.$store.commit('mobile-catalogue/closeDrawer');
+        this.$store.commit('drawers/closeMenu');
       },
       openChild(id) {
-        this.$store.commit('mobile-catalogue/openNode', id);
+        this.$store.commit('drawers/openNode', id);
       }
     },
-    mounted() {
-      console.log(this.data)
-    }
   }
 </script>

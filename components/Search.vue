@@ -16,13 +16,6 @@
           </template>
         </a-input-search>
       </a-auto-complete>
-      <div class="burger">
-        <div @click="burgerButton(); burgerShownLocal = !burgerShownLocal" :style="burgerShown ? rotateIcon(-90) : rotateIcon(0)">
-          <div class="burger__line"></div>
-          <div class="burger__line"></div>
-          <div class="burger__line"></div>
-        </div>
-      </div>
     </div>
   </div>
 </template>
@@ -31,7 +24,6 @@
   export default {
     data() {
       return {
-        burgerShownLocal: this.burgerShown,
         value: "",
         options: [],
         timeout: undefined,
@@ -56,12 +48,6 @@
       },
     },
     methods: {
-      burgerButton() {
-        this.$root.$emit('burgerButton');
-      },
-      rotateIcon(n) {
-        return `transition: 0.3s; transform: rotate(${n}deg)`
-      },
       onSelect(value) {
         this.$router.push({path: `/products/`, query: { category: this.$store.getters["categories/getRoot"]._id }})
       },
@@ -81,14 +67,11 @@
         this.timeout = setTimeout(async () => { await func(arg) }, this.$config.env.debounceTime || 300);
       },
     },
-    props: [
-      'burgerShown'
-    ],
   }
 </script>
 
 <style lang="scss" scoped>
-  @import '~/assets/styles/global';
+  @import '@/assets/styles/global';
 
   .searchbox {
     margin-top: 2rem;
@@ -108,27 +91,6 @@
     & img {
       min-width: 1.5rem;
       padding: 0.5rem 0.5rem 0.5rem 0;
-    }
-  }
-
-  .burger {
-    display: none;
-
-    @include breakpoint(l) {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    & div {
-      cursor: pointer;
-    }
-
-    &__line {
-      margin: 5px 0;
-      width: 22px;
-      height: 1px;
-      background-color: $BLACK;
     }
   }
 </style>

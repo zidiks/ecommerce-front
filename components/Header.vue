@@ -1,15 +1,15 @@
 <template>
   <div>
     <header class="mobile-visibility mobile-nav">
-      <div @click="toggleDrawer" class="mobile-nav__slot-left">
-        <span class="mobile-nav__menu material-symbols-outlined" :class="{ 'mobile-nav__menu-active': visible }">menu</span>
+      <div @click="toggleMenu" class="mobile-nav__slot-left">
+        <span class="mobile-nav__menu material-symbols-outlined" :class="{ 'mobile-nav__menu-active': visibleMenu }">menu</span>
       </div>
       <a-drawer
         placement="left"
         :closable="false"
         width="100%"
-        @close="onClose"
-        :visible="visible"
+        @close="onCloseMenu"
+        :visible="visibleMenu"
       >
         <nav class="drawer-menu">
           <div v-for="item of headerNavLinks" :key="item.text">
@@ -20,7 +20,7 @@
               </span>
               <DrawerCatalogue :data="categoriesTree"></DrawerCatalogue>
             </div>
-            <div @click="onClose()" v-else>
+            <div @click="onCloseMenu()" v-else>
               <nuxt-link :to="item.link" class="drawer-menu__item">
                 <span class="drawer-menu__item__text">{{ item.text }}</span>
               </nuxt-link>
@@ -31,9 +31,20 @@
       <div class="mobile-nav__slot-center">
         <img class="mobile-nav__logo" src="~/static/small_logo.svg">
       </div>
-      <div class="mobile-nav__slot-right">
-        <span class="mobile-nav__search material-symbols-outlined">search</span>
+      <div @click="toggleSearch" class="mobile-nav__slot-right">
+        <span class="mobile-nav__search material-symbols-outlined" :class="{ 'mobile-nav__search-active': visibleSearch }">search</span>
       </div>
+      <a-drawer
+        placement="right"
+        :closable="false"
+        width="100%"
+        @close="onCloseSearch"
+        :visible="visibleSearch"
+      >
+        <nav class="drawer-menu">
+          <SearchMobile v-if="visibleSearch"></SearchMobile>
+        </nav>
+      </a-drawer>
     </header>
     <div class="content-width header__wrapper desktop-visibility">
       <header class="header all-text-toUpperCase">
@@ -74,27 +85,36 @@ export default {
     }
   },
   methods: {
-    toggleDrawer() {
-      this.$store.commit('mobile-catalogue/toggleDrawer');
+    toggleMenu() {
+      this.$store.commit('drawers/toggleMenu');
     },
-    onClose() {
-      this.$store.commit('mobile-catalogue/closeDrawer');
+    toggleSearch() {
+      this.$store.commit('drawers/toggleSearch');
+    },
+    onCloseMenu() {
+      this.$store.commit('drawers/closeMenu');
+    },
+    onCloseSearch() {
+      this.$store.commit('drawers/closeSearch');
     },
     openChild(id) {
-      this.$store.commit('mobile-catalogue/openNode', id);
+      this.$store.commit('drawers/openNode', id);
     }
   },
   computed: {
     categoriesTree() {
       return this.$store.state.categories.categoriesTree;
     },
-    visible() {
-      return this.$store.state["mobile-catalogue"].drawerState;
+    visibleMenu() {
+      return this.$store.state.drawers.menuState;
+    },
+    visibleSearch() {
+      return this.$store.state.drawers.searchState;
     },
   },
   mounted() {
     const categoriesList = this.$store.state.categories.categoriesList;
-    this.$store.commit('mobile-catalogue/generateNodes', categoriesList);
+    this.$store.commit('drawers/generateNodes', categoriesList);
   },
 }
 </script>

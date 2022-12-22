@@ -1,20 +1,31 @@
 export const state = () => ({
   treeNodeStates: {},
-  drawerState: false,
+  menuState: false,
+  searchState: false,
 })
 
 export const mutations = {
-  toggleDrawer(state) {
-    state.drawerState = !state.drawerState;
-    if (!state.drawerState) {
+  toggleMenu(state) {
+    state.menuState = !state.menuState;
+    state.searchState = false;
+    if (!state.menuState) {
       Object.keys(state.treeNodeStates).forEach(key => {
         state.treeNodeStates[key] = false;
       });
     }
   },
 
-  closeDrawer(state) {
-    state.drawerState = false;
+  toggleSearch(state) {
+    state.searchState = !state.searchState;
+    state.menuState = false;
+  },
+
+  closeSearch(state) {
+    state.searchState = false;
+  },
+
+  closeMenu(state) {
+    state.menuState = false;
     Object.keys(state.treeNodeStates).forEach(key => {
       state.treeNodeStates[key] = false;
     });
