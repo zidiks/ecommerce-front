@@ -35,7 +35,7 @@
               <div v-if="form.delivery" class="delivery__dynamic">
                 <div class="delivery__text" style="white-space: pre-line" v-html="form.delivery.description"></div>
                 <div class="delivery__fields" v-for="field of form.delivery.fields" :key="field">
-                  <input type="text" class="delivery__input" :placeholder="field.toUpperCase()">
+                  <input type="text" class="delivery__input" v-model="form.deliveryData[field]" :placeholder="field.toUpperCase()">
                 </div>
               </div>
             </div>
@@ -58,7 +58,7 @@
           </div>
           <div class="payment__button">
             <button v-if="!isConfirmed" :disabled="!cartContent.length" style="width: 100%" class="button" @click="confirmOrder()">ДАЛЕЕ</button>
-            <button v-else :disabled="!cartContent.length || $v.$invalid" style="width: 100%" class="button">ПОДТВЕРДИТЬ</button>
+            <button v-else :disabled="!cartContent.length || $v.$invalid" style="width: 100%" class="button ca">ПОДТВЕРДИТЬ</button>
           </div>
           <div :class="`${isConfirmed ? 'cart__tracking ' : 'cart-page__hidden'}`">
             <h2>статус заказа</h2>
@@ -151,6 +151,14 @@
         }
       }
     },
+    watch: {
+      delivery: {
+        handler(value) {
+          this.form.deliveryData = Object.fromEntries(value.fields.map(item => [[item], '']));
+        },
+        deep: true,
+      }
+    },
     validations() {
       return {
         form: {
@@ -164,6 +172,9 @@
       }
     },
     computed: {
+      delivery() {
+        return this.form.delivery;
+      },
       deliveryMethods() {
         return this.$store.state.methods.deliveryMethods;
       },
@@ -194,9 +205,7 @@
           product: cartRes.data.find(resItem => resItem._id === item.id),
           count: item.count,
         }));
-        console.log(this.cartContent);
         this.calculation = await this.$api.orders.getCalculation(this.cartContent.map(item => ({ productId: item.product._id, count: item.count })));
-        console.log(this.calculation);
         setTimeout(() => {
           this.loaded = true;
         }, 300);
@@ -207,13 +216,38 @@
       confirmOrder: function() {
         this.isConfirmed = true;
       },
-      formSubmit() {
-        console.log('test');
+      async formSubmit() {
         this.$v.$touch();
-        console.log(this.$v.$invalid);
-        console.log(this.form);
         if (!this.$v.$invalid) {
-          console.log('valid!')
+          const payload = {
+            customer: {
+              phone: this.form.phone,
+              name: this.form.name,
+            },
+            state: {
+              label: 'Ожидание',
+              color: 'neutral',
+              description: 'Ожидайте звонка оператора',
+            },
+            delivery: {
+              deliveryMethod: {
+                name: this.form.delivery.name,
+                description: this.form.delivery.description,
+                fields: this.form.delivery.fields,
+                paymentMethods: this.form.delivery.paymentMethods,
+              },
+              deliveryAddress: 'test',
+              deliveryData: Object.entries(this.form.deliveryData).map(([name, value]) => ({name, value})),
+              comment: 'test',
+            },
+            paymentMethod: {
+              name: this.form.payment.name,
+              description: this.form.payment.description,
+            },
+            cartItems: this.vuexCart.map(({ count, id }) => ({ count, productId: id })),
+            historyList: [],
+          }
+          const newOrder = await this.$api.orders.addOrder(payload);
         }
         return false;
       }
@@ -261,7 +295,7 @@
 
           &:nth-child(2) {
             width: 1.5rem;
-            margin: 3.5px 0 3.5px 1px;
+            margin: 3.1px 0 3.1px 1.2px;
           }
 
           &:nth-child(3) {
@@ -324,6 +358,8 @@
     margin-top: 3.75rem;
 
     @include breakpoint(l) {
+      display: flex;
+      flex-direction: column;
       margin: 0;
     }
 
@@ -510,6 +546,10 @@
 
       @include breakpoint(l) {
         margin-top: 2rem;
+
+        & button {
+          max-width: 24rem;
+        }
       }
 
       & div {

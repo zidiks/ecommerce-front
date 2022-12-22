@@ -1,75 +1,128 @@
 <template>
-  <div class="content-width header__wrapper">
-    <Search :burgerShown="burgerShown" class="search-mobile search-pc"/>
-    <header class="header all-text-toUpperCase">
-      <div class="header__crutch">
-        <div class="header__plug">
-
-        </div>
-        <div class="header__logo">
-          <img src="~/static/Logo.svg">
-        </div>
-        <div class="header__number">
-
-        </div>
+  <div>
+    <header class="mobile-visibility mobile-nav">
+      <div @click="toggleMenu" class="mobile-nav__slot-left">
+        <span class="mobile-nav__menu material-symbols-outlined" :class="{ 'mobile-nav__menu-active': visibleMenu }">menu</span>
       </div>
-      <nav :class="`header__navbar${burgerShown ? '' : '-hidden'}`">
-        <li class="link-li" v-for="item of headerNavLinks" :key="item.text" @click="currentWidth <= 960 ? burgerButton() : '';">
-          <nuxt-link :to="item.link" class="link-custom">{{ item.text }}</nuxt-link>
-        </li>
-      </nav>
-      <div :class="`overlay${burgerShown ? '' : '-hidden'}`">
+      <a-drawer
+        placement="left"
+        :closable="false"
+        width="100%"
+        @close="onCloseMenu"
+        :visible="visibleMenu"
+      >
+        <nav class="drawer-menu">
+          <div v-for="item of headerNavLinks" :key="item.text">
+            <div @click="openChild(categoriesTree._id)" v-if="item.more" class="drawer-menu__item">
+              <span class="drawer-menu__item__text">{{ item.text }}</span>
+              <span class="drawer-menu__item__arrow">
+                <span class="material-symbols-outlined">chevron_right</span>
+              </span>
+              <DrawerCatalogue :data="categoriesTree"></DrawerCatalogue>
+            </div>
+            <div @click="onCloseMenu()" v-else>
+              <nuxt-link :to="item.link" class="drawer-menu__item">
+                <span class="drawer-menu__item__text">{{ item.text }}</span>
+              </nuxt-link>
+            </div>
+          </div>
+        </nav>
+      </a-drawer>
+      <div class="mobile-nav__slot-center">
+        <img class="mobile-nav__logo" src="~/static/small_logo.svg">
       </div>
-      <Search class="search" />
+      <div @click="toggleSearch" class="mobile-nav__slot-right">
+        <span class="mobile-nav__search material-symbols-outlined" :class="{ 'mobile-nav__search-active': visibleSearch }">search</span>
+      </div>
+      <a-drawer
+        placement="right"
+        :closable="false"
+        width="100%"
+        @close="onCloseSearch"
+        :visible="visibleSearch"
+      >
+        <nav class="drawer-menu">
+          <SearchMobile v-if="visibleSearch"></SearchMobile>
+        </nav>
+      </a-drawer>
     </header>
+    <div class="content-width header__wrapper desktop-visibility">
+      <header class="header all-text-toUpperCase">
+        <div class="header__crutch">
+          <div class="header__plug">
+
+          </div>
+          <div class="header__logo">
+            <img src="~/static/Logo.svg">
+          </div>
+          <div class="header__number">
+
+          </div>
+        </div>
+        <nav class="header__navbar">
+          <li class="link-li" v-for="item of headerNavLinks" :key="item.text">
+            <nuxt-link :to="item.link" class="link-custom">{{ item.text }}</nuxt-link>
+          </li>
+        </nav>
+        <Search class="search" />
+      </header>
+    </div>
   </div>
 </template>
 
 <script scoped>
 export default {
-  data: () => {
+  data() {
     return {
       headerNavLinks: [
-      { text: 'ГЛАВНАЯ', link: '/'},
-      { text: 'КАТАЛОГ', link: '/catalogue'},
-      { text: 'О НАС', link: '/about'},
-      { text: 'Новости', link: '/news' },
-      { text: 'ТРЕКЕР ЗАКАЗА', link: '/tracker'},
-      { text: 'КОРЗИНА', link: '/cart'},
+        { text: 'ГЛАВНАЯ', link: '/', more: false },
+        { text: 'КАТАЛОГ', link: '/catalogue', more: true },
+        { text: 'О НАС', link: '/about', more: false },
+        { text: 'Новости', link: '/news', more: false },
+        { text: 'ТРЕКЕР ЗАКАЗА', link: '/tracker', more: false },
+        { text: 'КОРЗИНА', link: '/cart', more: false },
       ],
-      burgerShown: false,
-      currentHeight: 0,
-      currentWidth: 0,
     }
   },
-
   methods: {
-    burgerButton() {
-      this.burgerShown = !this.burgerShown;
-      document.body.style.overflow = this.burgerShown && this.currentWidth <= 960 ? 'hidden' : 'visible';
+    toggleMenu() {
+      this.$store.commit('drawers/toggleMenu');
     },
-    getCurrentScreenSize() {
-      this.currentHeight = window.innerHeight;
-      this.currentWidth = window.innerWidth;
+    toggleSearch() {
+      this.$store.commit('drawers/toggleSearch');
+    },
+    onCloseMenu() {
+      this.$store.commit('drawers/closeMenu');
+    },
+    onCloseSearch() {
+      this.$store.commit('drawers/closeSearch');
+    },
+    openChild(id) {
+      this.$store.commit('drawers/openNode', id);
     }
   },
-
-  beforeMount() {
-    window.addEventListener('resize', this.getCurrentScreenSize)
+  computed: {
+    categoriesTree() {
+      return this.$store.state.categories.categoriesTree;
+    },
+    visibleMenu() {
+      return this.$store.state.drawers.menuState;
+    },
+    visibleSearch() {
+      return this.$store.state.drawers.searchState;
+    },
   },
-
   mounted() {
-    this.$root.$on('burgerButton', () => {
-      this.burgerButton();
-    });
-    this.getCurrentScreenSize();
+    const categoriesList = this.$store.state.categories.categoriesList;
+    this.$store.commit('drawers/generateNodes', categoriesList);
   },
 }
 </script>
 
 
 <style lang="scss" scoped>
-  @import '~/assets/styles/global';
+  @import '@/assets/styles/global';
+  @import '@/assets/styles/components/mobile-nav.scss';
 
   .search-mobile {
     display: none;
@@ -186,42 +239,10 @@ export default {
 
       @include breakpoint(xl) {
         justify-content: space-around;
-        padding: 0 4%;
+        padding: 0 1.9%;
 
         & li {
           margin: 0 0.25rem;
-        }
-      }
-
-      @include breakpoint(l) {
-        position: fixed;
-        z-index: 100;
-        flex-direction: column;
-        align-items: center;
-        width: fit-content;
-        top: 15rem;
-        padding: 0.5rem;
-        height: calc(16rem);
-        transition: 0.5s ease;
-        overflow: hidden;
-        white-space: nowrap;
-
-        & li {
-          font-size: 1.5rem;
-          line-height: 1.5rem;
-        }
-      }
-
-      &-hidden {
-        @extend .header__navbar;
-
-        @include breakpoint(l) {
-          padding: 0;
-          margin-top: 0;
-          border: none;
-          height: 0;
-          transition: 0.5s ease;
-          margin-bottom: 0;
         }
       }
     }

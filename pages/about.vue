@@ -291,8 +291,9 @@
         padding-left: 5rem;
 
         @include breakpoint(l) {
+          max-height: 20rem;
+          object-fit: contain;
           padding: 0;
-          width: 70%;
         }
       }
     }

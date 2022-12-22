@@ -20,6 +20,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    @include breakpoint(l) {
+      padding-top: 60px;
+    }
   }
 
   .search {
