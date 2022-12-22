@@ -149,14 +149,9 @@ main {
 
 .card {
   display: grid;
-  grid-template-areas:
-                  'i i'
-                  'n n'
-                  'v p';
   cursor: pointer;
 
   &__image {
-    grid-area: i;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -167,22 +162,24 @@ main {
     width: 100%;
     padding: 0.5rem 0;
     font-weight: 500;
-    grid-area: n;
     border-bottom: $main-border;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
 
-  &__volume {
-    padding: 0.5rem 0;
-    grid-area: v;
+    @include breakpoint(l) {
+      overflow: auto;
+    }
   }
 
   &__price {
-    padding: 0.5rem 0;
-    grid-area: p;
-    text-align: right;
+    padding: 0.4rem 0;
+
+    @include breakpoint(l) {
+      font-size: .8rem;
+    }
+
+    &-old {
+      opacity: .2;
+      margin-right: .4rem;
+    }
   }
 }
 

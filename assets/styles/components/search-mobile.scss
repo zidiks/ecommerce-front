@@ -17,7 +17,8 @@
     &-item {
       margin-bottom: 1rem;
       position: relative;
-      & > span {
+      &__text {
+        color: var(--data-color-black) !important;
         display: block;
         min-width: 0;
         width: 100%;

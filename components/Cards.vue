@@ -7,11 +7,9 @@
     <div :class="`card__name ${addClass}__name`">
     {{ item.name }}
     </div>
-    <div class="card__volume">
-      {{ 50 }} МЛ
-    </div>
     <div class="card__price">
-      {{ item.totalPrice }} BYN
+      <span class="card__price-old" v-if="item.price !== item.totalPrice"><s>{{ item.price }}</s></span>
+      <span>{{ item.totalPrice }} BYN</span>
     </div>
     </nuxt-link>
   </div>
