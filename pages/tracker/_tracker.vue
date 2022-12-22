@@ -240,7 +240,7 @@ h4 {
 
   &__head {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     border-bottom: $main-border;
 
     @include breakpoint(l) {
