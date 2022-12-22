@@ -1,4 +1,6 @@
 @import '/assets/styles/variables.scss';
+@import '/assets/styles/components/drawer-menu';
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
 @import 'custom-ant-inputs/custom-ant-checkbox';
 @import 'custom-ant-inputs/custom-ant-select';
 @import 'custom-ant-inputs/custom-ant-dropdown';
@@ -265,4 +267,40 @@ main {
 
 .ant-input-number-handler-down-inner {
   color: var(--data-color-black) !important;
+}
+
+.ant-drawer-title {
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 1.1rem;
+}
+
+.ant-drawer-body {
+  padding-top: 5rem;
+}
+
+.ant-page-header {
+  padding: 1rem 0;
+  margin-bottom: 1rem;
+  &-heading {
+    display: flex;
+    align-items: center;
+  }
+  &-back {
+    margin:  0;
+    width: 1rem;
+    &-button {
+      margin-top: 1px;
+      &:hover {
+        color: var(--data-color-hover);
+      }
+    }
+  }
+  &-heading-title {
+    display: flex;
+    justify-content: center;
+    flex: 1 1 auto;
+    padding: 0;
+    margin-right: 1rem;
+  }
 }

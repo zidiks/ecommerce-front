@@ -1,13 +1,39 @@
 <template>
   <div>
     <header class="mobile-visibility mobile-nav">
-      <div class="mobile-nav__slot-left">
-        <svg fill="#000000"><path d="M6 36v-3h36v3Zm0-10.5v-3h36v3ZM6 15v-3h36v3Z"/></svg>
+      <div @click="toggleDrawer" class="mobile-nav__slot-left">
+        <span class="mobile-nav__menu material-symbols-outlined" :class="{ 'mobile-nav__menu-active': visible }">menu</span>
       </div>
+      <a-drawer
+        placement="left"
+        :closable="false"
+        width="100%"
+        @close="onClose"
+        :visible="visible"
+      >
+        <nav class="drawer-menu">
+          <div v-for="item of headerNavLinks" :key="item.text">
+            <div @click="openChild(categoriesTree._id)" v-if="item.more" class="drawer-menu__item">
+              <span class="drawer-menu__item__text">{{ item.text }}</span>
+              <span class="drawer-menu__item__arrow">
+                <span class="material-symbols-outlined">chevron_right</span>
+              </span>
+              <DrawerCatalogue :data="categoriesTree"></DrawerCatalogue>
+            </div>
+            <div @click="onClose()" v-else>
+              <nuxt-link :to="item.link" class="drawer-menu__item">
+                <span class="drawer-menu__item__text">{{ item.text }}</span>
+              </nuxt-link>
+            </div>
+          </div>
+        </nav>
+      </a-drawer>
       <div class="mobile-nav__slot-center">
         <img class="mobile-nav__logo" src="~/static/small_logo.svg">
       </div>
-      <div class="mobile-nav__slot-right"></div>
+      <div class="mobile-nav__slot-right">
+        <span class="mobile-nav__search material-symbols-outlined">search</span>
+      </div>
     </header>
     <div class="content-width header__wrapper desktop-visibility">
       <header class="header all-text-toUpperCase">
@@ -23,7 +49,7 @@
           </div>
         </div>
         <nav class="header__navbar">
-          <li class="link-li" v-for="item of headerNavLinks" :key="item.text" @click="currentWidth <= 960 ? burgerButton() : '';">
+          <li class="link-li" v-for="item of headerNavLinks" :key="item.text">
             <nuxt-link :to="item.link" class="link-custom">{{ item.text }}</nuxt-link>
           </li>
         </nav>
@@ -35,42 +61,40 @@
 
 <script scoped>
 export default {
-  data: () => {
+  data() {
     return {
       headerNavLinks: [
-      { text: 'ГЛАВНАЯ', link: '/'},
-      { text: 'КАТАЛОГ', link: '/catalogue'},
-      { text: 'О НАС', link: '/about'},
-      { text: 'Новости', link: '/news' },
-      { text: 'ТРЕКЕР ЗАКАЗА', link: '/tracker'},
-      { text: 'КОРЗИНА', link: '/cart'},
+        { text: 'ГЛАВНАЯ', link: '/', more: false },
+        { text: 'КАТАЛОГ', link: '/catalogue', more: true },
+        { text: 'О НАС', link: '/about', more: false },
+        { text: 'Новости', link: '/news', more: false },
+        { text: 'ТРЕКЕР ЗАКАЗА', link: '/tracker', more: false },
+        { text: 'КОРЗИНА', link: '/cart', more: false },
       ],
-      burgerShown: false,
-      currentHeight: 0,
-      currentWidth: 0,
     }
   },
-
   methods: {
-    burgerButton() {
-      this.burgerShown = !this.burgerShown;
-      document.body.style.overflow = this.burgerShown && this.currentWidth <= 960 ? 'hidden' : 'visible';
+    toggleDrawer() {
+      this.$store.commit('mobile-catalogue/toggleDrawer');
     },
-    getCurrentScreenSize() {
-      this.currentHeight = window.innerHeight;
-      this.currentWidth = window.innerWidth;
+    onClose() {
+      this.$store.commit('mobile-catalogue/closeDrawer');
+    },
+    openChild(id) {
+      this.$store.commit('mobile-catalogue/openNode', id);
     }
   },
-
-  beforeMount() {
-    window.addEventListener('resize', this.getCurrentScreenSize)
+  computed: {
+    categoriesTree() {
+      return this.$store.state.categories.categoriesTree;
+    },
+    visible() {
+      return this.$store.state["mobile-catalogue"].drawerState;
+    },
   },
-
   mounted() {
-    this.$root.$on('burgerButton', () => {
-      this.burgerButton();
-    });
-    this.getCurrentScreenSize();
+    const categoriesList = this.$store.state.categories.categoriesList;
+    this.$store.commit('mobile-catalogue/generateNodes', categoriesList);
   },
 }
 </script>
