@@ -5,6 +5,7 @@ import Brands from "~/assets/api/brands";
 import Types from "~/assets/api/types";
 import Methods from "~/assets/api/methods";
 import Orders from "~/assets/api/orders";
+import Properties from "~/assets/api/properties";
 
 export default (context: any, inject: any) => {
   const factories = {
@@ -15,6 +16,7 @@ export default (context: any, inject: any) => {
     types: Types(context.$axios),
     methods: Methods(context.$axios),
     orders: Orders(context.$axios),
+    properties: Properties(context.$axios),
   };
 
   inject("api", factories);

@@ -1,4 +1,5 @@
 import {BaseProductProperty} from "~/assets/shared/enums/base-product-property.enum";
+import {ProductTypePropertyType} from "~/assets/shared/enums/product-property.enum";
 
 export const state = () => ({
   treeNodeStates: {},
@@ -6,8 +7,7 @@ export const state = () => ({
   searchState: false,
   filterState: false,
   sortState: false,
-  minPrice: 0,
-  maxPrice: 0,
+  priceRanges: {},
 })
 
 export const mutations = {
@@ -84,6 +84,13 @@ export const mutations = {
 
 export const actions = {
   async fetchMinMax({state}) {
+    const allProperties = await this.$api.properties.getTypesProperties();
+    const numberProperties = allProperties.filter(item => [ProductTypePropertyType.NumberSelect, ProductTypePropertyType.NumberInput].includes(item.type) && item.showFilter);
+    // await Promise.all(files.map(async (file) => {
+    //   const contents = await fs.readFile(file, 'utf8')
+    //   console.log(contents)
+    // }));
+
     const minPriceProduct = await this.$api.products.getProducts({
       pagination: {
         limit: 1,
@@ -104,9 +111,8 @@ export const actions = {
         direction: -1,
       }
     });
-    state.minPrice = Math.ceil((minPriceProduct?.data[0]?.totalPrice - 10 || 0) / 10)*10;
-    state.maxPrice = Math.ceil((maxPriceProduct?.data[0]?.totalPrice + 10 || 0) / 10)*10;
-    console.log(state.minPrice);
-    console.log(state.maxPrice);
+    state.priceRanges.totalPrice = {};
+    state.priceRanges.totalPrice.min = Math.ceil((minPriceProduct?.data[0]?.totalPrice - 10 || 0) / 10)*10;
+    state.priceRanges.totalPrice.max = Math.ceil((maxPriceProduct?.data[0]?.totalPrice + 10 || 0) / 10)*10;
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="mobile-filter__range">
     <span class="mobile-filter__range__label">{{ property.name }} ОТ {{ value[0] + postfix }} до {{ value[1] + postfix }}</span>
-    <a-slider :tooltipVisible="false" :tooltip-visible="true" v-model:value="value" :min="minPrice" :max="maxPrice" range :step="10" />
+    <a-slider :tooltipVisible="false" :tooltip-visible="true" v-model:value="value" :min="minPrice" :max="maxPrice" range :step="this.property.code === 'totalPrice' ? 10 : 1" />
   </div>
 </template>
 
@@ -22,10 +22,10 @@ export default {
       return this.property.code === 'totalPrice' ? ' BYN' : '';
     },
     minPrice() {
-      return this.$store.state.drawers.minPrice;
+      return this.$store.state.drawers.priceRanges[this.property.code].min;
     },
     maxPrice() {
-      return this.$store.state.drawers.maxPrice;
+      return this.$store.state.drawers.priceRanges[this.property.code].max;
     }
   },
   watch: {
