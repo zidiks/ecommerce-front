@@ -13,6 +13,13 @@
           @back="onClose()"
         />
       </div>
+      <div>
+        <div @click="onLinkClose()">
+          <nuxt-link :to="`/products?category=${data._id}`" class="drawer-catalogue__item">
+            <span class="drawer-catalogue__item__text">{{ data.root ? 'ПРОСМОТРЕТЬ ВСЕ ТОВАРЫ' : 'ВСЕ ТОВАРЫ КАТЕГОРИИ' }}</span>
+          </nuxt-link>
+        </div>
+      </div>
       <div v-for="item of data.children" :key="item._id">
         <div @click="openChild(item._id)" v-if="item.children?.length" class="drawer-catalogue__item">
           <span class="drawer-catalogue__item__text">{{ item.name }}</span>

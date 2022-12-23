@@ -1,9 +1,11 @@
 <template>
   <div class="search-mobile">
-    <input v-model="value" ref="searchInput" class="search-mobile__input" placeholder="ВВЕДИТЕ ЗАПРОС" type="text">
+    <input enterkeyhint="search" v-model="value" ref="searchInput" class="search-mobile__input" placeholder="ВВЕДИТЕ ЗАПРОС" type="text">
     <div class="search-mobile__autocomplete">
-      <div class="search-mobile__autocomplete-item" v-for="option of options">
-        <span>{{ option.name }}</span>
+      <div @click="onLinkClose" class="search-mobile__autocomplete-item" v-for="option of options">
+        <nuxt-link :to="`/products/${option._id}`" class="search-mobile__autocomplete-item__text">
+          <span>{{ option.name }}</span>
+        </nuxt-link>
       </div>
     </div>
   </div>
@@ -25,8 +27,8 @@ export default {
     }
   },
   methods: {
-    onSelect(value) {
-      this.$router.push({path: `/product/${value}`})
+    onLinkClose() {
+      this.$store.commit('drawers/closeSearch');
     },
     async onSearch(text) {
       if (text) {
