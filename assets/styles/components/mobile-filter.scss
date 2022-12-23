@@ -33,4 +33,18 @@
     }
 
   }
+
+  &__range {
+    z-index: 9995;
+    margin-bottom: .6rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #e8e8e8;
+
+    &__label {
+      font-size: .9rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
 }
