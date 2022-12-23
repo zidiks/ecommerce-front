@@ -14,7 +14,7 @@
     </a-breadcrumb>
     <div class="products__wrapper" v-if="productsContent && !$fetchState.pending && mountedState">
       <div v-if="refreshProductsState" class="refresh-overlay">
-        <Spinner></Spinner>
+        <Spinner class="desktop-visibility"></Spinner>
       </div>
       <section>
         <SmartInputs :disabled="refreshProductsState" @valueChanges="debounce(queryChange, $event)" :baseFilters="baseFilters" :customFilters="customFilters"></SmartInputs>
@@ -218,7 +218,7 @@ export default {
   &__wrapper {
     position: relative;
     .refresh-overlay {
-      z-index: 999;
+      z-index: 800;
       position: absolute;
       display: flex;
       padding-top: 8rem;

@@ -1,9 +1,13 @@
+import {BaseProductProperty} from "~/assets/shared/enums/base-product-property.enum";
+
 export const state = () => ({
   treeNodeStates: {},
   menuState: false,
   searchState: false,
   filterState: false,
   sortState: false,
+  minPrice: 0,
+  maxPrice: 0,
 })
 
 export const mutations = {
@@ -76,4 +80,33 @@ export const mutations = {
       state.treeNodeStates = Object.fromEntries(list.map(item => [item._id, false]));
     }
   },
+}
+
+export const actions = {
+  async fetchMinMax({state}) {
+    const minPriceProduct = await this.$api.products.getProducts({
+      pagination: {
+        limit: 1,
+        page: 1,
+      },
+      sort: {
+        property: BaseProductProperty.TotalPrice,
+        direction: 1,
+      }
+    });
+    const maxPriceProduct = await this.$api.products.getProducts({
+      pagination: {
+        limit: 1,
+        page: 1,
+      },
+      sort: {
+        property: BaseProductProperty.TotalPrice,
+        direction: -1,
+      }
+    });
+    state.minPrice = Math.ceil((minPriceProduct?.data[0]?.totalPrice - 10 || 0) / 10)*10;
+    state.maxPrice = Math.ceil((maxPriceProduct?.data[0]?.totalPrice + 10 || 0) / 10)*10;
+    console.log(state.minPrice);
+    console.log(state.maxPrice);
+  }
 }

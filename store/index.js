@@ -5,6 +5,7 @@ export default {
       await dispatch('brands/fetchCategories', $api);
       await dispatch('methods/fetchDeliveryMethods', $api);
       await dispatch('methods/fetchPaymentMethods', $api);
+      await dispatch('drawers/fetchMinMax', $api);
     }
   }
 }

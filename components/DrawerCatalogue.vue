@@ -3,6 +3,7 @@
     placement="left"
     :closable="false"
     width="100%"
+    :z-index="998"
     @close="onClose"
     :visible="states[data._id]"
   >

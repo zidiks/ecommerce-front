@@ -59,6 +59,10 @@ export default {
   build: {
   },
 
+  server: {
+    host: '192.168.0.106'
+  },
+
   publicRuntimeConfig: {
     env: environment,
     baseUrl: `${environment.https ? 'https' : 'http'}://${environment.host}:${environment.port}`

@@ -3,7 +3,7 @@
     placement="right"
     title="СОРТИРОВКА"
     class="mobile-sort"
-    :z-index="9991"
+    :z-index="991"
     :closable="true"
     width="90%"
     @close="closeSort"
