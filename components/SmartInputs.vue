@@ -20,7 +20,7 @@
         <span class="material-symbols-outlined">filter_list</span>
         <span class="wrapper-mobile__part__text">СОРТИРОВКА</span>
       </div>
-      <SortDrawer></SortDrawer>
+      <SortDrawer :sort="sortForm"></SortDrawer>
       <div  @click="openFilter" class="wrapper-mobile__part">
         <span class="material-symbols-outlined">sort</span>
         <span class="wrapper-mobile__part__text">ФИЛЬТРЫ</span>
