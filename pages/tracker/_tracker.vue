@@ -71,7 +71,9 @@
             v-for="history of orderData.historyList"
             :key="history.time">
             <div class="history__list-time">{{ formatData(history.time) }}</div>
-            <div class="history__list-type">{{ history.type }}</div>
+            <div class="history__list-type">
+              <span class="material-symbols-outlined">{{orderHistoryIcons[history.type]}}</span>
+            </div>
             <div class="history__list-details">{{ history.details }}</div>
           </div>
         </div>
@@ -81,13 +83,15 @@
 </template>
 
 <script>
+import {orderHistoryIcons} from "../../assets/shared/constants/orderHistoryIcons";
 export default {
   data() {
     return {
       trackingCode: this.$route.params.tracker,
       orderData: null,
       baseUrl: this.$config.baseUrl,
-      formatter: undefined
+      formatter: undefined,
+      orderHistoryIcons
     }
   },
   async fetch() {
@@ -215,6 +219,7 @@ h4 {
         }
         &-type{
           grid-area: type;
+          margin-left: 1rem;
         }
         &-details{
           margin-top: 0.3rem;
