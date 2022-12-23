@@ -16,11 +16,11 @@
       </div>
       <div class="tracker__content">
         <div class="tracker__input">
-          <input placeholder="КОД ОТСЛЕЖИВАНИЯ">
+          <input placeholder="ШЕСТИЗНАЧНЫЙ КОД ОТСЛЕЖИВАНИЯ" v-model="trackingCode">
         </div>
-        <div class="tracker__button">
+        <nuxt-link class="tracker__button" :to="'tracker/' + trackingCode">
           <button class="button">ОТСЛЕДИТЬ ПОСЫЛКУ</button>
-        </div>
+        </nuxt-link>
       </div>
     </section>
   </main>
@@ -28,11 +28,15 @@
 
 <script>
   export default {
-
+    data() {
+      return {
+        trackingCode: undefined,
+      }
+    }
   }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   @import '~/assets/styles/global';
 
   .tracker {
@@ -84,8 +88,11 @@
     &__button {
       margin-top: 2.5rem;
       width: 100%;
+      button {
+        width: 100%;
+      }
 
-      & button {
+      & div {
         width: 100%;
       }
     }
