@@ -2,16 +2,16 @@
   <a-drawer
     placement="right"
     title="СОРТИРОВКА"
-    class="mobile-filter"
+    class="mobile-sort"
     :z-index="9991"
     :closable="true"
     width="90%"
     @close="closeSort"
     :visible="visible"
   >
-    <div v-for="item of options" class="mobile-filter__item all-text-toUpperCase" :key="item.value">
-      <input :id="item.label" class="mobile-filter__item__input" type="radio" :value="item.value" v-model="sortValue">
-      <label :for="item.label" class="mobile-filter__item__label">{{ item.label }}</label>
+    <div v-for="item of options" class="mobile-sort__item all-text-toUpperCase" :key="item.value">
+      <input :id="item.label" class="mobile-sort__item__input" type="radio" :value="item.value" v-model="sortValue">
+      <label :for="item.label" class="mobile-sort__item__label">{{ item.label }}</label>
     </div>
   </a-drawer>
 </template>
