@@ -25,7 +25,12 @@
         <span class="material-symbols-outlined">sort</span>
         <span class="wrapper-mobile__part__text">ФИЛЬТРЫ</span>
       </div>
-      <FilterDrawer></FilterDrawer>
+      <FilterDrawer
+        :basePropertiesForm="basePropertiesForm"
+        :customPropertiesForm="customPropertiesForm"
+        :baseFilters="baseFilters"
+        :customFilters="customFilters"
+      ></FilterDrawer>
     </form>
   </div>
 </template>
