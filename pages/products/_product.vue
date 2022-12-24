@@ -1,9 +1,21 @@
 <template>
-  <main>
+  <main class="content-width all-text-toUpperCase">
     <a-breadcrumb class="breadcrumbs">
       <a-breadcrumb-item><nuxt-link to="/">ГЛАВНАЯ</nuxt-link></a-breadcrumb-item>
       <a-breadcrumb-item><nuxt-link to="/catalogue">КАТАЛОГ</nuxt-link></a-breadcrumb-item>
-      <a-breadcrumb-item><nuxt-link v-if="productData?.category" :to="'/categories/' + productData.category._id">{{ productData.category.name }}</nuxt-link></a-breadcrumb-item>
+      <a-breadcrumb-item
+        v-for="item of categoryData?.path || []"
+        :key="item._id">
+        <nuxt-link :to="'/products?category=' + item._id">{{ item.name }}</nuxt-link>
+      </a-breadcrumb-item>
+      <a-breadcrumb-item>
+        <nuxt-link
+          v-if="productData?.category"
+          :to="'/products?category=' + productData.category._id"
+        >
+          {{ productData.category.name }}
+        </nuxt-link>
+      </a-breadcrumb-item>
     </a-breadcrumb>
     <Spinner v-if="$fetchState.pending"></Spinner>
     <Empty class="fade-in" v-if="$fetchState.error || (!$fetchState.pending && !productData)"></Empty>
@@ -37,58 +49,34 @@
               {{ productData.totalPrice + ' BYN' }}
             </div>
           </div>
-          <div class="controls__buttons">
-            <div @click="closeOverlay()" :class="isOverlay ? 'controls__message' : 'controls__hidden'">
-              <div class="controls__overlay"></div>
-              <div title="Скрыть уведомление">
-                <img src="~/static/Alert.svg" alt="alert">
-                <p>
-                  ТОВАР УСПЕШНО<br>
-                  ДОБАВЛЕН В КОРЗИНУ
-                </p>
-              </div>
-            </div>
-            <div class="controls__content">
-              <div class="controls__amount">
-                <div class="controls__less" @click="decrement()">-</div>
-                <div class="controls__number">{{ amount }}</div>
-                <div class="controls__more" @click="increment()">+</div>
-              </div>
+          <div class="controls__content">
+            <div class="controls__buttons">
               <div class="controls__button">
-                <div :class="isInCart ? 'controls__hidden' : 'button'" @click="addToCart()">в корзину</div>
-                <nuxt-link :class="isInCart ? 'button-inversed' : 'controls__hidden'" to="/cart">оформить заказ</nuxt-link>
+                <button v-if="!vuexProduct?.count" class="button-base" @click="addToCart()"><span class="all-text-toUpperCase">в корзину</span></button>
+                <nuxt-link v-if="vuexProduct?.count" class="button-inversed" to="/cart"><span class="fade-in">оформить заказ</span></nuxt-link>
+              </div>
+              <div class="controls__amount fade-in" v-if="vuexProduct?.count">
+                  <div class="controls__less" @click="decrement()">-</div>
+                  <div class="controls__number">{{ vuexProduct?.count || 0 }}</div>
+                  <div class="controls__more" @click="increment()">+</div>
               </div>
             </div>
+            <div class="controls__message-wrapper">
+                <div v-if="vuexProduct?.count && isMessageShown" class="controls__message fade-in"  @click="isMessageShown = false" title="Скрыть уведомление">
+                  <img src="~/static/Alert.svg" alt="alert">
+                  <p>
+                    ТОВАР УСПЕШНО<br>
+                    ДОБАВЛЕН В КОРЗИНУ
+                  </p>
+                </div>
+              </div>
           </div>
         </div>
       </div>
-    </section>
-    <section class="characteristics" v-if="productData && !$fetchState.pending">
-      <Product-collapse v-if="productData?.productProps?.length" :items="productData.productProps"/>
-      <div class="characteristics__plug"></div>
-    </section>
-    <section class="also" v-if="productData && !$fetchState.pending">
-      <div class="also__head">
-        <h2>похожие товары</h2>
-        <div class="also__controls">
-          <svg class="arrow-inactive" width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="49.75" y="49.75" width="49.5" height="49.5" rx="24.75" transform="rotate(-180 49.75 49.75)" stroke="#0B0B0B" stroke-width="0.5"/>
-            <rect class="arrow__back" x="45.9287" y="45.9285" width="41.8571" height="41.8571" rx="20.9286" transform="rotate(-180 45.9287 45.9285)" fill="#FEFEFE" stroke="#0B0B0B"/>
-            <path d="M6.78934 24.6464C6.59407 24.8417 6.59407 25.1583 6.78934 25.3535L9.97132 28.5355C10.1666 28.7308 10.4832 28.7308 10.6784 28.5355C10.8737 28.3403 10.8737 28.0237 10.6784 27.8284L7.85 25L10.6784 22.1716C10.8737 21.9763 10.8737 21.6597 10.6784 21.4645C10.4832 21.2692 10.1666 21.2692 9.97132 21.4645L6.78934 24.6464ZM42.8572 24.5L7.14289 24.5L7.14289 25.5L42.8572 25.5L42.8572 24.5Z" fill="#0B0B0B"/>
-          </svg>
-          <svg class="arrow" width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="49.75" y="49.75" width="49.5" height="49.5" rx="24.75" transform="rotate(-180 49.75 49.75)" stroke="#0B0B0B" stroke-width="0.5"/>
-            <rect class="arrow__back" x="45.9285" y="45.9286" width="41.8571" height="41.8571" rx="20.9286" transform="rotate(-180 45.9285 45.9286)" fill="#FEFEFE" stroke="#0B0B0B"/>
-            <path d="M43.354 25.3536C43.5493 25.1583 43.5493 24.8417 43.354 24.6465L40.1721 21.4645C39.9768 21.2692 39.6602 21.2692 39.465 21.4645C39.2697 21.6597 39.2697 21.9763 39.465 22.1716L42.2934 25L39.465 27.8284C39.2697 28.0237 39.2697 28.3403 39.465 28.5355C39.6602 28.7308 39.9768 28.7308 40.1721 28.5355L43.354 25.3536ZM7.00049 25.5L43.0005 25.5L43.0005 24.5L7.00049 24.5L7.00049 25.5Z" fill="#0B0B0B"/>
-          </svg>
-        </div>
-      </div>
-      <div class="also__content">
-        <Cards class="also__card" v-for="item of similarData" :addClass="'also'" :key="item._id" :item="item" />
-      </div>
-      <div class="also__button">
-        <nuxt-link class="button" to="/catalogue">перейти в каталог</nuxt-link>
-      </div>
+      <section class="characteristics" v-if="productData && !$fetchState.pending">
+        <Product-collapse v-if="productData?.productProps?.length" :items="productData.productProps"/>
+        <div class="characteristics__plug"></div>
+      </section>
     </section>
   </main>
 </template>
@@ -97,51 +85,38 @@
   export default {
     data () {
       return {
+        productId: this.$route.params.product,
         amount: 1,
-        isInCart: false,
-        isOverlay: false,
+        isMessageShown: false,
         activeKey: ['0'],
         productData: null,
+        categoryData: undefined,
         currentIndex: 0,
         currentWidth: 0,
         translateDirection: 'Y',
         translateAmount: 10.5,
-        similarData: [],
         baseUrl: this.$config.baseUrl,
       }
     },
     async fetch() {
-      this.productData = await this.$api.products.getProductById(this.$route.params.product);
-      const resSimilar = await this.$api.products.getProducts({
-        preview: true,
-        pagination: {
-          page: 1,
-          limit: 1,
-        }
-      });
-      this.similarData = resSimilar.data;
+      this.productData = await this.$api.products.getProductById(this.productId);
+      this.categoryData = this.$store.getters['categories/getById'](this.productData?.categoryId);
+    },
+    computed: {
+      vuexProduct() {
+        return this.$store.getters["localStorage/getById"](this.productId);
+      },
     },
     methods: {
       increment: function() {
-        this.isInCart = false;
-        this.isOverlay = false;
-        return this.amount++;
+        this.$store.commit('localStorage/increment', this.productId);
       },
       decrement: function() {
-        if(this.amount > 1) {
-          this.isInCart = false;
-          this.isOverlay = false;
-          return this.amount--;
-        }
+        this.$store.commit('localStorage/decrement', this.productId);
       },
       addToCart: function() {
-        this.isInCart = true;
-        this.isOverlay = this.isInCart;
-        if(this.currentWidth <= 960)document.querySelector('body').style.overflow = 'hidden';
-      },
-      closeOverlay: function() {
-        this.isOverlay = false;
-        document.querySelector('body').style.overflow = 'visible';
+        this.isMessageShown = true;
+        this.$store.commit('localStorage/push', this.productId);
       },
       getCurrentWidth: function() {
         this.currentWidth = window.innerWidth;
@@ -173,8 +148,11 @@
 
   .product {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas:
+          "p d"
+          "c d";
     column-gap: 2rem;
+    grid-template-columns: repeat(2, 1fr);
     margin-top: 2.5rem;
 
     @include breakpoint(l) {
@@ -185,10 +163,10 @@
   }
 
   .pics {
+    grid-area: p;
     display: grid;
     grid-template-columns: 1fr 2.5fr;
     column-gap: 2rem;
-    min-width: 28rem;
 
     @include breakpoint(l) {
       display: flex;
@@ -289,7 +267,7 @@
   .main-descr {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    grid-area: d;
 
     &__text {
 
@@ -327,6 +305,7 @@
       display: flex;
       gap: 2rem;
       font-size: 2rem;
+      margin-top: 1rem;
 
       @include breakpoint(l) {
         font-size: 22px;
@@ -346,74 +325,55 @@
       display: none;
     }
 
-    &__overlay {
-      position: fixed;
-      z-index: 100;
-
-      @include breakpoint(l) {
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        backdrop-filter: blur(4px);
-        overflow: hidden;
-      }
-    }
-
     &__message {
       display: flex;
       font-size: 1rem;
       align-items: baseline;
-      margin-left: 4rem;
+      margin-top: 1rem;
+      gap: 1rem;
+      cursor: pointer;
 
       @include breakpoint(l) {
         margin: 0;
         width: 100%;
+        justify-content: center;
+        background-color: white;
       }
 
-      & div:last-child {
-        display: flex;
-        align-items: flex-start;
+      & img {
         position: relative;
-        z-index: 200;
-        gap: 1rem;
-        cursor: pointer;
+        top: 0.25rem;
+      }
+
+      &-wrapper {
 
         @include breakpoint(l) {
-          position: fixed;
-          top: 40%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          gap: 1rem;
-          background-color: $WHITE;
-          border: $main-border;
-          width: 16rem;
+          height: fit-content;
           height: 5rem;
-          padding-top: 1rem;
-          padding-left: 1rem;
         }
+      }
+    }
 
-        & img {
-          margin-top: 0.25rem;
-        }
+    &__content {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr;
+      column-gap: 1rem;
+
+      @include breakpoint(l) {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 1.5rem;
+        justify-content: center;
       }
     }
 
     &__buttons {
       display: flex;
-      flex-direction: column;
-      align-items: center;
       margin-top: 3rem;
-
-      @include breakpoint(l) {
-        align-items: center;
-      }
-    }
-
-    &__content {
-      display: flex;
-      width: 100%;
-      gap: 1.5rem;
+      justify-content: space-between;
+      gap: 1rem;
 
       @include breakpoint(l) {
         justify-content: center;
@@ -428,29 +388,17 @@
 
     &__button {
       display: flex;
-      overflow: hidden;
-      width: inherit;
-
-      & div {
-        width: 100%;
-        max-width: 23rem;
-      }
+      flex-direction: column;
+      max-width: 20rem;
+      width: 100%;
 
       @include breakpoint(l) {
-        width: fit-content;
-
-        & div, :last-child {
-          width: 12.5rem;
-          height: 3.5rem;
-
-          @include breakpoint(xs) {
-            width: 100%;
-          }
-        }
+        max-width: 15rem;
+        width: 100%;
       }
 
       @include breakpoint(xs) {
-        max-width: 16rem;
+        max-width: 100%;
         width: 100%;
       }
     }
@@ -459,20 +407,20 @@
       display: flex;
       justify-content: space-evenly;
       align-items: center;
-      max-width: 10rem;
-      width: 100%;
       height: 4rem;
       font-size: 1.25rem;
       border: $main-border;
+      max-width: 10rem;
+      width: 100%;
 
       @include breakpoint(l) {
         min-width: 12rem;
-        width: 12rem;
-        height: 3.5rem;
+        width: 100%;
       }
 
       @include breakpoint(xs) {
-        max-width: 16rem;
+        height: 3rem;
+        max-width: 100%;
         width: 100%;
         justify-content: space-evenly;
       }
@@ -492,8 +440,8 @@
   }
 
   .characteristics {
+    grid-area: c;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
 
     @include breakpoint(l) {
       grid-template-columns: 1fr;

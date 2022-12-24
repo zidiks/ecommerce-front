@@ -10,24 +10,18 @@
     </template>
     <a-collapse-panel class="collapse__panel" key="1" header="Описание товара">
         <div v-for="item of items" :key="item.productTypePropertyId" class="collapse__item">
-          <h3>{{ item.productTypePropertyId }}</h3>
-          <p>{{ item.value }}</p>
+          <h3>{{ item.name }}</h3>
+          <p>{{ processValue(item.value) }}</p>
         </div>
     </a-collapse-panel>
     <a-collapse-panel class="collapse__panel" key="2" header="Оплата и доставка">
       <div class="collapse__item">
         <h3>Оплата</h3>
-        <p>
-          Наличными курьеру, Наложенным платежом,<br>
-          Банковской картой онлайн
-        </p>
+        <p>{{ paymentMethods }}</p>
       </div>
       <div class="collapse__item">
         <h3>Доставка</h3>
-        <p>
-          Курьером по Минску (БЕСПЛАТНО),<br>
-          почта, европочта
-        </p>
+        <p>{{ deliveryMethods }}</p>
       </div>
     </a-collapse-panel>
   </a-collapse>
@@ -46,9 +40,28 @@ export default defineComponent({
       activeKey,
     };
   },
+  computed: {
+    deliveryMethods() {
+      return this.$store.state.methods.deliveryMethods.map(method => method.name).join(', ');
+    },
+    paymentMethods() {
+      return this.$store.state.methods.paymentMethods.map(method => method.name).join(', ');
+    },
+  },
   methods: {
     activate: function() {
       return this.isActive ? this.isActive = false : this.isActive = true;
+    },
+    processValue(value) {
+      if (Array.isArray(value)) {
+        return value.join(', ');
+      }
+
+      if (typeof value == "boolean") {
+        return value ? 'ДА' : 'НЕТ';
+      }
+
+      return  value;
     }
   },
   props: ['items'],
@@ -63,13 +76,17 @@ export default defineComponent({
   background-color: transparent;
   margin-top: 5.5rem;
 
-  @include breakpoint(xs) {
-    margin-top: 3rem;
+  @include breakpoint(l) {
+    margin-top: 0;
   }
 
   &__panel {
     border: 0;
     font-size: 35px;
+
+    @include breakpoint(xl) {
+      font-size: 1.5rem;
+    }
 
     @include breakpoint(l) {
       font-size: 1.75rem;
@@ -94,7 +111,7 @@ export default defineComponent({
 
   &__item {
     border-bottom: $main-border;
-    padding: 1.25rem 0;
+    padding: 1rem 0;
 
     &:nth-child(1) {
       margin-top: 2rem;
@@ -103,7 +120,7 @@ export default defineComponent({
 
     & h3 {
       font-size: 25px;
-
+      margin-bottom: 0.1rem;
       @include breakpoint(xs) {
         font-size: 1.25rem;
       }

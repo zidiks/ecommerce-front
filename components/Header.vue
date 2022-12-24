@@ -1,87 +1,128 @@
 <template>
   <div>
-    <Search :burgerShown="burgerShown" class="search-mobile search-pc"/>
-    <header class="header">
-      <div class="header__crutch">
-        <div class="header__plug">
-
-        </div>
-        <div class="header__logo">
-          <img src="~/static/Logo.svg">
-        </div>
-        <div class="header__number">
-
-        </div>
+    <header class="mobile-visibility mobile-nav">
+      <div @click="toggleMenu" class="mobile-nav__slot-left">
+        <span class="mobile-nav__menu material-symbols-outlined" :class="{ 'mobile-nav__menu-active': visibleMenu }">menu</span>
       </div>
-      <nav @mouseleave="dropdown()" :class="`header__navbar${burgerShown ? '' : '-hidden'}`">
-        <li @mouseenter="dropdown(item.dropdown)" class="link-li" :class="{ 'link-li-active': dropdownOpen && item.dropdown }" v-for="item of headerNavLinks" :key="item.text" @click="currentWidth <= 960 ? burgerButton() : ''; dropdown(false)">
-          <nuxt-link :to="item.link" class="link-custom">{{ item.text }}</nuxt-link>
-        </li>
-        <div @mouseenter="dropdownFocus = true" @mouseleave="dropdownFocus = false" class="dropdown" :class="{ 'dropdown-active': dropdownOpen }">
-          <Search class="search dropdown-search" />
-        </div>
-      </nav>
-      <div :class="`overlay${burgerShown ? '' : '-hidden'}`">
+      <a-drawer
+        placement="left"
+        :closable="false"
+        width="100%"
+        @close="onCloseMenu"
+        :visible="visibleMenu"
+      >
+        <nav class="drawer-menu">
+          <div v-for="item of headerNavLinks" :key="item.text">
+            <div @click="openChild(categoriesTree._id)" v-if="item.more" class="drawer-menu__item">
+              <span class="drawer-menu__item__text">{{ item.text }}</span>
+              <span class="drawer-menu__item__arrow">
+                <span class="material-symbols-outlined">chevron_right</span>
+              </span>
+              <DrawerCatalogue :data="categoriesTree"></DrawerCatalogue>
+            </div>
+            <div @click="onCloseMenu()" v-else>
+              <nuxt-link :to="item.link" class="drawer-menu__item">
+                <span class="drawer-menu__item__text">{{ item.text }}</span>
+              </nuxt-link>
+            </div>
+          </div>
+        </nav>
+      </a-drawer>
+      <div class="mobile-nav__slot-center">
+        <img class="mobile-nav__logo" src="~/static/small_logo.svg">
       </div>
-      <Search class="search" />
+      <div @click="toggleSearch" class="mobile-nav__slot-right">
+        <span class="mobile-nav__search material-symbols-outlined" :class="{ 'mobile-nav__search-active': visibleSearch }">search</span>
+      </div>
+      <a-drawer
+        placement="right"
+        :closable="false"
+        width="100%"
+        @close="onCloseSearch"
+        :visible="visibleSearch"
+      >
+        <nav class="drawer-menu">
+          <SearchMobile v-if="visibleSearch"></SearchMobile>
+        </nav>
+      </a-drawer>
     </header>
+    <div class="content-width header__wrapper desktop-visibility">
+      <header class="header all-text-toUpperCase">
+        <div class="header__crutch">
+          <div class="header__plug">
+
+          </div>
+          <div class="header__logo">
+            <img src="~/static/Logo.svg">
+          </div>
+          <div class="header__number">
+
+          </div>
+        </div>
+        <nav class="header__navbar">
+          <li class="link-li" v-for="item of headerNavLinks" :key="item.text">
+            <nuxt-link :to="item.link" class="link-custom">{{ item.text }}</nuxt-link>
+          </li>
+        </nav>
+        <Search class="search" />
+      </header>
+    </div>
   </div>
 </template>
 
 <script scoped>
 export default {
-  data: () => {
+  data() {
     return {
       headerNavLinks: [
-      { text: 'ГЛАВНАЯ', link: '/'},
-      { text: 'КАТАЛОГ', link: '/catalogue', dropdown: true},
-      { text: 'О НАС', link: '/about'},
-      { text: 'АКЦИИ', link: '/offers' },
-      { text: 'ТРЕКЕР ЗАКАЗА', link: '/tracker'},
-      { text: 'КОРЗИНА', link: '/cart'},
+        { text: 'ГЛАВНАЯ', link: '/', more: false },
+        { text: 'КАТАЛОГ', link: '/catalogue', more: true },
+        { text: 'О НАС', link: '/about', more: false },
+        { text: 'Новости', link: '/news', more: false },
+        { text: 'ТРЕКЕР ЗАКАЗА', link: '/tracker', more: false },
+        { text: 'КОРЗИНА', link: '/cart', more: false },
       ],
-      dropdownOpen: false,
-      dropdownFocus: false,
-      burgerShown: false,
-      currentHeight: 0,
-      currentWidth: 0,
     }
   },
-
   methods: {
-    dropdown(value = false) {
-      setTimeout(() => {
-        if (!this.dropdownFocus) {
-          this.dropdownOpen = !!value;
-        }
-      }, 200);
+    toggleMenu() {
+      this.$store.commit('drawers/toggleMenu');
     },
-    burgerButton() {
-      this.burgerShown = !this.burgerShown;
-      document.body.style.overflow = this.burgerShown && this.currentWidth <= 960 ? 'hidden' : 'visible';
+    toggleSearch() {
+      this.$store.commit('drawers/toggleSearch');
     },
-    getCurrentScreenSize() {
-      this.currentHeight = window.innerHeight;
-      this.currentWidth = window.innerWidth;
+    onCloseMenu() {
+      this.$store.commit('drawers/closeMenu');
+    },
+    onCloseSearch() {
+      this.$store.commit('drawers/closeSearch');
+    },
+    openChild(id) {
+      this.$store.commit('drawers/openNode', id);
     }
   },
-
-  beforeMount() {
-    window.addEventListener('resize', this.getCurrentScreenSize)
+  computed: {
+    categoriesTree() {
+      return this.$store.state.categories.categoriesTree;
+    },
+    visibleMenu() {
+      return this.$store.state.drawers.menuState;
+    },
+    visibleSearch() {
+      return this.$store.state.drawers.searchState;
+    },
   },
-
   mounted() {
-    this.$root.$on('burgerButton', () => {
-      this.burgerButton();
-    });
-    this.getCurrentScreenSize();
+    const categoriesList = this.$store.state.categories.categoriesList;
+    this.$store.commit('drawers/generateNodes', categoriesList);
   },
 }
 </script>
 
 
 <style lang="scss" scoped>
-  @import '~/assets/styles/global';
+  @import '@/assets/styles/global';
+  @import '@/assets/styles/components/mobile-nav.scss';
 
   .search-mobile {
     display: none;
@@ -112,7 +153,7 @@ export default {
       justify-content: center;
     }
     &-active {
-      box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.2);
+      box-shadow: 0 10px 15px -3px rgba(0,0,0,0.2);
       bottom: calc(-50vh - 1px);
       max-height: 50vh;
     }
@@ -123,6 +164,10 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    &__wrapper {
+      padding-top: 2rem;
+    }
 
     &__crutch {
       width: 100%;
@@ -143,12 +188,32 @@ export default {
       margin-top: 2rem;
       padding: 0 5rem;
       display: flex;
-      justify-content: center;
+      justify-content: space-around;
       border-top: $main-border;
       border-bottom: $main-border;
 
       .link-li {
         position: relative;
+        a.nuxt-link-exact-active {
+          &::before {
+            z-index: 900;
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            left: 0;
+            bottom: -1px;
+            content: '';
+            background: var(--data-color-black);
+
+            @include breakpoint(l) {
+              display: none;
+            }
+          }
+
+          @include breakpoint(l) {
+            font-weight: 600;
+          }
+        }
         .link-custom {
           height: 100%;
           display: flex;
@@ -157,65 +222,27 @@ export default {
           text-decoration: none;
           color: var(--data-color-black);
         }
-        &:hover::before {
+        &:hover > a::before {
           position: absolute;
           width: 100%;
           height: 2px;
+          left: 0;
           bottom: -1px;
           content: '';
           background: var(--data-color-black);
-        }
-        &-active {
-          &::before {
-            z-index: 900;
-            position: absolute;
-            width: 100%;
-            height: 2px;
-            bottom: -1px;
-            content: '';
-            background: var(--data-color-black);
+
+          @include breakpoint(l) {
+            display: none;
           }
         }
       }
 
       @include breakpoint(xl) {
         justify-content: space-around;
-        padding: 0.5rem 4%;
+        padding: 0 1.9%;
 
         & li {
           margin: 0 0.25rem;
-        }
-      }
-
-      @include breakpoint(l) {
-        position: fixed;
-        z-index: 100;
-        flex-direction: column;
-        align-items: center;
-        width: fit-content;
-        top: 15rem;
-        padding: 0.5rem;
-        height: calc(16rem);
-        transition: 0.5s ease;
-        overflow: hidden;
-        white-space: nowrap;
-
-        & li {
-          font-size: 1.5rem;
-          line-height: 1.5rem;
-        }
-      }
-
-      &-hidden {
-        @extend .header__navbar;
-
-        @include breakpoint(l) {
-          padding: 0;
-          margin-top: 0;
-          border: none;
-          height: 0;
-          transition: 0.5s ease;
-          margin-bottom: 0;
         }
       }
     }

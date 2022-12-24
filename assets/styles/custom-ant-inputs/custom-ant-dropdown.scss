@@ -1,0 +1,23 @@
+.ant-dropdown {
+  &-trigger {
+    user-select: none;
+    position: relative;
+    cursor: pointer;
+    width: 12rem;
+    border-bottom: 2px solid var(--data-color-black);
+    height: 28px;
+    a {
+      display: block;
+      color: #bfbfbf !important;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+  &-menu {
+    border-radius: 0;
+    &-item {
+      cursor: default;
+    }
+  }
+}

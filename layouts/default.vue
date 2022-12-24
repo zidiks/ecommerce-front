@@ -1,5 +1,5 @@
 <template>
-  <div class="content-width">
+  <div>
     <Header />
     <div class="page-wrap">
       <Nuxt />
@@ -20,6 +20,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    @include breakpoint(l) {
+      padding-top: 60px;
+    }
   }
 
   .search {

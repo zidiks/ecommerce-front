@@ -4,4 +4,5 @@ export const environmentProd = {
   port: 3000,
   https: false,
   httpRequestTimeout: 30000,
+  debounceTime: 400,
 };

@@ -1,0 +1,36 @@
+.mobile-filter {
+  &__item {
+    display: grid;
+    grid-template-columns: auto 2rem;
+    column-gap: 1rem;
+    margin-bottom: .6rem;
+    padding-bottom: .6rem;
+    border-bottom: 1px solid #e8e8e8;
+
+    &__label {
+      display: flex;
+      align-items: center;
+      font-size: .9rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    &__action {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      accent-color: var(--data-color-black);
+    }
+
+    &__checkbox {
+      pointer-events: none;
+      input {
+        width: 1rem;
+        height: 1rem;
+        margin-right: 4px;
+      }
+    }
+
+  }
+}

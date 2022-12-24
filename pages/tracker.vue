@@ -1,8 +1,8 @@
 <template>
-  <main>
+  <main class="content-width all-text-toUpperCase">
     <a-breadcrumb class="breadcrumbs">
       <a-breadcrumb-item><nuxt-link to="/">ГЛАВНАЯ</nuxt-link></a-breadcrumb-item>
-      <a-breadcrumb-item>Трекер заказа<span class="breadcrumbs-separator">/</span></a-breadcrumb-item>
+      <a-breadcrumb-item>Трекер заказа</a-breadcrumb-item>
     </a-breadcrumb>
     <section class="tracker">
       <div class="tracker__head">
@@ -19,7 +19,7 @@
           <input placeholder="КОД ОТСЛЕЖИВАНИЯ">
         </div>
         <div class="tracker__button">
-          <div class="button">ОТСЛЕДИТЬ ПОСЫЛКУ</div>
+          <button class="button">ОТСЛЕДИТЬ ПОСЫЛКУ</button>
         </div>
       </div>
     </section>
@@ -85,7 +85,7 @@
       margin-top: 2.5rem;
       width: 100%;
 
-      & div {
+      & button {
         width: 100%;
       }
     }

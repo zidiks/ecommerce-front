@@ -1,8 +1,8 @@
 <template>
-  <main>
+  <main class="content-width all-text-toUpperCase">
     <a-breadcrumb class="breadcrumbs">
       <a-breadcrumb-item><nuxt-link to="/">ГЛАВНАЯ</nuxt-link></a-breadcrumb-item>
-      <a-breadcrumb-item>О НАС<span class="breadcrumbs-separator">/</span></a-breadcrumb-item>
+      <a-breadcrumb-item>О НАС</a-breadcrumb-item>
     </a-breadcrumb>
     <section class="about">
       <div class="about__head">
@@ -291,8 +291,9 @@
         padding-left: 5rem;
 
         @include breakpoint(l) {
+          max-height: 20rem;
+          object-fit: contain;
           padding: 0;
-          width: 70%;
         }
       }
     }

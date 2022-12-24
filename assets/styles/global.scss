@@ -1,4 +1,13 @@
 @import '/assets/styles/variables.scss';
+@import '/assets/styles/components/drawer-menu';
+@import '/assets/styles/components/search-mobile';
+@import '/assets/styles/components/mobile-filter';
+@import '/assets/styles/components/mobile-sort';
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
+@import 'custom-ant-inputs/custom-ant-checkbox';
+@import 'custom-ant-inputs/custom-ant-select';
+@import 'custom-ant-inputs/custom-ant-dropdown';
+@import 'custom-ant-inputs/custom-ant-searchbox';
 
 body {
   scroll-behavior: smooth;
@@ -7,6 +16,9 @@ body {
   color: $BLACK;
   font-family: $main-font;
   background-color: $WHITE;
+}
+
+.all-text-toUpperCase {
   text-transform: uppercase;
 }
 
@@ -26,11 +38,13 @@ main {
 .link {
   text-decoration: none;
   color: var(--data-color-black);
+  transition: color .2s;
   &:hover {
     color: var(--data-color-hover);
   }
 
   &-inactive {
+    pointer-events: none;
     @extend .link;
     color: $DGRAY;
     &:hover {
@@ -48,16 +62,11 @@ main {
 .content-width {
   width: 100%;
   max-width: 75rem;
-  height: 100%;
-  padding: 5rem;
+  padding: 0 5rem;
   margin: auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
 
   @include breakpoint(l) {
-    width: 90%;
-    padding: 1.25rem 0 1rem;
+    padding: 0 1.5rem;
   }
 }
 
@@ -84,18 +93,29 @@ main {
   user-select: none;
 
   @include breakpoint(xs) {
-    width: 15rem;
+    width: 100%;
     font-size: 1rem;
     height: 3rem;
   }
 
-  &:hover {
+  &:disabled {
+    opacity: .3;
+  }
+
+  &:hover:enabled {
     color: $BLACK;
     background-color: $WHITE;
   }
 
+  &-base {
+    @extend .button;
+    width: auto !important;
+    max-width: none !important;
+  }
+
   &-inversed {
     @extend .button;
+    width: auto;
     color: $BLACK;
     background-color: $WHITE;
 
@@ -122,6 +142,7 @@ main {
   }
 
   &-inactive {
+    pointer-events: none;
     .arrow__back {
       display: none;
     }
@@ -130,14 +151,9 @@ main {
 
 .card {
   display: grid;
-  grid-template-areas:
-                  'i i'
-                  'n n'
-                  'v p';
   cursor: pointer;
 
   &__image {
-    grid-area: i;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -148,36 +164,40 @@ main {
     width: 100%;
     padding: 0.5rem 0;
     font-weight: 500;
-    grid-area: n;
     border-bottom: $main-border;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
 
-  &__volume {
-    padding: 0.5rem 0;
-    grid-area: v;
+    @include breakpoint(l) {
+      overflow: auto;
+    }
   }
 
   &__price {
-    padding: 0.5rem 0;
-    grid-area: p;
-    text-align: right;
+    padding: 0.4rem 0;
+
+    @include breakpoint(l) {
+      font-size: .8rem;
+    }
+
+    &-old {
+      opacity: .2;
+      margin-right: .4rem;
+    }
   }
 }
 
 .breadcrumbs {
   margin-top: 2.5rem;
   font-size: 1rem;
-
-  &-separator {
-    margin: 0 8px;
-    color: rgba(0, 0, 0, 0.45);
-  }
+  text-transform: uppercase;
 
   @include breakpoint(l) {
     display: none;
+  }
+}
+
+.ant-breadcrumb-link {
+  &:hover > a {
+    color: var(--data-color-hover) !important;
   }
 }
 
@@ -202,13 +222,13 @@ main {
 
 .mobile-visibility {
   @include breakpoint-min(l) {
-    display: none;
+    display: none !important;
   }
 }
 
 .desktop-visibility {
   @include breakpoint(l) {
-    display: none;
+    display: none !important;
   }
 }
 
@@ -222,10 +242,73 @@ main {
 }
 
 .fade-in {
-  animation: fadeIn 2s;
+  animation: fadeIn .4s;
+}
+
+.fade-in-left-category {
+  animation: fadeInLeftCategory .4s;
 }
 
 @keyframes fadeIn {
   0% { opacity: 0; }
   100% { opacity: 1; }
+}
+
+@keyframes fadeInLeftCategory {
+  0% {
+    opacity: 0;
+    transform: translateX(-1rem);
+  }
+  100% {
+    opacity: .7;
+    transform: translateX(0);
+  }
+}
+
+.ant-input-number-handler-down-inner {
+  color: var(--data-color-black) !important;
+}
+
+.ant-drawer-title {
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 1.1rem;
+}
+
+.ant-drawer-body {
+  padding-top: 5rem;
+}
+
+.mobile-sort .ant-drawer-body {
+  padding-top: 1.5rem;
+}
+
+.mobile-filter .ant-drawer-body {
+  padding-top: 1.5rem;
+}
+
+.ant-page-header {
+  padding: 1rem 0;
+  margin-bottom: 1rem;
+  &-heading {
+    display: flex;
+    align-items: center;
+  }
+  &-back {
+    margin:  0;
+    width: 1rem;
+    &-button {
+      margin-top: 1px;
+      &:hover {
+        color: var(--data-color-hover);
+      }
+    }
+  }
+  &-heading-title {
+    display: flex;
+    justify-content: center;
+    flex: 1 1 auto;
+    padding: 0;
+    margin-right: 1rem;
+  }
 }

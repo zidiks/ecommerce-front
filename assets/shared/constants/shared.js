@@ -118,79 +118,6 @@ export let pageNumbers = [
   1, 2, 3, 4, 5, 6, 7, 8,
 ]
 
-export let sliderContent = [
-  [
-    '/img/slider-1.png',
-    '/img/slider-2.png',
-    '/img/slider-3.png',
-  ],
-  [
-    '/img/slider-1.png',
-    '/img/slider-2.png',
-    '/img/slider-3.png',
-  ],
-  [
-    '/img/slider-1.png',
-    '/img/slider-2.png',
-    '/img/slider-3.png',
-  ],
-  [
-    '/img/slider-1.png',
-    '/img/slider-2.png',
-    '/img/slider-3.png',
-  ],
-]
-
-export let alsoContent = [
-  {
-    name: 'Montale Oud Tobacco',
-    img: require('~/static/img/montale-tobacco.png'),
-    vol: '50 МЛ.',
-    price: '166.90',
-  },
-]
-
-export let cartContent = [
-  {
-    amount: 1,
-    brand: 'Montale',
-    name: 'Montale Roses Elixir',
-    type: 'Парфюмерная вода',
-    year: '2010',
-    country: 'Франция',
-    made: 'Европейский Союз',
-    perfumer: 'Pierre Montale',
-    aromas: ['Цветочные', 'фруктовые'],
-    baseNotes: ['Мускус', 'амбра', 'ваниль'],
-    startNotes: ['Клубника', 'листок клубники', 'цитрусы'],
-    midNotes: ['Цветок апельсина', 'роза', 'жасмин'],
-    season: 'Весна',
-    daytime: 'День',
-    strength: ['75% (стойкий)', '71% (заметный)'],
-    vol: '50 МЛ.',
-    priceOld: '201.37',
-    price: '120.50',
-    sex: 'Для женщин',
-    img: require('~/static/img/montale-roses.png'),
-  },
-  {
-    amount: 1,
-    name: 'Versace Versense',
-    img: require('~/static/img/versace-versense.png'),
-    vol: '50 МЛ.',
-    priceOld: '204.60',
-    price: '179.60',
-  },
-  {
-    amount: 1,
-    name: 'Lalique Encre Noire Sport',
-    img: require('~/static/img/lalique-encre.png'),
-    vol: '100 МЛ.',
-    priceOld: '259.62',
-    price: '120.50',
-  },
-]
-
 let deliveryFields = {
   adress: {
     code: '',
@@ -242,109 +169,16 @@ export let deliveryMethods = [
   },
 ]
 
-export let catalogueTree = [
+export const propertiesFakeResponse = [
   {
-    name: 'Каталог',
-    handle: 'root',
-    media: [],
-    description: null,
-    productTypeId: null,
-    root: true,
-    __v: 0,
-    _id: "6398219bed9277c29c4eabb3",
-    children: [
-      {
-        name: 'Парфюмерия',
-        handle: '',
-        media: [],
-        description: null,
-        productTypeId: null,
-        __v: 0,
-        _id: '',
-        children: [
-          {
-            name: 'Для кого',
-            handle: '',
-            media: [],
-            description: null,
-            productTypeId: null,
-            __v: 0,
-            _id: '',
-            children: [
-              {
-                name: 'Для мужчин',
-                handle: '',
-                media: [],
-                description: null,
-                productTypeId: null,
-                __v: 0,
-                _id: '',
-                children: [],
-              },
-              {
-                name: 'Для женщин',
-                handle: '',
-                media: [],
-                description: null,
-                productTypeId: null,
-                __v: 0,
-                _id: '',
-                children: [],
-              },
-              {
-                name: 'Унисекс',
-                handle: '',
-                media: [],
-                description: null,
-                productTypeId: null,
-                __v: 0,
-                _id: '',
-                children: [],
-              },
-            ],
-          },
-          {
-            name: 'Парфюм до -10%',
-            handle: '',
-            media: [],
-            description: null,
-            productTypeId: null,
-            __v: 0,
-            _id: '',
-            children: [],
-          },
-          {
-            name: 'Новинки',
-            handle: '',
-            media: [],
-            description: null,
-            productTypeId: null,
-            __v: 0,
-            _id: '',
-            children: [],
-          },
-        ],
-      },
-      {
-        name: 'Пробники',
-        handle: '',
-        media: [],
-        description: null,
-        productTypeId: null,
-        __v: 0,
-        _id: '',
-        children: [],
-      },
-      {
-        name: 'Подарочные сертификаты',
-        handle: '',
-        media: [],
-        description: null,
-        productTypeId: null,
-        __v: 0,
-        _id: '',
-        children: [],
-      },
-    ]
-  },
+    "_id":"639820e9ed9277c29c4eab9b",
+    "name": "для кого",
+    "description": null,
+    "type": "STRING_SELECT",
+    "options": [
+      "женский",
+      "мужской",
+      "унисекс"
+    ],
+  }
 ]

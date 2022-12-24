@@ -1,5 +1,5 @@
 <template>
-  <footer class="footer">
+  <footer class="footer content-width all-text-toUpperCase">
     <div class="footer__content">
       <div class="footer__nav">
         <li class="link-li" v-for="item of footerNavLinks" :key="item.text">
@@ -49,7 +49,7 @@
 
   .footer {
     margin-top: 6.25rem;
-
+    padding-bottom: 2rem;
     @include breakpoint(l) {
       margin-top: 3.75rem;
     }
@@ -133,6 +133,9 @@
       text-align: center;
       margin-top: 2rem;
       color: #505155;
+      p {
+        margin-bottom: 0;
+      }
     }
   }
 
