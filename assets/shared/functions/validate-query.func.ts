@@ -10,10 +10,10 @@ export function validateFilters(query: any) {
       res = false;
     }
     if (value.hasOwnProperty(ComparisonOperator.gte) && !value[ComparisonOperator.gte]) {
-      delete value[ComparisonOperator.gte];
+      value[ComparisonOperator.gte] = undefined;
     }
     if (value.hasOwnProperty(ComparisonOperator.lte) && !value[ComparisonOperator.lte]) {
-      delete value[ComparisonOperator.lte];
+      value[ComparisonOperator.lte] = undefined;
     }
     if (Object.keys(value).length < 1) {
       res = false;

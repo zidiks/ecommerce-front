@@ -15,6 +15,9 @@ export const mutations = {
       count: 1,
     });
   },
+  clearAll(state) {
+    state.products = [];
+  },
   increment(state, id) {
     const product = state.products.find(product => product.id === id);
     if (product) {

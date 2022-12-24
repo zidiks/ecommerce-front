@@ -8,7 +8,7 @@
       placement="right"
       :title="property.name"
       class="mobile-filter all-text-toUpperCase"
-      :z-index="9992"
+      :z-index="999"
       :closable="true"
       width="80%"
       @close="onClose"

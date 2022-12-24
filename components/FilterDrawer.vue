@@ -3,7 +3,7 @@
     placement="right"
     title="ФИЛЬТРЫ"
     class="mobile-filter all-text-toUpperCase"
-    :z-index="9991"
+    :z-index="999"
     :closable="true"
     width="90%"
     @close="closeFilter"
@@ -11,7 +11,7 @@
   >
     <div v-for="field of baseFilterSorted || []"  :key="field.id">
       <MobileCheckBox v-if="field.type === ProductTypePropertyType.CheckBox" :form="basePropertiesForm" :property="field"></MobileCheckBox>
-      <MobileNumberInput v-if="[ProductTypePropertyType.NumberInput, ProductTypePropertyType.NumberSelect].includes(field.type)" :form="basePropertiesForm"  :property="field"></MobileNumberInput>
+      <MobileNumberInput v-if="[ProductTypePropertyType.NumberInput, ProductTypePropertyType.NumberSelect].includes(field.type)" :form="basePropertiesForm" :property="field"></MobileNumberInput>
       <MobileStringMultiSelect v-if="[ProductTypePropertyType.StringSelect, ProductTypePropertyType.StringMultiSelect].includes(field.type)" :form="basePropertiesForm"  :property="field"></MobileStringMultiSelect>
     </div>
     <div v-for="field of customFilters || []"  :key="field.id">

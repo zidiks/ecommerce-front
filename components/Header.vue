@@ -7,6 +7,7 @@
       <a-drawer
         placement="left"
         :closable="false"
+        :z-index="997"
         width="100%"
         @close="onCloseMenu"
         :visible="visibleMenu"
@@ -37,6 +38,7 @@
       <a-drawer
         placement="right"
         :closable="false"
+        :z-index="997"
         width="100%"
         @close="onCloseSearch"
         :visible="visibleSearch"
