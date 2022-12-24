@@ -58,7 +58,10 @@
           </div>
           <div class="payment__button">
             <button v-if="!isConfirmed" :disabled="!cartContent.length" style="width: 100%" class="button" @click="confirmOrder()">ДАЛЕЕ</button>
-            <button v-else :disabled="!cartContent.length || $v.$invalid" style="width: 100%" class="button ca">ПОДТВЕРДИТЬ</button>
+            <button v-else :disabled="!cartContent.length || $v.$invalid" style="width: 100%" class="button ca">
+              <span v-if="!waitNewOrder">ПОДТВЕРДИТЬ</span>
+              <a-spin v-else />
+            </button>
           </div>
           <div :class="`${isConfirmed ? 'cart__tracking ' : 'cart-page__hidden'}`">
             <h2>статус заказа</h2>
@@ -128,6 +131,7 @@
   export default {
     data() {
       return {
+        waitNewOrder: false,
         loaded: false,
         cartContent: [],
         finalPrice: 0,
@@ -164,7 +168,7 @@
         form: {
           name: { required },
           phone: { required },
-          email: { required, email },
+          email: { email },
           delivery: { required },
           payment: { required },
           isConfirmed: { required, isTrue },
@@ -247,7 +251,12 @@
             cartItems: this.vuexCart.map(({ count, id }) => ({ count, productId: id })),
             historyList: [],
           }
+          this.waitNewOrder = true;
           const newOrder = await this.$api.orders.addOrder(payload);
+          setTimeout(async () => {
+            this.$store.commit('localStorage/clearAll');
+            await this.$router.push({path: `/thanks/${newOrder.orderCode}`});
+          }, 1000)
         }
         return false;
       }

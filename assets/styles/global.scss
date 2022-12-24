@@ -104,8 +104,10 @@ main {
   }
 
   &:hover:enabled {
-    color: $BLACK;
-    background-color: $WHITE;
+    @include breakpoint-min(l) {
+      color: $BLACK;
+      background-color: $WHITE;
+    }
   }
 
   &-base {
@@ -121,8 +123,10 @@ main {
     background-color: $WHITE;
 
     &:hover {
-      color: $WHITE;
-      background-color: $BLACK;
+      @include breakpoint-min(l) {
+        color: $WHITE;
+        background-color: $BLACK;
+      }
     }
   }
 }
@@ -312,4 +316,13 @@ main {
     padding: 0;
     margin-right: 1rem;
   }
+}
+
+.ant-spin {
+  margin-top: .1rem;
+  color: white !important;
+}
+
+.ant-spin-dot-item {
+  background-color: white !important;
 }

@@ -1,6 +1,6 @@
 <template>
   <div class="mobile-filter__range" style="z-index: 1000">
-    <span class="mobile-filter__range__label">{{ property.name }} ОТ {{ value.min + postfix }} до {{ value.max + postfix }}</span>
+    <span class="mobile-filter__range__label">{{ property.name }} ОТ {{ (value.min || '0') + postfix }} до {{ (value.max || '∞') + postfix }}</span>
     <div class="mobile-filter__range__inputs">
       <div>
         <input type="number" v-model="valueMin">
