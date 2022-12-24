@@ -1,43 +1,65 @@
 <template>
-  <div class="mobile-filter__range">
-    <span class="mobile-filter__range__label">{{ property.name }} ОТ {{ value[0] + postfix }} до {{ value[1] + postfix }}</span>
-    <a-slider :tooltipVisible="false" :tooltip-visible="true" v-model:value="value" :min="minPrice" :max="maxPrice" range :step="this.property.code === 'totalPrice' ? 10 : 1" />
+  <div class="mobile-filter__range" style="z-index: 1000">
+    <span class="mobile-filter__range__label">{{ property.name }} ОТ {{ value.min + postfix }} до {{ value.max + postfix }}</span>
+    <div class="mobile-filter__range__inputs">
+      <div>
+        <input type="number" v-model="valueMin">
+      </div>
+      <div>
+        <input type="number" v-model="valueMax">
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import {ComparisonOperator} from "assets/shared/enums/mongoose-query.enum";
-import {ref} from "vue";
 
 export default {
   props: ['form', 'property'],
   data() {
     return {
       ComparisonOperator,
-      value: [0, 1000],
+      valueMin: undefined,
+      valueMax: undefined,
     }
   },
   computed: {
     postfix() {
       return this.property.code === 'totalPrice' ? ' BYN' : '';
     },
+    isPrice() {
+      return this.property.code === 'totalPrice';
+    },
     minPrice() {
       return this.$store.state.drawers.priceRanges[this.property.code].min;
     },
     maxPrice() {
       return this.$store.state.drawers.priceRanges[this.property.code].max;
+    },
+    value() {
+      return {
+        min: this.valueMin,
+        max: this.valueMax,
+      }
     }
   },
   watch: {
-    value(value) {
-      setTimeout(() => {
-        this.form[this.property.code][ComparisonOperator.gte] = value[0];
-        this.form[this.property.code][ComparisonOperator.lte] = value[1];
-      });
-    }
+    value: {
+      handler(value) {
+        setTimeout(() => {
+          this.form[this.property.code][ComparisonOperator.gte] = value.min !== undefined ? Number(value.min) : undefined;
+          this.form[this.property.code][ComparisonOperator.lte] = value.max !== undefined ? Number(value.max) : undefined;
+        });
+      },
+      deep: true,
+    },
   },
   mounted() {
-    this.value = [this.minPrice || 0, this.maxPrice || 1000];
+    if (this.isPrice) {
+      this.valueMin = this.minPrice || 0;
+      this.valueMax = this.maxPrice || 0;
+    }
   }
 }
 </script>

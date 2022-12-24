@@ -3,7 +3,7 @@
     placement="right"
     title="ФИЛЬТРЫ"
     class="mobile-filter all-text-toUpperCase"
-    :z-index="991"
+    :z-index="999"
     :closable="true"
     width="90%"
     @close="closeFilter"

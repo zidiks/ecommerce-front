@@ -84,13 +84,6 @@ export const mutations = {
 
 export const actions = {
   async fetchMinMax({state}) {
-    const allProperties = await this.$api.properties.getTypesProperties();
-    const numberProperties = allProperties.filter(item => [ProductTypePropertyType.NumberSelect, ProductTypePropertyType.NumberInput].includes(item.type) && item.showFilter);
-    // await Promise.all(files.map(async (file) => {
-    //   const contents = await fs.readFile(file, 'utf8')
-    //   console.log(contents)
-    // }));
-
     const minPriceProduct = await this.$api.products.getProducts({
       pagination: {
         limit: 1,
