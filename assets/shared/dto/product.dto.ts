@@ -16,6 +16,7 @@ export interface ProductModel extends ApiId, ApiTimestamp {
   productTypeId: string;
   isNew: boolean;
   isRec: boolean;
+  isStock: boolean;
   productProps: ProductPropertyValueModel[];
 }
 

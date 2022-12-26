@@ -172,6 +172,9 @@ export default {
         limit: 3,
       },
       baseProperties: {
+        [BaseProductProperty.IsStock]: {
+          [ComparisonOperator.eq]: true,
+        },
         [BaseProductProperty.IsNew]: {
           [ComparisonOperator.eq]: true
         }
@@ -186,6 +189,9 @@ export default {
         limit: 4,
       },
       baseProperties: {
+        [BaseProductProperty.IsStock]: {
+          [ComparisonOperator.eq]: true,
+        },
         [BaseProductProperty.IsRec]: {
           [ComparisonOperator.eq]: true
         }

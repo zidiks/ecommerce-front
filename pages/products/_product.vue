@@ -42,11 +42,14 @@
         </div>
         <div class="controls">
           <div class="controls__price">
-            <div v-if="productData.price !== productData.totalPrice" class="controls__price-old">
+            <div v-if="productData.price !== productData.totalPrice && productData.isStock" class="controls__price-old">
               {{ productData.price + ' BYN' }}
             </div>
-            <div class="controls__price-current">
+            <div v-if="productData.isStock" class="controls__price-current">
               {{ productData.totalPrice + ' BYN' }}
+            </div>
+            <div v-if="!productData.isStock" class="controls__price-current">
+              нет в наличии
             </div>
           </div>
           <div class="controls__content">

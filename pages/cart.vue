@@ -58,11 +58,12 @@
           </div>
           <div class="payment__button">
             <button v-if="!isConfirmed" :disabled="!cartContent.length" style="width: 100%" class="button" @click="confirmOrder()">ДАЛЕЕ</button>
-            <button v-else :disabled="!cartContent.length || $v.$invalid" style="width: 100%" class="button ca">
+            <button v-else :disabled="!cartContent.length || $v.$invalid || !allIsStock" style="width: 100%" class="button ca">
               <span v-if="!waitNewOrder">ПОДТВЕРДИТЬ</span>
               <a-spin v-else />
             </button>
           </div>
+          <span v-if="!allIsStock">Для оформления заказа удалите товары, которых нет в наличии</span>
           <div :class="`${isConfirmed ? 'cart__tracking ' : 'cart-page__hidden'}`">
             <h2>статус заказа</h2>
             <p>
@@ -81,10 +82,13 @@
             <div class="cart__item-description">
               <nuxt-link :to="'/products/' + item.product._id"><h3 class="link">{{ item.product.name }}</h3></nuxt-link>
               <div class="cart__item-price">
-                <div class="cart__price-current">
+                <div v-if="!item.product.isStock" class="cart__price-current">
+                  НЕТ В НАЛИЧИИ
+                </div>
+                <div v-if="item.product.isStock" class="cart__price-current">
                   {{ item.product.totalPrice }} BYN
                 </div>
-                <div v-if="item.product.price !== item.product.totalPrice" class="cart__price-old">
+                <div v-if="item.product.price !== item.product.totalPrice && item.product.isStock" class="cart__price-old">
                   {{ item.product.price }} BYN
                 </div>
               </div>
@@ -176,6 +180,9 @@
       }
     },
     computed: {
+      allIsStock() {
+        return  this.cartContent.every(item => item.product.isStock);
+      },
       delivery() {
         return this.form.delivery;
       },
@@ -649,16 +656,17 @@
     &__image {
       display: flex;
       justify-content: center;
-      width: 12.5rem;
-      height: 13rem;
-      padding: 0 2rem;
+      padding: 0 .5rem;
+      margin-right: 1rem;
 
       @include breakpoint(xxs) {
 
       }
 
       & img {
-        height: 80%;
+        width: 10rem;
+        height: 10.5rem;
+        object-fit: contain;
       }
     }
 

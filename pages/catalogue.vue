@@ -97,6 +97,9 @@
           limit: 4,
         },
         baseProperties: {
+          [BaseProductProperty.IsStock]: {
+            [ComparisonOperator.eq]: true,
+          },
           [BaseProductProperty.IsNew]: {
             [ComparisonOperator.eq]: true
           }
