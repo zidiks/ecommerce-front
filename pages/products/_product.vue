@@ -223,6 +223,7 @@
     column-gap: 2rem;
 
     @include breakpoint(l) {
+      margin-top: 1rem;
       display: flex;
       flex-direction: column-reverse;
       justify-content: flex-end;
