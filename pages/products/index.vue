@@ -259,12 +259,26 @@ export default {
 
   &__image {
     width: 100%;
-    aspect-ratio : 1 / 1.25;
     padding: 20%;
-    & img {
-      object-fit: contain;
-      width:  100%;
+    &-inner {
+      position: relative;
+      width: 100%;
       height: 100%;
+      &:before {
+        content:     "";
+        display:     block;
+        padding-top: 125%;
+      }
+      img {
+        object-fit: contain;
+        position: absolute;
+        top:      0;
+        left:     0;
+        bottom:   0;
+        right:    0;
+        width:  100%;
+        height: 100%;
+      }
     }
   }
 

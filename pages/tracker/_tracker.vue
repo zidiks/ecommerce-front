@@ -155,6 +155,7 @@ h4 {
     }
     .products {
       h3 {
+        width: 100%;
         padding: 0.6rem 0;
       }
       .card {
@@ -180,18 +181,21 @@ h4 {
         }
       }
       .delivery {
+        width: 100%;
         border-bottom: $main-border;
       }
       .total {
+        width: 100%;
         border-bottom: $main-border;
         .price {
           font-size: 20px;
         }
-        h4 {
-          text-align: right;
-        }
+          h4 {
+            text-align: right;
+          }
       }
       .payment {
+        width: 100%;
         @include breakpoint(l) {
           border-bottom: $main-border;
         }
