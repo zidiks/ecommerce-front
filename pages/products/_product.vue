@@ -23,15 +23,23 @@
       <div class="pics">
         <div class="pics__side">
           <div class="pics__wrapper" :style="`transform: translate${translateDirection}(${-(currentIndex - 1) * translateAmount}rem);`">
-          <div :class="`pics__pic${currentIndex == index ? '-current' : ''}`"
-            v-for="(item, index) of productData?.media" :key="item.src"
-            @click="currentIndex = index">
-            <img :src="baseUrl + '/storage/images/' + item" alt="perfume">
-          </div>
+            <div :class="`pics__pic${currentIndex == index ? '-current' : ''}`"
+              v-for="(item, index) of productData?.media" :key="index"
+              @click="prevChange(index)">
+              <img :src="baseUrl + '/storage/images/' + item" alt="perfume">
+            </div>
           </div>
         </div>
         <div class="pics__main">
-          <img :src="productData?.media?.length ? baseUrl + '/storage/images/' + productData.media[currentIndex] : '_nuxt/static/no-image.png'" :alt="productData.name">
+          <img class="desktop-visibility" :src="productData?.media?.length ? baseUrl + '/storage/images/' + productData.media[currentIndex] : '_nuxt/static/no-image.png'" :alt="productData.name">
+          <div class="mobile-visibility mobile-slider">
+            <a-carousel v-if="mountedState" :infinite="true" :slidesToShow="1" :dots="false" ref="slider" :after-change="sliderChange">
+              <div class="slick-slide__inner" v-for="(item, index) of productData?.media" :key="index">
+                <img class="slick-slide__image" :src="baseUrl + '/storage/images/' + item" alt="perfume">
+              </div>
+            </a-carousel>
+            <Spinner v-else></Spinner>
+          </div>
         </div>
       </div>
       <div class="main-descr">
@@ -99,6 +107,7 @@
         translateDirection: 'Y',
         translateAmount: 10.5,
         baseUrl: this.$config.baseUrl,
+        mountedState: false,
       }
     },
     async fetch() {
@@ -111,6 +120,13 @@
       },
     },
     methods: {
+      sliderChange(index) {
+        this.currentIndex = index;
+      },
+      prevChange(index) {
+        this.currentIndex = index;
+        this.$refs.slider.goTo(index);
+      },
       increment: function() {
         this.$store.commit('localStorage/increment', this.productId);
       },
@@ -142,12 +158,47 @@
 
     mounted() {
       window.addEventListener('resize', this.getCurrentWidth);
+      this.mountedState = true;
     }
   }
 </script>
 
 <style lang="scss">
   @import '~/assets/styles/global';
+
+
+  .mobile-slider {
+    width: 100%;
+    height: 100%;
+    .ant-carousel,
+    .slick-slider,
+    .slick-list,
+    .slick-track {
+      width: 100%;
+      height: 100%;
+    }
+
+    .slick-active {
+      pointer-events: none !important;
+    }
+
+    .slick-slide {
+      & > div {
+        width: 100%;
+        height: 100%;
+      }
+      &__inner {
+        width: 100%;
+        height: 100%;
+      }
+      &__image {
+        margin: auto;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+    }
+  }
 
   .product {
     display: grid;
@@ -184,7 +235,7 @@
       overflow: hidden;
 
       @include breakpoint(l) {
-        margin-top: 1rem;
+        margin-top: 2rem;
         height: auto;
         border-radius: 25px;
         width: 12.3rem;
