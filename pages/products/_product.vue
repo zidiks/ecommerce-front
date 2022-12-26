@@ -33,7 +33,7 @@
         <div class="pics__main">
           <img class="desktop-visibility" :src="productData?.media?.length ? baseUrl + '/storage/images/' + productData.media[currentIndex] : '_nuxt/static/no-image.png'" :alt="productData.name">
           <div class="mobile-visibility mobile-slider">
-            <a-carousel v-if="mountedState" :infinite="true" :slidesToShow="1" :dots="false" ref="slider" :after-change="sliderChange">
+            <a-carousel v-if="mountedState && !$fetchState.pending && productData" :infinite="true" :slidesToShow="1" :dots="false" ref="slider" :after-change="sliderChange">
               <div class="slick-slide__inner" v-for="(item, index) of productData?.media" :key="index">
                 <img class="slick-slide__image" :src="baseUrl + '/storage/images/' + item" alt="perfume">
               </div>
