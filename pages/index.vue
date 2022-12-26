@@ -13,37 +13,30 @@
         <span>АКТУАЛЬНЫЕ ПРЕДЛОЖЕНИЯ ЖДУТ ВАС</span>
       </div>
     </section>
-    <section v-if="bestsellersContent.length && !$fetchState.pending" class="content-width fade-in">
+    <section v-if="bestsellersContent.length && !$fetchState.pending" class="content-width bestsellers-content-width fade-in">
       <div class="bestsellers">
         <div class="bestsellers__head">
           <h2>РЕКОМЕНДУЕМ</h2>
           <div class="bestsellers__controls desktop-visibility">
-            <svg class="arrow-inactive" width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg @click="prevBestsellersPage" :class="{ 'arrow-inactive': !bestsellersPrevActive }" class="arrow" width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect x="49.75" y="49.75" width="49.5" height="49.5" rx="24.75" transform="rotate(-180 49.75 49.75)" stroke="#0B0B0B" stroke-width="0.5"/>
               <rect class="arrow__back" x="45.9287" y="45.9285" width="41.8571" height="41.8571" rx="20.9286" transform="rotate(-180 45.9287 45.9285)" fill="#FEFEFE" stroke="#0B0B0B"/>
               <path d="M6.78934 24.6464C6.59407 24.8417 6.59407 25.1583 6.78934 25.3535L9.97132 28.5355C10.1666 28.7308 10.4832 28.7308 10.6784 28.5355C10.8737 28.3403 10.8737 28.0237 10.6784 27.8284L7.85 25L10.6784 22.1716C10.8737 21.9763 10.8737 21.6597 10.6784 21.4645C10.4832 21.2692 10.1666 21.2692 9.97132 21.4645L6.78934 24.6464ZM42.8572 24.5L7.14289 24.5L7.14289 25.5L42.8572 25.5L42.8572 24.5Z" fill="#0B0B0B"/>
             </svg>
-            <svg class="arrow" width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg @click="nextBestsellersPage" :class="{ 'arrow-inactive': !bestsellersNextActive }" class="arrow" width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect x="49.75" y="49.75" width="49.5" height="49.5" rx="24.75" transform="rotate(-180 49.75 49.75)" stroke="#0B0B0B" stroke-width="0.5"/>
               <rect class="arrow__back" x="45.9285" y="45.9286" width="41.8571" height="41.8571" rx="20.9286" transform="rotate(-180 45.9285 45.9286)" fill="#FEFEFE" stroke="#0B0B0B"/>
               <path d="M43.354 25.3536C43.5493 25.1583 43.5493 24.8417 43.354 24.6465L40.1721 21.4645C39.9768 21.2692 39.6602 21.2692 39.465 21.4645C39.2697 21.6597 39.2697 21.9763 39.465 22.1716L42.2934 25L39.465 27.8284C39.2697 28.0237 39.2697 28.3403 39.465 28.5355C39.6602 28.7308 39.9768 28.7308 40.1721 28.5355L43.354 25.3536ZM7.00049 25.5L43.0005 25.5L43.0005 24.5L7.00049 24.5L7.00049 25.5Z" fill="#0B0B0B"/>
             </svg>
           </div>
         </div>
-        <div class="bestsellers__content">
-          <div class="bestsellers__controls mobile-visibility">
-            <svg class="arrow-inactive" width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="49.75" y="49.75" width="49.5" height="49.5" rx="24.75" transform="rotate(-180 49.75 49.75)" stroke="#0B0B0B" stroke-width="0.5"/>
-              <rect class="arrow__back" x="45.9287" y="45.9285" width="41.8571" height="41.8571" rx="20.9286" transform="rotate(-180 45.9287 45.9285)" fill="#FEFEFE" stroke="#0B0B0B"/>
-              <path d="M6.78934 24.6464C6.59407 24.8417 6.59407 25.1583 6.78934 25.3535L9.97132 28.5355C10.1666 28.7308 10.4832 28.7308 10.6784 28.5355C10.8737 28.3403 10.8737 28.0237 10.6784 27.8284L7.85 25L10.6784 22.1716C10.8737 21.9763 10.8737 21.6597 10.6784 21.4645C10.4832 21.2692 10.1666 21.2692 9.97132 21.4645L6.78934 24.6464ZM42.8572 24.5L7.14289 24.5L7.14289 25.5L42.8572 25.5L42.8572 24.5Z" fill="#0B0B0B"/>
-            </svg>
-            <svg class="arrow" width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="49.75" y="49.75" width="49.5" height="49.5" rx="24.75" transform="rotate(-180 49.75 49.75)" stroke="#0B0B0B" stroke-width="0.5"/>
-              <rect class="arrow__back" x="45.9285" y="45.9286" width="41.8571" height="41.8571" rx="20.9286" transform="rotate(-180 45.9285 45.9286)" fill="#FEFEFE" stroke="#0B0B0B"/>
-              <path d="M43.354 25.3536C43.5493 25.1583 43.5493 24.8417 43.354 24.6465L40.1721 21.4645C39.9768 21.2692 39.6602 21.2692 39.465 21.4645C39.2697 21.6597 39.2697 21.9763 39.465 22.1716L42.2934 25L39.465 27.8284C39.2697 28.0237 39.2697 28.3403 39.465 28.5355C39.6602 28.7308 39.9768 28.7308 40.1721 28.5355L43.354 25.3536ZM7.00049 25.5L43.0005 25.5L43.0005 24.5L7.00049 24.5L7.00049 25.5Z" fill="#0B0B0B"/>
-            </svg>
+        <div class="bestsellers__content-wrapper">
+          <div class="bestsellers__content mobile-visibility" :style="`grid-template-columns: repeat(${bestsellersContent.length}, 55vw)`">
+            <Cards class="bestsellers__card" :addClass="ReusableClasses.CardBestsellers" v-for="item of bestsellersContent" :item="item" :key="item._id" />
           </div>
-          <Cards class="bestsellers__card" :addClass="ReusableClasses.CardBestsellers" v-for="item of bestsellersContent" :item="item" :key="item._id" />
+          <div class="bestsellers__content desktop-visibility">
+            <Cards ref="bestsellersCards" class="bestsellers__card" :addClass="ReusableClasses.CardBestsellers" v-for="item of bestsellersPageData" :item="item" :key="item._id" />
+          </div>
         </div>
         <div class="bestsellers__button desktop-visibility">
           <nuxt-link to="/catalogue" class="button">
@@ -158,7 +151,34 @@ export default {
       sliderContent: [],
       bestsellersContent: [],
       latestContent: [],
+      currentBestsellersPage: 0,
+      viewBestsellersPageLimit: 4,
     }
+  },
+  computed: {
+    bestsellersPageData() {
+      const from = this.viewBestsellersPageLimit * this.currentBestsellersPage;
+      const to = from + 4;
+      return this.bestsellersContent.slice(from, to);
+    },
+    bestsellersPrevActive() {
+      return this.currentBestsellersPage > 0;
+    },
+    bestsellersNextActive() {
+      return (this.currentBestsellersPage + 1) * this.viewBestsellersPageLimit < this.bestsellersContent.length
+    },
+  },
+  methods: {
+    prevBestsellersPage() {
+      if (this.currentBestsellersPage - 1 >= 0) {
+        this.currentBestsellersPage--;
+      }
+    },
+    nextBestsellersPage() {
+      if ((this.currentBestsellersPage + 1) * this.viewBestsellersPageLimit < this.bestsellersContent.length) {
+        this.currentBestsellersPage++;
+      }
+    },
   },
   async fetch() {
     const resLatest = await this.$api.products.getProducts({
@@ -186,7 +206,7 @@ export default {
       preview: true,
       pagination: {
         page: 1,
-        limit: 4,
+        limit: 12,
       },
       baseProperties: {
         [BaseProductProperty.IsStock]: {
@@ -227,6 +247,13 @@ h2 {
   height: 26rem;
 }
 
+.bestsellers-content-width {
+  @include breakpoint(l) {
+    width: 100% !important;
+    padding: 0 !important;
+  }
+}
+
 .divider {
   margin-top: 3rem;
   padding-bottom: 1rem;
@@ -251,8 +278,10 @@ h2 {
   &__head {
     display: flex;
     justify-content: space-between;
+    user-select: none;
 
     @include breakpoint(l) {
+      padding: 0 1.5rem;
       flex-direction: column;
     }
   }
@@ -289,17 +318,21 @@ h2 {
     column-gap: 2rem;
     width: 100%;
 
+    &-wrapper {
+      width: 100%;
+      overflow-x: scroll;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+      overflow-y: scroll;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+
     @include breakpoint(l) {
-      grid-template-columns: repeat(3, 1fr);
-      padding: 0 3rem;
-    }
-
-    @include breakpoint(m) {
-      grid-template-columns: repeat(2, 1fr);
-    }
-
-    @include breakpoint(xxs) {
-      grid-template-columns: 1fr;
+      width: fit-content !important;
+      padding-right: 1.5rem;
+      padding-left: 1.5rem;
     }
   }
 
@@ -307,23 +340,8 @@ h2 {
     font-size: 1rem;
     z-index: 11;
 
-    @include breakpoint(l) {
-      &:nth-child(4) {
-        display: none;
-      }
-    }
-
     @include breakpoint(m) {
       font-size: .7rem;
-      &:nth-child(3) {
-        display: none;
-      }
-    }
-
-    @include breakpoint(xxs) {
-      &:nth-child(2) {
-        display: none;
-      }
     }
   }
 
