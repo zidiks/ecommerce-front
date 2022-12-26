@@ -293,6 +293,7 @@
       justify-content: center;
       align-items: center;
       height: 30rem;
+      width: 100%;
       max-width: 100%;
       border: $main-border;
 
