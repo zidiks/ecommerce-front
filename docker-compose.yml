@@ -18,21 +18,38 @@
 #    ports:
 #      - "5000:5000"
 
-version: '3.7'
-
-services:
-  app:
-    build: .
-    container_name: nuxt-app
-    restart: always
-    ports:
-      - '5000:5000'
-    command: 'npm run start'
-
-  nginx:
-    build: ./nginx
-    ports:
-      - '80:80'
-      - '443:443'
-    depends_on:
-      - app
+#version: '3.7'
+#
+#services:
+#  app:
+#    image: ghcr.io/zidiks/ecommerce-front/ecommerce-front:develop
+#    container_name: ecommerce-fe
+#    restart: always
+#    ports:
+#      - '5000:5000'
+#    command: 'npm run start'
+#
+#  nginx:
+#    image: nginx:latest
+#    ports:
+#      - '80:80'
+#      - '443:443'
+#    depends_on:
+#      - app
+#
+#version: "3.3"
+#services:
+#  nginx:
+#    image: nginx:latest
+#    ports:
+#      - "80:80"
+#      - "443:443"
+#    container_name: proxy_nginx
+#    volumes:
+#      - ./nginx:/etc/nginx/conf.d
+#      - ./logs:/var/log/nginx/
+#  nuxt:
+#    image: ghcr.io/zidiks/ecommerce-front/ecommerce-front:develop
+#    container_name: nuxt_app
+#    ports:
+#      - "5000:5000"

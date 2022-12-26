@@ -63,8 +63,4 @@ export default {
     env: environment,
     baseUrl: `${environment.https ? 'https' : 'http'}://${environment.host}:${environment.port}`
   },
-  server: {
-    host: process.env.NUXT_HOST,
-    port: process.env.NUXT_PORT,
-  },
 }
