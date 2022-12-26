@@ -349,7 +349,7 @@ h2 {
     width: 100%;
     aspect-ratio : 1 / 1.25;
     padding: 20%;
-    & img {
+    img {
       object-fit: contain;
       width:  100%;
       height: 100%;
@@ -358,9 +358,6 @@ h2 {
 
   &__name {
     font-size: 14px;
-    @include breakpoint(m) {
-      font-size: 12px;
-    }
   }
 
   &__button {
