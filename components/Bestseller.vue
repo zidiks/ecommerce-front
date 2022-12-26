@@ -99,7 +99,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import '~/assets/styles/global';
 
 .bestsellers {
@@ -146,17 +146,21 @@ export default {
     column-gap: 2rem;
     width: 100%;
 
+    &-wrapper {
+      width: 100%;
+      overflow-x: scroll;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+      overflow-y: scroll;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+
     @include breakpoint(l) {
-      grid-template-columns: repeat(3, 1fr);
-      padding: 0 3rem;
-    }
-
-    @include breakpoint(m) {
-      grid-template-columns: repeat(2, 1fr);
-    }
-
-    @include breakpoint(xxs) {
-      grid-template-columns: 1fr;
+      width: fit-content !important;
+      padding-right: 1.5rem;
+      padding-left: 1.5rem;
     }
   }
 
@@ -164,23 +168,8 @@ export default {
     font-size: 1rem;
     z-index: 11;
 
-    @include breakpoint(l) {
-      &:nth-child(4) {
-        display: none;
-      }
-    }
-
     @include breakpoint(m) {
       font-size: .7rem;
-      &:nth-child(3) {
-        display: none;
-      }
-    }
-
-    @include breakpoint(xxs) {
-      &:nth-child(2) {
-        display: none;
-      }
     }
   }
 
