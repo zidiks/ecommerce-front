@@ -3,10 +3,10 @@
     <span class="mobile-filter__range__label">{{ property.name }} ОТ {{ (value.min || '0') + postfix }} до {{ (value.max || '∞') + postfix }}</span>
     <div class="mobile-filter__range__inputs">
       <div>
-        <input type="number" v-model="valueMin">
+        <input type="number" pattern="[0-9]*" v-model="valueMin">
       </div>
       <div>
-        <input type="number" v-model="valueMax">
+        <input type="number" pattern="[0-9]*" v-model="valueMax">
       </div>
     </div>
   </div>

@@ -58,11 +58,12 @@
           </div>
           <div class="payment__button">
             <button v-if="!isConfirmed" :disabled="!cartContent.length" style="width: 100%" class="button" @click="confirmOrder()">ДАЛЕЕ</button>
-            <button v-else :disabled="!cartContent.length || $v.$invalid" style="width: 100%" class="button ca">
+            <button v-else :disabled="!cartContent.length || $v.$invalid || !allIsStock" style="width: 100%" class="button ca">
               <span v-if="!waitNewOrder">ПОДТВЕРДИТЬ</span>
               <a-spin v-else />
             </button>
           </div>
+          <span v-if="!allIsStock">Для оформления заказа удалите товары, которых нет в наличии</span>
           <div :class="`${isConfirmed ? 'cart__tracking ' : 'cart-page__hidden'}`">
             <h2>статус заказа</h2>
             <p>
@@ -81,14 +82,21 @@
             <div class="cart__item-description">
               <nuxt-link :to="'/products/' + item.product._id"><h3 class="link">{{ item.product.name }}</h3></nuxt-link>
               <div class="cart__item-price">
-                <div class="cart__price-current">
+                <div v-if="!item.product.isStock" class="cart__price-current">
+                  НЕТ В НАЛИЧИИ
+                </div>
+                <div v-if="item.product.isStock" class="cart__price-current">
                   {{ item.product.totalPrice }} BYN
                 </div>
-                <div v-if="item.product.price !== item.product.totalPrice" class="cart__price-old">
+                <div v-if="item.product.price !== item.product.totalPrice && item.product.isStock" class="cart__price-old">
                   {{ item.product.price }} BYN
                 </div>
               </div>
-              <h4>X {{ item.count }}</h4>
+              <div class="count__amount fade-in">
+                <div class="count__less" @click="decrement(item.product._id); debounce(fetchCart, false)">-</div>
+                <div class="count__number">{{ item.count || 0 }}</div>
+                <div class="count__more" @click="increment(item.product._id);  debounce(fetchCart, false)">+</div>
+              </div>
               <div @click="$store.commit('localStorage/remove', item.product._id); fetchCart()" class="cart__remove-item">
                 <u>Удалить</u>
               </div>
@@ -131,11 +139,13 @@
   export default {
     data() {
       return {
+        lastCartRes: undefined,
         waitNewOrder: false,
         loaded: false,
         cartContent: [],
         finalPrice: 0,
         discount: 5,
+        timeout: undefined,
         isConfirmed: false,
         baseUrl: this.$config.baseUrl,
         calculation: {
@@ -176,6 +186,9 @@
       }
     },
     computed: {
+      allIsStock() {
+        return  this.cartContent.every(item => item.product.isStock);
+      },
       delivery() {
         return this.form.delivery;
       },
@@ -187,26 +200,41 @@
       }
     },
     methods: {
+      async debounce(func, arg) {
+        if (this.timeout) {
+          clearTimeout(this.timeout);
+        }
+        this.timeout = setTimeout(async () => { await func(arg) }, this.$config.env.debounceTime || 200);
+      },
+      increment: function(id) {
+        this.$store.commit('localStorage/increment', id);
+      },
+      decrement: function(id) {
+        this.$store.commit('localStorage/decrement', id);
+      },
       resizeHandler() {
         if (window.innerWidth > 950) {
           this.isConfirmed = true
         }
       },
-      async fetchCart() {
-        const cartRes = await this.$api.products.getProducts({
-          preview: true,
-          baseProperties: {
-            [BaseProductProperty.Id]: {
-              [ComparisonOperator.in]: this.vuexCart || [],
+      async fetchCart(apiCartData = true) {
+        if (apiCartData) {
+          const cartRes = await this.$api.products.getProducts({
+            preview: true,
+            baseProperties: {
+              [BaseProductProperty.Id]: {
+                [ComparisonOperator.in]: this.vuexCart || [],
+              }
+            },
+            pagination: {
+              page: 1,
+              limit: this.vuexCart.length,
             }
-          },
-          pagination: {
-            page: 1,
-            limit: this.vuexCart.length,
-          }
-        });
+          });
+          this.lastCartRes = cartRes;
+        }
         this.cartContent = this.vuexCart.map(item => ({
-          product: cartRes.data.find(resItem => resItem._id === item.id),
+          product: this.lastCartRes.data.find(resItem => resItem._id === item.id),
           count: item.count,
         }));
         this.calculation = await this.$api.orders.getCalculation(this.cartContent.map(item => ({ productId: item.product._id, count: item.count })));
@@ -273,6 +301,31 @@
 
 <style lang="scss" scoped>
   @import '~/assets/styles/global';
+
+  .count {
+    &__amount {
+      user-select: none;
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      height: 3rem;
+      font-size: 1.25rem;
+      border: $main-border;
+      width: 8rem;
+    }
+
+    &__less, &__more {
+      cursor: pointer;
+      text-align: center;
+      width: 2rem;
+      border-radius: 50%;
+      transition: 0.3s;
+
+      &:hover {
+        background-color: $LGRAY;
+      }
+    }
+  }
 
   .cart-page {
 
@@ -649,21 +702,22 @@
     &__image {
       display: flex;
       justify-content: center;
-      width: 12.5rem;
-      height: 13rem;
-      padding: 0 2rem;
+      padding: 0 .5rem;
+      margin-right: 1rem;
 
       @include breakpoint(xxs) {
 
       }
 
       & img {
-        height: 80%;
+        width: 10rem;
+        height: 10.5rem;
+        object-fit: contain;
       }
     }
 
     &__remove-item {
-      margin-top: 2rem;
+      margin-top: 1.5rem;
       font-size: 18px;
       color: $DGRAY;
       cursor: pointer;

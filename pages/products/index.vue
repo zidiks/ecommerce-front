@@ -124,6 +124,9 @@ export default {
         preview,
         pagination,
         baseProperties: Object.assign({
+          [BaseProductProperty.IsStock]: {
+            [ComparisonOperator.eq]: true,
+          },
           [BaseProductProperty.Category]: this.queryCategories.length ? {
             [ComparisonOperator.in]: this.queryCategories,
           } : undefined,

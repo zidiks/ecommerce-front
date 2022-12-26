@@ -2,7 +2,7 @@
   <footer class="footer content-width all-text-toUpperCase">
     <div class="footer__content">
       <div class="footer__nav">
-        <li class="link-li" v-for="item of footerNavLinks" :key="item.text">
+        <li class="link-li" :class="{ 'desktop-visibility': item.link === '/catalogue' }" v-for="item of footerNavLinks" :key="item.text">
           <nuxt-link :to="item.link" class="link">{{ item.text }}</nuxt-link>
         </li>
       </div>
