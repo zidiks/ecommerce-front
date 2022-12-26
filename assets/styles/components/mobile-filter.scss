@@ -1,4 +1,16 @@
 .mobile-filter {
+  &__submit {
+    padding: .7rem 1rem;
+    background-color: var(--data-color-black);
+    color: var(--data-color-white);
+    width: 100%;
+    outline: none;
+    border: none;
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+  }
+
   &__item {
     display: grid;
     grid-template-columns: auto 2rem;

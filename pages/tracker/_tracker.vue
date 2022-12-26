@@ -161,6 +161,7 @@ h4 {
       .card {
         display: grid;
         grid-template-columns: 0.6fr 1fr 0.8fr;
+        column-gap: .5rem;
         grid-template-areas: "img desc price";
         padding: 1rem 1rem 1rem 0;
         border-bottom: $main-border;
@@ -169,6 +170,8 @@ h4 {
           grid-area: img;
           border:0;
           img {
+            object-fit: contain;
+            width: 100%;
             height: 100%;
             background-size: cover;
           }
