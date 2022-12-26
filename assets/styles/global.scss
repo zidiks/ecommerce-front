@@ -84,7 +84,7 @@ main {
   height: 4rem;
   white-space: nowrap;
   overflow: hidden;
-  color: $WHITE;
+  color: $WHITE !important;
   background-color: $BLACK;
   font-size: 1.25rem;
   line-height: 2rem;
@@ -92,6 +92,9 @@ main {
   border: $main-border;
   transition: 0.3s;
   user-select: none;
+  a, span {
+    color: $WHITE !important;
+  }
 
   @include breakpoint(xs) {
     width: 100%;
@@ -103,10 +106,15 @@ main {
     opacity: .3;
   }
 
-  &:hover:enabled {
-    @include breakpoint-min(l) {
-      color: $BLACK;
-      background-color: $WHITE;
+  &:hover {
+    &:enabled {
+      @include breakpoint-min(l) {
+        color: $BLACK !important;
+        background-color: $WHITE !important;
+        a, span {
+          color: $BLACK !important;
+        }
+      }
     }
   }
 
@@ -119,13 +127,19 @@ main {
   &-inversed {
     @extend .button;
     width: auto;
-    color: $BLACK;
+    color: $BLACK !important;
     background-color: $WHITE;
+    a, span {
+      color: $BLACK !important;
+    }
 
     &:hover {
       @include breakpoint-min(l) {
         color: $WHITE;
         background-color: $BLACK;
+        a, span {
+          color: $WHITE !important;
+        }
       }
     }
   }
