@@ -19,6 +19,9 @@
       <MobileNumberInput v-if="[ProductTypePropertyType.NumberInput, ProductTypePropertyType.NumberSelect].includes(field.type)" :form="customPropertiesForm"  :property="field"></MobileNumberInput>
       <MobileStringMultiSelect v-if="[ProductTypePropertyType.StringSelect, ProductTypePropertyType.StringMultiSelect].includes(field.type)" :form="customPropertiesForm"  :property="field"></MobileStringMultiSelect>
     </div>
+    <button @click="closeFilter" class="mobile-filter__submit">
+      ПОДОБРАТЬ
+    </button>
   </a-drawer>
 </template>
 
