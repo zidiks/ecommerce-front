@@ -3,14 +3,14 @@ import {environment} from "./env";
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'ProPerfumer',
+    title: environment.header.title,
     htmlAttrs: {
       lang: 'ru'
     },
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1, maximum-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
+      { hid: 'description', name: 'description', content: environment.header.description },
       { name: 'format-detection', content: 'telephone=no' },
     ],
     link: [

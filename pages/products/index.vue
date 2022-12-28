@@ -48,6 +48,18 @@ import { validateFilters } from "assets/shared/functions/validate-query.func";
 import {asyncTimeout} from "assets/shared/helpers/async-timeout.helper";
 
 export default {
+  head() {
+    return {
+      title: this.$fetchState.pending ? 'Loading...' : `${this.categoryData?.name || this.$config.env.header.title} - купить в ${this.$config.env.header.title}` || this.$config.env.header.title,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.$fetchState.pending ? this.$config.env.header.description : this.categoryData?.description || this.$config.env.header.description,
+        }
+      ]
+    }
+  },
   data() {
     return {
       ReusableClasses,
