@@ -11,7 +11,7 @@
     <a-collapse-panel class="collapse__panel" key="1" header="Описание товара">
         <div v-for="item of items" :key="item.productTypePropertyId" class="collapse__item">
           <h3>{{ item.name }}</h3>
-          <p>{{ processValue(item.value) }}</p>
+          <p>{{ processValue(item.value) }} {{ item.units || '' }}</p>
         </div>
     </a-collapse-panel>
     <a-collapse-panel class="collapse__panel" key="2" header="Оплата и доставка">

@@ -52,12 +52,9 @@
         <h2>ОПЛАТА И ДОСТАВКА</h2>
         <div class="mobile-separator"></div>
         <h3>ОПЛАТА</h3>
-        <p>
-          НАЛИЧНЫМИ КУРЬЕРУ, НАЛОЖЕННЫМ ПЛАТЕЖОМ<br>
-          БАНКОВСКОЙ КАРТОЙ ОНЛАЙН
-        </p>
+        <p>{{ paymentMethods }}</p>
         <h3>ДОСТАВКА</h3>
-        <p>КУРЬЕРОМ ПО МИНСКУ (БЕСПЛАТНО), ПОЧТА, ЕВРОПОЧТА</p>
+        <p>{{ deliveryMethods }}</p>
       </div>
       <div class="delivery__image">
         <img src="~/assets/img/about-3.png" alt="perfume">
@@ -76,7 +73,16 @@
 </template>
 
 <script scoped>
-
+  export default {
+    computed: {
+      deliveryMethods() {
+        return this.$store.state.methods.deliveryMethods.map(method => method.name).join(', ');
+      },
+      paymentMethods() {
+        return this.$store.state.methods.paymentMethods.map(method => method.name).join(', ');
+      },
+    },
+  }
 </script>
 
 <style lang="scss" scoped>
