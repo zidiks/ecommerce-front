@@ -53,7 +53,7 @@
           <div class="mobile-separator"></div>
         </div>
         <div class="strengths__item">
-          <h3 class="strengths__header">ОРИГИНАЛЬНАЯ ПРОДУКЦИЯ</h3>
+          <h3 class="strengths__header">БОЛЬШОЙ АССОРТИМЕНТ</h3>
           <span>БОЛЕЕ 1000 ЕДИНИЦ</span>
           <div class="mobile-separator"></div>
         </div>
@@ -97,7 +97,7 @@
         <div class="discounts__head">
           <h2>АКЦИИ И СКИДКИ</h2>
           <div class="discounts__descr">
-            В ОДНОМ ЗАКАЗЕ ВЫ МОЖЕТЕ ПОЛУЧИТЬ СКИДКУ УЖЕ ПРИ<br>
+            ВЫ МОЖЕТЕ ПОЛУЧИТЬ СКИДКУ УЖЕ ПРИ
             ПЕРВОЙ ПОКУПКЕ.
           </div>
           <div class="discounts__plug">
@@ -110,9 +110,7 @@
             <div>
               СКИДКА ЗА КОЛИЧЕСТВО ПАРФЮМЕРИИ. <br>
               БОЛЬШЕ ФЛАКОНОВ — БОЛЬШЕ СКИДКА!
-              НА ВТОРУЮ И КАЖДУЮ ПОСЛЕДУЮЩУЮ ПОЗИЦИЮ
-              В ЗАКАЗЕ ВЫ ПОЛУЧАЕТЕ СКИДКУ
-              5 РУБЛЕЙ.
+              ПРИ ЗАКАЗЕ ОТ ДВУХ АРОМАТОВ ВЫ ПОЛУЧАЕТЕ СКИДКУ 25%.
             </div>
             <div class="desktop-visibility">
               - СКИДКИ НЕ СУММИРУЮТСЯ. ПОКУПАТЕЛЬ САМ ВЫБИРАЕТ НАИБОЛЕЕ
@@ -348,6 +346,9 @@ h2 {
   &__image {
     width: 100%;
     padding: 20%;
+    @include breakpoint(l) {
+      padding: 15%;
+    }
     &-inner {
       position: relative;
       width: 100%;
@@ -506,6 +507,9 @@ h2 {
   &__image {
     width: 100%;
     padding: 20%;
+    @include breakpoint(l) {
+      padding: 15%;
+    }
     &-inner {
       position: relative;
       width: 100%;

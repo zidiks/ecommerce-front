@@ -260,6 +260,9 @@ export default {
   &__image {
     width: 100%;
     padding: 20%;
+    @include breakpoint(l) {
+      padding: 15%;
+    }
     &-inner {
       position: relative;
       width: 100%;
