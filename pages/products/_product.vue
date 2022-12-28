@@ -90,6 +90,18 @@
 
 <script>
   export default {
+    head() {
+      return {
+        title: this.$fetchState.pending ? 'Loading...' : `${this.productData?.name} - купить в ${this.$config.env.header.title}` || this.$config.env.header.title,
+        meta: [
+          {
+            hid: 'description',
+            name: 'description',
+            content: this.$fetchState.pending ? this.$config.env.header.description : this.productData?.description || this.$config.env.header.description,
+          }
+        ]
+      }
+    },
     data () {
       return {
         productId: this.$route.params.product,
