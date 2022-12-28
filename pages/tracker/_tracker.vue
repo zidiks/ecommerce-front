@@ -57,7 +57,9 @@
           <h3>Доставка</h3>
           <div class="delivery">
             <h4>Способ доставки: {{ orderData.delivery.deliveryMethod.name }}</h4>
-            <h4>Адрес доставки: {{ orderData.delivery.deliveryAddress }}</h4>
+            <h4 v-for="deliveryData of orderData.delivery.deliveryData || []">
+              {{ deliveryData.name }}: {{ deliveryData.value }}
+            </h4>
           </div>
           <h3>Оплата</h3>
           <div class="payment">
@@ -159,6 +161,7 @@ h4 {
         padding: 0.6rem 0;
       }
       .card {
+        width: 100%;
         display: grid;
         grid-template-columns: 0.6fr 1fr 0.8fr;
         column-gap: .5rem;
