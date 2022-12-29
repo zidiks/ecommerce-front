@@ -26,7 +26,7 @@ export default {
   },
   computed: {
     postfix() {
-      return this.property.code === 'totalPrice' ? ' BYN' : '';
+      return this.property.code === 'totalPrice' ? ' BYN' : ` ${this.property?.units}` || '';
     },
     isPrice() {
       return this.property.code === 'totalPrice';
@@ -56,6 +56,7 @@ export default {
     },
   },
   mounted() {
+    console.log(this.property);
     if (this.isPrice) {
       this.valueMin = this.minPrice || 0;
       this.valueMax = this.maxPrice || 0;

@@ -1,4 +1,14 @@
 .mobile-filter {
+  .ant-drawer-wrapper-body {
+    display: flex;
+    flex-flow: column;
+    align-items: stretch;
+  }
+
+  .ant-drawer-body {
+    overflow-y: scroll;
+  }
+
   &__submit {
     padding: .7rem 1rem;
     background-color: var(--data-color-black);
