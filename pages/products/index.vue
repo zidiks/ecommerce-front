@@ -200,6 +200,7 @@ export default {
       code: item._id,
       name: item.name,
       type: item.type,
+      units: item.units,
       options: item.options.map(option => ({ label: option, value: option })),
     }))
   },

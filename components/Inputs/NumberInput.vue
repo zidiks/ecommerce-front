@@ -2,7 +2,7 @@
   <a-dropdown v-model:visible="dropdownState" :trigger="['click']">
     <div @click.prevent="toggleDropdown()">
       <a class="active-target" v-if="form[property.code][ComparisonOperator.gte] || form[property.code][ComparisonOperator.lte]">
-        {{ `${form[property.code][ComparisonOperator.gte] || '0'} ${property.prefix || ''}`}}  - {{ `${form[property.code][ComparisonOperator.lte] || '∞'} ${property.prefix || ''}` }}
+        {{ `${form[property.code][ComparisonOperator.gte] || '0'} ${property.prefix || property.units || ''}`}}  - {{ `${form[property.code][ComparisonOperator.lte] || '∞'} ${property.prefix || property.units || ''}` }}
       </a>
       <a v-else>
         {{  property.name }}
