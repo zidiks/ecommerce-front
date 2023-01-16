@@ -31,7 +31,7 @@
       </a-drawer>
       <div class="mobile-nav__slot">
         <nuxt-link to="/cart">
-          <a-badge :count="cartCount" :offset="[-6,10]">
+          <a-badge :count="cartCount || 0" :offset="[-6,10]">
             <span class="mobile-nav__cart material-symbols-outlined">shopping_bag</span>
           </a-badge>
         </nuxt-link>
@@ -80,7 +80,7 @@
         <nav class="header__navbar">
           <li class="link-li" v-for="item of headerNavLinks" :key="item.text">
             <nuxt-link  v-if="item.badge" :to="item.link" class="link-custom">
-              <a-badge :count="cartCount" :offset="[8,6]">
+              <a-badge :count="cartCount || 0" :offset="[8,6]">
                 <span>{{ item.text }}</span>
               </a-badge>
             </nuxt-link>
@@ -146,7 +146,7 @@ export default {
       return this.$store.state.drawers.searchState;
     },
     cartCount() {
-      return this.$store.state.localStorage.products.length;
+      return this.mountedState && process.client ? this.$store.state.localStorage?.products?.length : 0;
     }
   },
   mounted() {
