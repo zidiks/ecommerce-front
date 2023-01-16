@@ -79,11 +79,13 @@
         </div>
         <nav class="header__navbar">
           <li class="link-li" v-for="item of headerNavLinks" :key="item.text">
-            <nuxt-link :to="item.link" class="link-custom">
-              <a-badge v-if="item.badge" :count="cartCount" :offset="[8,6]">
+            <nuxt-link  v-if="item.badge" :to="item.link" class="link-custom">
+              <a-badge :count="cartCount" :offset="[8,6]">
                 <span>{{ item.text }}</span>
               </a-badge>
-              <span v-else>{{ item.text }}</span>
+            </nuxt-link>
+            <nuxt-link v-else :to="item.link" class="link-custom">
+              <span>{{ item.text }}</span>
             </nuxt-link>
           </li>
         </nav>
@@ -153,7 +155,7 @@ export default {
 
 
 <style lang="scss" scoped>
-  @import '@/assets/styles/global';
+  @import '@/assets/styles/global.scss';
   @import '@/assets/styles/components/mobile-nav.scss';
 
   .search-mobile {
