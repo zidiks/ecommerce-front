@@ -107,6 +107,7 @@ export default {
         { text: 'ТРЕКЕР ЗАКАЗА', link: '/tracker', more: false },
         { text: 'КОРЗИНА', link: '/cart', more: false, badge: true },
       ],
+      mountedState: false,
     }
   },
   methods: {
@@ -124,12 +125,14 @@ export default {
     },
     openChild(id) {
       this.$store.commit('drawers/openNode', id);
-    }
+    },
   },
   watch: {
     $route() {
-      this.onCloseSearch();
-      this.onCloseMenu();
+      if (this.mountedState) {
+        this.onCloseSearch();
+        this.onCloseMenu();
+      }
     },
   },
   computed: {
@@ -149,6 +152,7 @@ export default {
   mounted() {
     const categoriesList = this.$store.state.categories.categoriesList;
     this.$store.commit('drawers/generateNodes', categoriesList);
+    this.mountedState = true;
   },
 }
 </script>
