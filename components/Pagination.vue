@@ -40,6 +40,7 @@
     methods: {
       changePage(page) {
         if (page >= this.minRange && page <= this.maxRange) {
+          window.scrollTo(0,0);
           this.$emit('valueChanges', page);
         }
       }

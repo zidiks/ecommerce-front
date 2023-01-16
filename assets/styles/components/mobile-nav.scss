@@ -7,10 +7,19 @@
   height: 55px;
   background: var(--data-color-white);
   border-bottom: 1px solid #e8e8e8;
-  padding: 0 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+
+  &__slot {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
 
   & > div {
     display: flex;
@@ -31,10 +40,13 @@
   }
 
   &__menu,
-  &__search {
-    font-size: 2.4rem;
+  &__search,
+  &__cart,
+  &__tracker {
+    font-size: 2.2rem;
     font-weight: 300;
     cursor: pointer;
+    color: var(--data-color-black);
 
     &-active {
       color: var(--data-color-hover)
