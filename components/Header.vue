@@ -1,7 +1,7 @@
 <template>
   <div>
     <header class="mobile-visibility mobile-nav">
-      <div @click="toggleMenu" class="mobile-nav__slot-left">
+      <div @click="toggleMenu" class="mobile-nav__slot">
         <span class="mobile-nav__menu material-symbols-outlined" :class="{ 'mobile-nav__menu-active': visibleMenu }">menu</span>
       </div>
       <a-drawer
@@ -29,10 +29,24 @@
           </div>
         </nav>
       </a-drawer>
-      <div class="mobile-nav__slot-center">
-        <img class="mobile-nav__logo" src="~/static/small_logo.svg">
+      <div class="mobile-nav__slot">
+        <nuxt-link to="/cart">
+          <a-badge :count="cartCount" :offset="[-6,10]">
+            <span class="mobile-nav__cart material-symbols-outlined">shopping_bag</span>
+          </a-badge>
+        </nuxt-link>
       </div>
-      <div @click="toggleSearch" class="mobile-nav__slot-right">
+      <div class="mobile-nav__slot">
+        <nuxt-link to="/">
+          <img class="mobile-nav__logo" src="~/static/small_logo.svg">
+        </nuxt-link>
+      </div>
+      <div class="mobile-nav__slot">
+        <nuxt-link to="/tracker">
+          <span class="mobile-nav__tracker material-symbols-outlined">local_shipping</span>
+        </nuxt-link>
+      </div>
+      <div @click="toggleSearch" class="mobile-nav__slot">
         <span class="mobile-nav__search material-symbols-outlined" :class="{ 'mobile-nav__search-active': visibleSearch }">search</span>
       </div>
       <a-drawer
@@ -55,7 +69,9 @@
 
           </div>
           <div class="header__logo">
-            <img src="~/static/Logo.svg">
+            <nuxt-link to="/">
+              <img src="~/static/Logo.svg">
+            </nuxt-link>
           </div>
           <div class="header__number">
 
@@ -63,7 +79,12 @@
         </div>
         <nav class="header__navbar">
           <li class="link-li" v-for="item of headerNavLinks" :key="item.text">
-            <nuxt-link :to="item.link" class="link-custom">{{ item.text }}</nuxt-link>
+            <nuxt-link :to="item.link" class="link-custom">
+              <a-badge v-if="item.badge" :count="cartCount" :offset="[8,6]">
+                <span>{{ item.text }}</span>
+              </a-badge>
+              <span v-else>{{ item.text }}</span>
+            </nuxt-link>
           </li>
         </nav>
         <Search class="search" />
@@ -82,7 +103,7 @@ export default {
         { text: 'О НАС', link: '/about', more: false },
         { text: 'Новости', link: '/news', more: false },
         { text: 'ТРЕКЕР ЗАКАЗА', link: '/tracker', more: false },
-        { text: 'КОРЗИНА', link: '/cart', more: false },
+        { text: 'КОРЗИНА', link: '/cart', more: false, badge: true },
       ],
     }
   },
@@ -103,6 +124,12 @@ export default {
       this.$store.commit('drawers/openNode', id);
     }
   },
+  watch: {
+    $route() {
+      this.onCloseSearch();
+      this.onCloseMenu();
+    },
+  },
   computed: {
     categoriesTree() {
       return this.$store.state.categories.categoriesTree;
@@ -113,6 +140,9 @@ export default {
     visibleSearch() {
       return this.$store.state.drawers.searchState;
     },
+    cartCount() {
+      return this.$store.state.localStorage.products.length;
+    }
   },
   mounted() {
     const categoriesList = this.$store.state.categories.categoriesList;
@@ -223,6 +253,11 @@ export default {
           padding: 0.5rem;
           text-decoration: none;
           color: var(--data-color-black);
+          .ant-badge {
+            font-size: inherit;
+            line-height: inherit;
+            color: inherit;
+          }
         }
         &:hover > a::before {
           position: absolute;
