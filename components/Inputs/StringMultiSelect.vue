@@ -24,7 +24,7 @@ export default {
   },
   methods: {
     filterFunc(inputValue, option) {
-      return (option.componentOptions.children[0].text || '').toLowerCase().includes(inputValue.toLowerCase());
+      return (option.componentOptions.children[0].text || '')?.toLowerCase().includes(inputValue.toLowerCase());
     }
   },
 }

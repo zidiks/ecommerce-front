@@ -56,7 +56,6 @@ export default {
     },
   },
   mounted() {
-    console.log(this.property);
     if (this.isPrice) {
       this.valueMin = this.minPrice || 0;
       this.valueMax = this.maxPrice || 0;

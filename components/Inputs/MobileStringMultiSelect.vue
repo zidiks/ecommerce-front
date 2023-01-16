@@ -36,6 +36,11 @@ export default {
       valueSet: new Set(this.form[this.property.code][ComparisonOperator.in]),
     }
   },
+  mounted() {
+    [...document.getElementsByClassName('ant-drawer-content')].forEach(item => {
+      item.touchmove = null;
+    })
+  },
   methods: {
     onOpen() {
       this.visible = true;

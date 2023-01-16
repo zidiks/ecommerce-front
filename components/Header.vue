@@ -31,7 +31,7 @@
       </a-drawer>
       <div class="mobile-nav__slot">
         <nuxt-link to="/cart">
-          <a-badge :count="cartCount" :offset="[-6,10]">
+          <a-badge :count="cartCount || 0" :offset="[-6,10]">
             <span class="mobile-nav__cart material-symbols-outlined">shopping_bag</span>
           </a-badge>
         </nuxt-link>
@@ -79,11 +79,13 @@
         </div>
         <nav class="header__navbar">
           <li class="link-li" v-for="item of headerNavLinks" :key="item.text">
-            <nuxt-link :to="item.link" class="link-custom">
-              <a-badge v-if="item.badge" :count="cartCount" :offset="[8,6]">
+            <nuxt-link  v-if="item.badge" :to="item.link" class="link-custom">
+              <a-badge :count="cartCount || 0" :offset="[8,6]">
                 <span>{{ item.text }}</span>
               </a-badge>
-              <span v-else>{{ item.text }}</span>
+            </nuxt-link>
+            <nuxt-link v-else :to="item.link" class="link-custom">
+              <span>{{ item.text }}</span>
             </nuxt-link>
           </li>
         </nav>
@@ -105,6 +107,7 @@ export default {
         { text: 'ТРЕКЕР ЗАКАЗА', link: '/tracker', more: false },
         { text: 'КОРЗИНА', link: '/cart', more: false, badge: true },
       ],
+      mountedState: false,
     }
   },
   methods: {
@@ -122,12 +125,14 @@ export default {
     },
     openChild(id) {
       this.$store.commit('drawers/openNode', id);
-    }
+    },
   },
   watch: {
     $route() {
-      this.onCloseSearch();
-      this.onCloseMenu();
+      if (this.mountedState) {
+        this.onCloseSearch();
+        this.onCloseMenu();
+      }
     },
   },
   computed: {
@@ -141,19 +146,20 @@ export default {
       return this.$store.state.drawers.searchState;
     },
     cartCount() {
-      return this.$store.state.localStorage.products.length;
+      return this.mountedState && process.client ? this.$store.state.localStorage?.products?.length : 0;
     }
   },
   mounted() {
     const categoriesList = this.$store.state.categories.categoriesList;
     this.$store.commit('drawers/generateNodes', categoriesList);
+    this.mountedState = true;
   },
 }
 </script>
 
 
 <style lang="scss" scoped>
-  @import '@/assets/styles/global';
+  @import '@/assets/styles/global.scss';
   @import '@/assets/styles/components/mobile-nav.scss';
 
   .search-mobile {
