@@ -681,6 +681,10 @@
         padding-inline: 0;
       }
 
+      &-description {
+        width: 100%;
+      }
+
       & h4 {
         font-size: 18px;
       }

@@ -124,7 +124,7 @@
     },
     computed: {
       vuexProduct() {
-        return this.$store.getters["localStorage/getById"](this.productId);
+        return this.mountedState && process.client ? this.$store.getters["localStorage/getById"](this.productId) : null;
       },
     },
     methods: {
@@ -171,7 +171,7 @@
 </script>
 
 <style lang="scss">
-  @import '~/assets/styles/global';
+  @import '@/assets/styles/global';
 
 
   .mobile-slider {
