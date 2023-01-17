@@ -12,6 +12,7 @@
         </div>
       </template>
       <nuxt-link :to="'/news/' + item._id" class="slick-slide-item" v-for="item of items" :key="item._id">
+        <button class="slider__btn mobile-visibility">подробнее</button>
         <h3>{{ item.title }}</h3>
         <img :src="item?.media ? baseUrl + '/storage/images/' + item.media : '/no-image.png'" :alt="item.title">
       </nuxt-link>
@@ -56,11 +57,27 @@
 </script>
 
 <style lang="scss" scoped>
-  @import '~/assets/styles/global';
+  @import '@/assets/styles/global';
 
   .slider {
+    position: relative;
     width: 100%;
     height: 100%;
+    &__btn {
+      position: absolute;
+      bottom: 3rem;
+      left: 3rem;
+      background: var(--data-color-black);
+      color: var(--data-color-white);
+      font-weight: 100;
+      padding: 0.6rem 1rem;
+      border: none;
+      outline: none;
+      pointer-events: all;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+    }
     &__a-carousel {
       width: 100%;
       height: 100%;
