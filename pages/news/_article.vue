@@ -8,14 +8,14 @@
     </div>
     <section class="content-width article" v-if="articleObj && !$fetchState.pending">
       <div class="article__head all-text-toUpperCase">
-        <h2>{{ articleObj.title }}</h2>
+        <h2>{{ articleObj.title || '' }}</h2>
         <div class="article__head-description">
           {{ articleObj.description }}
         </div>
       </div>
       <div class="article__content">
         <div class="article__image">
-          <img :src="`${baseUrl}/storage/images/${articleObj.media}`" :alt="articleObj.title">
+          <img :src="`${baseUrl}/storage/images/${articleObj.media}`" :alt="articleObj.title || ''">
         </div>
         <div class="article__text" v-html="articleObj.content"></div>
       </div>

@@ -11,13 +11,13 @@
         <h1>новости</h1>
       </div>
       <div class="news__content">
-        <nuxt-link class="article-border" :to="`/news/${item._id}`" v-for="item of articles" :key="item.title">
+        <nuxt-link class="article-border" :to="`/news/${item._id}`" v-for="item of articles" :key="item.title || ''">
           <div class="news__article">
             <div class="news__image">
-              <img :src="`${baseUrl}/storage/images/${item.media}`" :alt="item.title">
+              <img :src="`${baseUrl}/storage/images/${item.media}`" :alt="item.title || ''">
             </div>
             <div class="news__text">
-              <h2 class="news__text-header">{{ item.title }}</h2>
+              <h2 class="news__text-header">{{ item.title || ''}}</h2>
               <div class="news__text-content">{{ item.description }}</div>
               <div class="news__text-time">{{ formatDate(item.updatedAt) }}</div>
             </div>
