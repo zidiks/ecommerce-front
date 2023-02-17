@@ -5,7 +5,8 @@
       <h2 style="user-select: none" class="all-text-toUpperCase">ЗАКАЗ ОФОРМЛЕН</h2>
       <p style="user-select: none" class="all-text-toUpperCase">Ваш код заказа</p>
       <p class="new-order__code">{{ trackingCode }}</p>
-      <p style="user-select: none" class="all-text-toUpperCase">Отслеживать статус заказа можно в разделе <nuxt-link to="/tracker"><u>ТРЕКЕР ЗАКАЗА</u></nuxt-link></p>
+      <p class="all-text-toUpperCase">Сохраняйте его, чтобы отследить статус заказа</p>
+      <p style="user-select: none" class="all-text-toUpperCase">Отслеживать статуc можно в разделе <nuxt-link to="/tracker"><u>ТРЕКЕР ЗАКАЗА</u></nuxt-link></p>
     </section>
   </main>
 </template>
