@@ -12,6 +12,7 @@ export default {
       { name: 'viewport', content: 'width=device-width, initial-scale=1, maximum-scale=1' },
       { hid: 'description', name: 'description', content: environment.header.description },
       { name: 'format-detection', content: 'telephone=no' },
+      { name: 'facebook-domain-verification', content: 'y2cy5e1wx6hf5r2fa2qoqe18c4rway' },
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
@@ -48,7 +49,15 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     'nuxt-vuex-localstorage',
+    'nuxt-facebook-pixel-module',
   ],
+
+  facebook: {
+    track: 'PageView',
+    pixelId: '112261988462877',
+    autoPageView: true,
+    disabled: false
+  },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
