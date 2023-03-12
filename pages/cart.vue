@@ -19,7 +19,8 @@
           <div :class="`delivery__wrapper ${isConfirmed ? '' : 'cart-page__hidden'}`">
             <div class="delivery__contacts">
               <h3>контактная информация</h3>
-              <input v-model="form.name" type="text" class="delivery__input" placeholder="ФИО">
+              <input v-model="form.firstName" type="text" class="delivery__input" placeholder="ИМЯ">
+              <input v-model="form.secondName" type="text" class="delivery__input" placeholder="ФАМИЛИЯ">
               <input v-model="form.phone" type="text" class="delivery__input" placeholder="ТЕЛЕФОН">
               <input v-model="form.email" type="text" class="delivery__input" placeholder="E-MAIL">
             </div>
@@ -156,7 +157,8 @@
           totalPrice: 0,
         },
         form: {
-          name: '',
+          firstName: '',
+          secondName: '',
           phone: '',
           email: '',
           delivery: undefined,
@@ -177,7 +179,8 @@
     validations() {
       return {
         form: {
-          name: { required },
+          firstName: { required },
+          secondName: { required },
           phone: { required },
           email: { email },
           delivery: { required },
@@ -256,7 +259,7 @@
           const payload = {
             customer: {
               phone: this.form.phone,
-              name: this.form.name,
+              name: `${this.form.firstName} ${this.form.secondName}`,
             },
             state: {
               label: 'Ожидание',
