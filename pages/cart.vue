@@ -135,7 +135,7 @@
   import { required, email } from 'vuelidate/lib/validators';
 
   const isTrue = (value) => value === true;
-  const everyRequired = (value) => Object.values(value).every(item => item);
+  const someRequired = (value) => Object.values(value).some(item => item);
 
   export default {
     data() {
@@ -181,7 +181,7 @@
           phone: { required },
           email: { email },
           delivery: { required },
-          deliveryData: { everyRequired },
+          deliveryData: { someRequired },
           payment: { required },
           isConfirmed: { required, isTrue },
         }
