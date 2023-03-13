@@ -19,7 +19,8 @@
           <div :class="`delivery__wrapper ${isConfirmed ? '' : 'cart-page__hidden'}`">
             <div class="delivery__contacts">
               <h3>контактная информация</h3>
-              <input v-model="form.name" type="text" class="delivery__input" placeholder="ФИО">
+              <input v-model="form.firstName" type="text" class="delivery__input" placeholder="ИМЯ">
+              <input v-model="form.secondName" type="text" class="delivery__input" placeholder="ФАМИЛИЯ">
               <input v-model="form.phone" type="text" class="delivery__input" placeholder="ТЕЛЕФОН">
               <input v-model="form.email" type="text" class="delivery__input" placeholder="E-MAIL">
             </div>
@@ -135,7 +136,7 @@
   import { required, email } from 'vuelidate/lib/validators';
 
   const isTrue = (value) => value === true;
-  const everyRequired = (value) => Object.values(value).every(item => item);
+  const someRequired = (value) => Object.values(value).some(item => item);
 
   export default {
     data() {
@@ -156,7 +157,8 @@
           totalPrice: 0,
         },
         form: {
-          name: '',
+          firstName: '',
+          secondName: '',
           phone: '',
           email: '',
           delivery: undefined,
@@ -177,11 +179,12 @@
     validations() {
       return {
         form: {
-          name: { required },
+          firstName: { required },
+          secondName: { required },
           phone: { required },
           email: { email },
           delivery: { required },
-          deliveryData: { everyRequired },
+          deliveryData: { someRequired },
           payment: { required },
           isConfirmed: { required, isTrue },
         }
@@ -256,7 +259,7 @@
           const payload = {
             customer: {
               phone: this.form.phone,
-              name: this.form.name,
+              name: `${this.form.firstName} ${this.form.secondName}`,
             },
             state: {
               label: 'Ожидание',
@@ -271,7 +274,7 @@
                 paymentMethods: this.form.delivery.paymentMethods,
               },
               deliveryAddress: 'test',
-              deliveryData: Object.entries(this.form.deliveryData).map(([name, value]) => ({name, value})),
+              deliveryData: Object.entries(this.form.deliveryData).map(([name, value]) => ({name, value: value || 'не указано'})),
               comment: 'test',
             },
             paymentMethod: {
