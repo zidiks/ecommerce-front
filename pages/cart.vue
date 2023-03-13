@@ -274,7 +274,7 @@
                 paymentMethods: this.form.delivery.paymentMethods,
               },
               deliveryAddress: 'test',
-              deliveryData: Object.entries(this.form.deliveryData).map(([name, value]) => ({name, value})),
+              deliveryData: Object.entries(this.form.deliveryData).map(([name, value]) => ({name, value: value || 'не указано'})),
               comment: 'test',
             },
             paymentMethod: {
