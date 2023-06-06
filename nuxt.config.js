@@ -13,6 +13,7 @@ export default {
       { hid: 'description', name: 'description', content: environment.header.description },
       { name: 'format-detection', content: 'telephone=no' },
       { name: 'facebook-domain-verification', content: 'y2cy5e1wx6hf5r2fa2qoqe18c4rway' },
+      { name: "google-site-verification", content: "F3h3PVfvqT0Pd_QN5jaxrBkebjLKGQPjyzPbVir_XnQ" },
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
